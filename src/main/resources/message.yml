@@ -1,0 +1,122 @@
+# GlobalShop 消息配置文件
+# 此文件包含所有GUI按钮和提示信息的文本配置
+
+gui:
+  titles:
+    # 各界面标题
+    sell_menu: "上架物品"
+    search_menu: "搜索物品"
+    search_result_prefix: "搜索结果:"
+    confirm_buy_menu: "确认购买"
+    bid_menu: "竞价购买"
+    my_auctions_menu: "我的拍卖"
+    my_sold_auctions_menu: "我的已售出拍卖"
+    mailbox_menu: "§8物品邮箱"
+    my_mailbox_menu_prefix: "§e我的物品邮箱"
+    expired_auctions_menu: "我的过期拍卖（无人出价）"
+    
+  buttons:
+    # 通用按钮
+    return_main_menu: "&c返回主菜单"
+    return: "§e返回"
+    cancel: "§c取消"
+    confirm: "§a确认"
+    next_page: "&e下一页"
+    previous_page: "&e上一页"
+    
+    # 主菜单按钮
+    search_items: "§a搜索物品"
+    sell_item: "§a上架物品"
+    my_auctions: "§a我的拍卖"
+    
+    # 搜索菜单按钮
+    search_history: "§a搜索历史"
+    clear_search_history: "§a清除搜索历史"
+    enter_item_name: "输入物品名称"
+    enter_item_name_description: "点击此处输入搜索关键词"
+    search_prefix: "搜索: "
+    search_history_item_description: "点击以使用该关键词搜索"
+    clear_search_history_description: "点击清除所有搜索历史"
+    new_search: "§a新搜索"
+    cancel_search: "取消"
+    
+    # 确认购买菜单按钮
+    confirm_buy: "§a确认购买"
+    cancel_buy: "§c取消"
+    
+    # 上架菜单按钮
+    confirm_sell: "§a确认上架"
+    confirm_sell_description: "点击确认上架物品"
+    
+    # 竞价菜单按钮
+    current_bid_amount: "§e当前竞价金额"
+    increase_bid: "§a加价 +%rate%%"
+    confirm_bid: "§2确认竞价"
+    cancel_bid: "§c取消竞价"
+    
+    # 拍卖菜单按钮
+    sold_items: "§6已售出"
+    mailbox: "§e物品邮箱"
+    place_item_here: "请将物品放在这里"
+
+# 消息文本配置
+messages:
+  cancel_bid: "已取消竞价"
+  cancel_search: "§a已取消搜索"
+  enter_search_keyword: "§a请在聊天栏输入要搜索的物品名称，或者输入 §e取消 §a来取消搜索"
+  search_history_cleared: "§a搜索历史已清空"
+  
+  # 上架相关消息
+  place_item_first: "§c请先放入要上架的物品!"
+  drag_item_to_center: "§c请直接拖动物品到中央格子，不要使用Shift+点击"
+  cant_drag_to_inventory: "§c不能向过期物品界面拖拽物品！"
+  listing_failed_no_price: "§c上架失败：缺少价格信息"
+  listing_failed_incomplete_price: "§c上架失败：价格信息不完整"
+  listing_failed_price_format: "§c上架失败：价格格式错误"
+  start_price_greater_than_zero: "§c起拍价必须大于0!"
+  buy_now_greater_than_start: "§c一口价必须大于起拍价!"
+  not_enough_money_for_fee: "§c你没有足够的%currency%支付手续费!"
+  item_listed_success: "§a物品上架成功!"
+  item_listed_success_with_fee: "§a物品上架成功! §e已收取手续费: §f%fee%"
+  item_listed_fail: "§c物品上架失败!"
+  listing_error: "§c上架过程中发生错误"
+  
+  # 物品返还相关消息
+  item_returned: "§e物品已返还到你的背包"
+  inventory_full_drop_item: "§e背包已满，物品已掉落在你的脚下"
+  
+  # 上架限制相关消息
+  max_listings_reached: "§c你已达到最大上架数量限制 (%max_listings% 个物品)!"
+  wait_for_items_to_sell: "§c请等待已上架物品售出或过期后再尝试上架新物品。"
+  
+  # 竞价相关消息
+  cancel_bid_operation: "§c已取消竞价操作"
+  bid_info_expired: "§c竞价信息已过期，请重新选择物品"
+  
+# 广播系统消息配置
+broadcast:
+  # 物品上架广播消息
+  item_listed:
+    chat: "§6[拍卖行] §e%player% §f上架了 §a%item_name% §f起拍价 §e%start_price% §f一口价 §e%buy_now_price%"
+    bossbar: "§e%player% §f上架了 §a%item_name% §f起拍价 §e%start_price% §f一口价 §e%buy_now_price%"
+    title: "§6物品上架"
+    subtitle: "§e%player% §f上架了 §a%item_name%"
+    actionbar: "§e%player% §f上架了 §a%item_name% §f价格 §e%start_price%"
+  
+  # 竞拍成功广播消息
+  auction_won:
+    chat: "§6[拍卖行] §e%buyer% §f以 §a%price% §f的价格竞拍到了 §e%seller% §f的 §a%item_name%"
+    bossbar: "§e%buyer% §f以 §a%price% §f的价格竞拍到了 §e%seller% §f的 §a%item_name%"
+    title: "§6竞拍成功"
+    subtitle: "§e%buyer% §f竞拍到了 §a%item_name%"
+    actionbar: "§e%buyer% §f以 §a%price% §f竞拍到了 §a%item_name%"
+  
+  # 一口价购买广播消息
+  buy_now:
+    chat: "§6[拍卖行] §e%buyer% §f以 §a%price% §f的一口价购买了 §e%seller% §f的 §a%item_name%"
+    bossbar: "§e%buyer% §f以一口价购买了 §e%seller% §f的 §a%item_name%"
+    title: "§6物品售出"
+    subtitle: "§e%buyer% §f购买了 §a%item_name%"
+    actionbar: "§e%buyer% §f以 §a%price% §f购买了 §a%item_name%"
+  
+# ... existing code ... 
