@@ -1,0 +1,31 @@
+# GlobalShop 调试消息配置文件
+# 此文件用于配置插件中的调试消息
+
+debug:
+  # 通用调试消息
+  loading: "正在加载 GlobalShop..."
+  enabling: "正在启用 GlobalShop..."
+  enabled: "GlobalShop 已成功启用!"
+  disabling: "正在禁用 GlobalShop..."
+  disabled: "GlobalShop 已成功禁用!"
+  reloading: "正在重新加载 GlobalShop 配置..."
+  reloaded: "GlobalShop 配置已成功重新加载!"
+  
+  # 数据库相关调试消息
+  db_connecting: "正在连接到数据库..."
+  db_connected: "已成功连接到数据库!"
+  db_creating_tables: "正在创建数据库表..."
+  db_tables_created: "数据库表已成功创建!"
+  db_error: "数据库错误: {0}"
+  
+  # GUI相关调试消息
+  gui_opened: "已为玩家 {0} 打开界面: {1}"
+  gui_closed: "玩家 {0} 关闭了界面: {1}"
+  gui_click: "玩家 {0} 点击了界面 {1} 中的槽位 {2}"
+  
+  # 拍卖相关调试消息
+  auction_created: "玩家 {0} 创建了拍卖物品: {1}"
+  auction_bid: "玩家 {0} 对物品 {1} 出价: {2}"
+  auction_bought: "玩家 {0} 购买了物品 {1}, 价格: {2}"
+  auction_expired: "物品 {0} 已过期"
+  auction_cancelled: "玩家 {0} 取消了拍卖物品: {1}" 
