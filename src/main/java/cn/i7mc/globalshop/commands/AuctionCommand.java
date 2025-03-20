@@ -1,7 +1,6 @@
 package cn.i7mc.globalshop.commands;
 
 import cn.i7mc.globalshop.GlobalShop;
-import cn.i7mc.globalshop.models.AuctionItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -71,49 +70,31 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-
-        // 第一个参数 - 子命令
+        
+        // 提供子命令补全
         if (args.length == 1) {
-            List<String> commands = new ArrayList<>(subCommands);
-            
-            // 如果没有管理员权限，移除管理员命令
-            if (sender instanceof Player && !sender.hasPermission("globalshop.admin")) {
-                commands.remove("reload");
-                commands.remove("close");
-            }
-            
-            return StringUtil.copyPartialMatches(args[0], commands, completions);
+            StringUtil.copyPartialMatches(args[0], subCommands, completions);
+            Collections.sort(completions);
+            return completions;
         }
-
-        // 后续参数根据不同子命令提供不同的补全
-        if (args.length >= 2) {
-            String subCommand = args[0].toLowerCase();
-            
-            switch (subCommand) {
-                case "sell":
-                    if (args.length == 2) {
-                        // 第二个参数 - 起拍价
-                        completions.add("<起拍价:数值>");
-                    } else if (args.length == 3) {
-                        // 第三个参数 - 一口价
-                        completions.add("<一口价:数值>");
-                    } else if (args.length == 4) {
-                        // 第四个参数 - 货币类型
-                        return StringUtil.copyPartialMatches(args[3], currencyTypes, completions);
-                    }
-                    break;
+        
+        // sell命令的参数补全
+        if (args.length >= 2 && args[0].equalsIgnoreCase("sell")) {
+            // 如果输入了上架价格和一口价，补全货币类型
+            if (args.length == 4) {
+                List<String> availableCurrencyTypes = new ArrayList<>();
+                availableCurrencyTypes.add("1"); // Vault经济始终可用
                 
-                case "search":
-                    if (args.length == 2) {
-                        // 第二个参数 - 搜索关键词
-                        completions.add("<关键词:文本>");
-                    }
-                    break;
+                // 只有在PlayerPoints可用时才添加点券选项
+                if (plugin.isPlayerPointsAvailable()) {
+                    availableCurrencyTypes.add("2"); // 点券
+                }
+                
+                StringUtil.copyPartialMatches(args[3], availableCurrencyTypes, completions);
+                return completions;
             }
         }
-
-        // 按字母排序
-        Collections.sort(completions);
+        
         return completions;
     }
 
@@ -154,14 +135,36 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
     }
 
     private boolean handleSellCommand(Player player, String[] args) {
+        // 检查玩家是否有权限
         if (!player.hasPermission("globalshop.sell")) {
-            player.sendMessage(ChatColor.RED + "你没有权限上架物品!");
+            player.sendMessage(ChatColor.RED + "你没有权限使用该命令!");
             return true;
         }
-        if (args.length < 2) {
-            player.sendMessage(ChatColor.RED + "用法: /auction sell <起拍价> [一口价] [货币类型]");
-            player.sendMessage(ChatColor.RED + "货币类型: 1=金币, 2=点券，默认为金币");
+        
+        // 命令格式检查
+        if (args.length < 3) {
+            player.sendMessage(ChatColor.RED + "用法: /auction sell <起拍价> <一口价> [货币类型]");
+            player.sendMessage(ChatColor.RED + "货币类型: 1 = 金币, 2 = 点券 (默认为金币)");
             return true;
+        }
+        
+        // 根据参数数量判断货币类型
+        String currencyType = "VAULT"; // 默认为金币
+        if (args.length >= 4) {
+            if (args[3].equals("1")) {
+                currencyType = "VAULT";
+            } else if (args[3].equals("2")) {
+                // 检查PlayerPoints是否可用
+                if (!plugin.isPlayerPointsAvailable()) {
+                    player.sendMessage(ChatColor.RED + "点券系统不可用，服务器未安装PlayerPoints插件。");
+                    player.sendMessage(ChatColor.RED + "请使用金币上架物品，或联系服务器管理员获取帮助。");
+                    return true;
+                }
+                currencyType = "POINTS";
+            } else {
+                player.sendMessage(ChatColor.RED + "无效的货币类型! 使用: 1 = 金币, 2 = 点券");
+                return true;
+            }
         }
         
         // 检查玩家当前上架的物品数量是否已达到上限
@@ -176,24 +179,7 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
         
         try {
             double startPrice = Double.parseDouble(args[1]);
-            double buyNowPrice = args.length > 2 ? Double.parseDouble(args[2]) : 0;
-            
-            // 检查参数数量，如果有一口价但没有货币类型，则提示必须指定货币类型
-            if (args.length == 3 && buyNowPrice > 0) {
-                player.sendMessage(ChatColor.RED + "必须在命令结尾指定货币类型!");
-                player.sendMessage(ChatColor.RED + "用法: /auction sell <起拍价> <一口价> <货币类型>");
-                player.sendMessage(ChatColor.RED + "货币类型: 1=金币, 2=点券");
-                return true;
-            }
-            
-            // 解析货币类型
-            String currencyType = "VAULT"; // 默认为金币
-            if (args.length > 3) {
-                int currencyTypeId = Integer.parseInt(args[3]);
-                if (currencyTypeId == 2) {
-                    currencyType = "POINTS"; // 点券
-                }
-            }
+            double buyNowPrice = Double.parseDouble(args[2]);
             
             if (startPrice <= 0) {
                 player.sendMessage(ChatColor.RED + "起拍价必须大于0!");
@@ -311,8 +297,20 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
             plugin.getMessageManager().reloadMessages();
             plugin.getDebugMessageManager().reloadMessages();
             
+            // 重新加载广播管理器配置
+            plugin.getBroadcastManager().loadConfig();
+            
+            // 重新加载界面管理器配置
+            plugin.getGuiManager().reloadConfig();
+            
             // 使用新配置重新启动任务
             plugin.startAuctionTasks();
+            
+            // 输出调试信息，帮助确认配置已正确加载
+            if (plugin.getConfigManager().isDebug()) {
+                player.sendMessage(ChatColor.YELLOW + "调试信息: 检查间隔已设置为 " + 
+                    plugin.getConfigManager().getCheckInterval() + " 秒");
+            }
             
             player.sendMessage(ChatColor.GREEN + "GlobalShop配置已重载!");
             return true;

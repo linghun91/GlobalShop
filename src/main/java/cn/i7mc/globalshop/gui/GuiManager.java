@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class GuiManager {
     private final GlobalShop plugin;
@@ -35,6 +34,14 @@ public class GuiManager {
         this.messageManager = plugin.getMessageManager();
         this.playerPages = new ConcurrentHashMap<>();
         this.playerSearchQueries = new ConcurrentHashMap<>();
+    }
+
+    /**
+     * 重新加载界面配置
+     */
+    public void reloadConfig() {
+        // 这里无需执行特殊操作，因为GuiManager通过plugin.getConfigManager()
+        // 来获取配置信息，只要ConfigManager已经重新加载，这里就能获取到最新配置
     }
 
     // 打开主界面
@@ -74,13 +81,13 @@ public class GuiManager {
         playerPages.put(player, page);
     }
 
-    // 创建拍卖物品显示
-    private ItemStack createAuctionItemDisplay(AuctionItem item) {
+    // 创建拍卖物品显示（不带玩家判断）
+    public ItemStack createAuctionItemDisplay(AuctionItem item) {
         return createAuctionItemDisplay(item, null);
     }
     
     // 创建拍卖物品显示（带玩家判断）
-    private ItemStack createAuctionItemDisplay(AuctionItem item, Player player) {
+    public ItemStack createAuctionItemDisplay(AuctionItem item, Player player) {
         ItemStack display = item.getItem().clone();
         ItemMeta meta = display.getItemMeta();
         
@@ -115,7 +122,11 @@ public class GuiManager {
         // 添加货币类型和价格信息
         auctionLore.add("§e货币类型: §f" + currencyName);
         auctionLore.add("§e起拍价: §f" + plugin.getEconomyManager().formatAmount(item.getStartPrice(), item.getCurrencyType()));
-        auctionLore.add("§e当前价: §f" + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
+        if("SOLD".equals(item.getStatus())) {
+            auctionLore.add("§e成交价格: §f" + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
+        } else {
+            auctionLore.add("§e当前价格: §f" + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
+        }
         if (item.hasBuyNowPrice()) {
             auctionLore.add("§e一口价: §f" + plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType()));
         }
@@ -903,7 +914,7 @@ public class GuiManager {
                     lore.add("");
                 }
                 
-                lore.add(ChatColor.YELLOW + "售出价格: " + ChatColor.WHITE + 
+                lore.add(ChatColor.YELLOW + "成交价格: " + ChatColor.WHITE + 
                         plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
                 
                 // 显示买家信息，优先使用存储的买家名称
@@ -921,12 +932,8 @@ public class GuiManager {
                 }
                 lore.add(ChatColor.YELLOW + "购买者: " + ChatColor.WHITE + buyerName);
                 
-                // 显示售出时间，优先使用专门的售出时间字段
+                // 显示售出时间，使用专门的售出时间字段，不再回退到结束时间
                 long displayTime = item.getSoldTime();
-                if (displayTime <= 0) {
-                    // 如果售出时间未设置，回退到使用结束时间
-                    displayTime = item.getEndTime();
-                }
                 
                 lore.add(ChatColor.YELLOW + "售出时间: " + ChatColor.WHITE + 
                         new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(displayTime)));

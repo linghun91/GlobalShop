@@ -2,7 +2,8 @@ name: GlobalShop
 version: '${project.version}'
 main: cn.i7mc.globalshop.GlobalShop
 api-version: '1.21'
-depend: [Vault, PlayerPoints]
+depend: [Vault]
+softdepend: [PlayerPoints]
 authors: [Saga]
 description: 一个功能强大的Minecraft拍卖行插件
 commands:

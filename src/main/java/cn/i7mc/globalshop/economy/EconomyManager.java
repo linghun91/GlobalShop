@@ -16,11 +16,19 @@ public class EconomyManager {
         this.playerPoints = playerPoints;
     }
 
+    /**
+     * 检查点券系统是否可用
+     * @return 点券系统是否可用
+     */
+    public boolean isPlayerPointsAvailable() {
+        return playerPoints != null;
+    }
+
     // 检查玩家是否有足够的钱
     public boolean hasEnough(Player player, double amount, String currencyType) {
         return switch (currencyType.toUpperCase()) {
             case "VAULT" -> vaultEconomy.has(player, amount);
-            case "POINTS" -> playerPoints.getAPI().look(player.getUniqueId()) >= amount;
+            case "POINTS" -> isPlayerPointsAvailable() && playerPoints.getAPI().look(player.getUniqueId()) >= amount;
             default -> false;
         };
     }
@@ -29,7 +37,7 @@ public class EconomyManager {
     public boolean takeMoney(Player player, double amount, String currencyType) {
         return switch (currencyType.toUpperCase()) {
             case "VAULT" -> vaultEconomy.withdrawPlayer(player, amount).transactionSuccess();
-            case "POINTS" -> playerPoints.getAPI().take(player.getUniqueId(), (int) amount);
+            case "POINTS" -> isPlayerPointsAvailable() && playerPoints.getAPI().take(player.getUniqueId(), (int) amount);
             default -> false;
         };
     }
@@ -38,7 +46,7 @@ public class EconomyManager {
     public boolean giveMoney(Player player, double amount, String currencyType) {
         return switch (currencyType.toUpperCase()) {
             case "VAULT" -> vaultEconomy.depositPlayer(player, amount).transactionSuccess();
-            case "POINTS" -> playerPoints.getAPI().give(player.getUniqueId(), (int) amount);
+            case "POINTS" -> isPlayerPointsAvailable() && playerPoints.getAPI().give(player.getUniqueId(), (int) amount);
             default -> false;
         };
     }
@@ -47,7 +55,7 @@ public class EconomyManager {
     public boolean giveMoney(org.bukkit.OfflinePlayer player, double amount, String currencyType) {
         return switch (currencyType.toUpperCase()) {
             case "VAULT" -> vaultEconomy.depositPlayer(player, amount).transactionSuccess();
-            case "POINTS" -> playerPoints.getAPI().give(player.getUniqueId(), (int) amount);
+            case "POINTS" -> isPlayerPointsAvailable() && playerPoints.getAPI().give(player.getUniqueId(), (int) amount);
             default -> false;
         };
     }
@@ -56,7 +64,7 @@ public class EconomyManager {
     public double getBalance(Player player, String currencyType) {
         return switch (currencyType.toUpperCase()) {
             case "VAULT" -> vaultEconomy.getBalance(player);
-            case "POINTS" -> playerPoints.getAPI().look(player.getUniqueId());
+            case "POINTS" -> isPlayerPointsAvailable() ? playerPoints.getAPI().look(player.getUniqueId()) : 0;
             default -> 0.0;
         };
     }

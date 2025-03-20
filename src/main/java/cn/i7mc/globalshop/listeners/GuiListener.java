@@ -677,6 +677,12 @@ public class GuiListener implements Listener {
             String currencyType = "VAULT"; // 默认为金币
             if (player.hasMetadata("auction_currency_type")) {
                 currencyType = player.getMetadata("auction_currency_type").get(0).asString();
+                
+                // 检查如果是点券类型但PlayerPoints不可用，则转换为金币类型
+                if ("POINTS".equals(currencyType) && !plugin.isPlayerPointsAvailable()) {
+                    currencyType = "VAULT";
+                    player.sendMessage(ChatColor.YELLOW + "点券系统不可用，已自动切换为使用金币上架。");
+                }
             }
             
             // 初始化手续费
@@ -735,10 +741,6 @@ public class GuiListener implements Listener {
                 // 扣除手续费（只对金币类型收取）
                 if ("VAULT".equals(currencyType) && fee > 0) {
                     plugin.getEconomyManager().takeMoney(player, fee, currencyType);
-                    String message = messageManager.getItemListedSuccessWithFeeMessage().replace("%fee%", plugin.getEconomyManager().formatAmount(fee, currencyType));
-                    player.sendMessage(message);
-                } else {
-                    player.sendMessage(messageManager.getItemListedSuccessMessage());
                 }
                 
                 // 广播上架信息
@@ -983,7 +985,8 @@ public class GuiListener implements Listener {
             // 设置买家UUID和名称
             item.setCurrentBidder(player.getUniqueId());
             item.setCurrentBidderName(player.getName());
-            
+            // 设置当前价格为一口价
+            item.setCurrentPrice(item.getBuyNowPrice());
             // 设置售出时间为当前时间
             long soldTime = System.currentTimeMillis();
             item.setSoldTime(soldTime);
@@ -1447,25 +1450,21 @@ public class GuiListener implements Listener {
     }
 
     private void handleBuyNow(Player player, AuctionItem item) {
-        // 检查是否是物品主人
-        if (item.getSellerUuid().equals(player.getUniqueId())) {
-            player.sendMessage("§c你不能购买自己的物品！");
+        // 检查物品是否可以一口价购买
+        if (!item.canBuyNow()) {
+            player.sendMessage(ChatColor.RED + "该物品不能直接购买!");
             return;
         }
         
-        // 检查物品是否已售出或过期
-        if (!item.isActive() || item.isExpired()) {
-            player.sendMessage("§c该物品已不可购买！");
+        // 检查货币类型
+        if ("POINTS".equals(item.getCurrencyType()) && !plugin.isPlayerPointsAvailable()) {
+            player.sendMessage(ChatColor.RED + "点券系统不可用，无法购买使用点券上架的物品。");
             return;
         }
-        
-        // 买家不需要支付税费，直接使用物品价格
-        double price = item.getBuyNowPrice();
         
         // 检查玩家是否有足够的钱
-        if (!plugin.getEconomyManager().hasEnough(player, price, item.getCurrencyType())) {
-            player.sendMessage("§c你没有足够的" + plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()) + "！");
-            player.sendMessage("§c需要: " + plugin.getEconomyManager().formatAmount(price, item.getCurrencyType()));
+        if (!plugin.getEconomyManager().hasEnough(player, item.getBuyNowPrice(), item.getCurrencyType())) {
+            player.sendMessage("§c你没有足够的" + plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()) + "购买此物品!");
             return;
         }
         
@@ -1476,17 +1475,17 @@ public class GuiListener implements Listener {
         }
         
         // 扣除玩家的钱
-        plugin.getEconomyManager().takeMoney(player, price, item.getCurrencyType());
+        plugin.getEconomyManager().takeMoney(player, item.getBuyNowPrice(), item.getCurrencyType());
         
         // 给卖家钱（扣除手续费）
-        double sellerAmount = price - plugin.getEconomyManager().calculateFee(price, item.getCurrencyType());
+        double sellerAmount = item.getBuyNowPrice() - plugin.getEconomyManager().calculateFee(item.getBuyNowPrice(), item.getCurrencyType());
         plugin.getEconomyManager().giveMoney(Bukkit.getOfflinePlayer(item.getSellerUuid()), sellerAmount, item.getCurrencyType());
         
         // 更新物品状态
         item.setStatus("SOLD");
         item.setCurrentBidder(player.getUniqueId());
         item.setCurrentBidderName(player.getName());
-        item.setCurrentPrice(price);
+        item.setCurrentPrice(item.getBuyNowPrice());
         item.setSoldTime(System.currentTimeMillis());
         plugin.getDatabaseManager().updateAuctionItem(item);
         
@@ -1495,7 +1494,7 @@ public class GuiListener implements Listener {
             player.getInventory().addItem(item.getItem());
             player.sendMessage("§a你已成功购买物品！");
             player.sendMessage("§e物品: " + ChatUtils.getItemName(item.getItem()));
-            player.sendMessage("§e价格: " + plugin.getEconomyManager().formatAmount(price, item.getCurrencyType()));
+            player.sendMessage("§e价格: " + plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType()));
             // 显示玩家余额
             double balance = plugin.getEconomyManager().getBalance(player, item.getCurrencyType());
             player.sendMessage("§a你的" + plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()) + "余额: §f" + 
@@ -1505,7 +1504,7 @@ public class GuiListener implements Listener {
             addToMailbox(item, player.getUniqueId(), "BUY_NOW");
             player.sendMessage(ChatColor.GREEN + "购买成功! " + ChatColor.YELLOW + "但你的背包已满，物品已存入物品邮箱，请使用 /ah my 查看。");
             player.sendMessage("§e物品: " + ChatUtils.getItemName(item.getItem()));
-            player.sendMessage("§e价格: " + plugin.getEconomyManager().formatAmount(price, item.getCurrencyType()));
+            player.sendMessage("§e价格: " + plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType()));
             // 显示玩家余额
             double balance = plugin.getEconomyManager().getBalance(player, item.getCurrencyType());
             player.sendMessage("§a你的" + plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()) + "余额: §f" + 
@@ -1518,7 +1517,7 @@ public class GuiListener implements Listener {
         if (seller != null && seller.isOnline()) {
             seller.sendMessage("§a你的物品已被购买！");
             seller.sendMessage("§e物品: " + ChatUtils.getItemName(item.getItem()));
-            seller.sendMessage("§e价格: " + plugin.getEconomyManager().formatAmount(price, item.getCurrencyType()));
+            seller.sendMessage("§e价格: " + plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType()));
             seller.sendMessage("§e收入: " + plugin.getEconomyManager().formatAmount(sellerAmount, item.getCurrencyType()));
             // 显示卖家余额信息
             double sellerBalance = plugin.getEconomyManager().getBalance(seller, item.getCurrencyType());
@@ -1727,30 +1726,37 @@ public class GuiListener implements Listener {
     
     // 处理确认竞价按钮点击
     private void handleConfirmBidButton(InventoryClickEvent event, Player player) {
-        // 确认当前竞价并关闭界面
-        if (!player.hasMetadata("auction_bid_amount") || !player.hasMetadata("auction_bid_id")) {
-            player.sendMessage(ChatColor.RED + "请先选择一个加价金额");
+        // 获取竞价信息
+        if (!player.hasMetadata("auction_bid_id") || !player.hasMetadata("auction_bid_amount")) {
+            player.sendMessage(ChatColor.RED + "竞价信息不完整，请重新出价。");
             return;
         }
         
-        double currentBid = player.getMetadata("auction_bid_amount").get(0).asDouble();
-        int itemId = player.getMetadata("auction_bid_id").get(0).asInt();
+        int auctionId = player.getMetadata("auction_bid_id").get(0).asInt();
+        double bidAmount = player.getMetadata("auction_bid_amount").get(0).asDouble();
         
         // 获取拍卖物品
-        AuctionItem item = plugin.getDatabaseManager().getAuctionItem(itemId);
+        AuctionItem item = plugin.getDatabaseManager().getAuctionItem(auctionId);
         if (item == null) {
-            player.sendMessage(ChatColor.RED + "物品不存在或已被购买!");
-            cleanupBidMetadata(player);
-            player.closeInventory();
+            player.sendMessage(ChatColor.RED + "该物品不存在或已售出!");
             return;
         }
         
-        String currType = item.getCurrencyType();
+        // 检查货币类型
+        if ("POINTS".equals(item.getCurrencyType()) && !plugin.isPlayerPointsAvailable()) {
+            player.sendMessage(ChatColor.RED + "点券系统不可用，无法对使用点券上架的物品出价。");
+            return;
+        }
+        
+        // 检查物品是否过期
+        if (item.isExpired()) {
+            player.sendMessage(ChatColor.RED + "该物品已过期，无法出价。");
+            return;
+        }
         
         // 检查玩家是否有足够的钱
-        if (!plugin.getEconomyManager().hasEnough(player, currentBid, currType)) {
-            player.sendMessage(ChatColor.RED + "你没有足够的" + plugin.getEconomyManager().getCurrencyName(currType) + "进行竞价!");
-            cleanupBidMetadata(player);
+        if (!plugin.getEconomyManager().hasEnough(player, bidAmount, item.getCurrencyType())) {
+            player.sendMessage(ChatColor.RED + "你没有足够的" + plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()) + "进行竞价!");
             return;
         }
         
@@ -1758,51 +1764,50 @@ public class GuiListener implements Listener {
         player.setMetadata("auction_bid_confirmed", new FixedMetadataValue(plugin, true));
         
         // 如果玩家是当前的最高出价者，只需要支付差价
-        double amountToDeduct = currentBid;
+        double amountToDeduct = bidAmount;
         if (item.getCurrentBidder() != null && item.getCurrentBidder().equals(player.getUniqueId())) {
             double previousBid = item.getCurrentPrice();
-            amountToDeduct = currentBid - previousBid;
+            amountToDeduct = bidAmount - previousBid;
         }
         
         // 扣除玩家的钱
-        if (!plugin.getEconomyManager().takeMoney(player, amountToDeduct, currType)) {
+        if (!plugin.getEconomyManager().takeMoney(player, amountToDeduct, item.getCurrencyType())) {
             player.sendMessage(ChatColor.RED + "扣款失败，请重试!");
-            cleanupBidMetadata(player);
             return;
         }
         
         // 如果之前有其他出价者，退还他们的钱
         if (item.getCurrentBidder() != null && !item.getCurrentBidder().equals(player.getUniqueId())) {
             double previousBid = item.getCurrentPrice();
-            plugin.getEconomyManager().giveMoney(Bukkit.getOfflinePlayer(item.getCurrentBidder()), previousBid, currType);
+            plugin.getEconomyManager().giveMoney(Bukkit.getOfflinePlayer(item.getCurrentBidder()), previousBid, item.getCurrencyType());
             
             // 如果之前的出价者在线，发送通知
             Player previousBidder = Bukkit.getPlayer(item.getCurrentBidder());
             if (previousBidder != null && previousBidder.isOnline()) {
                 previousBidder.sendMessage(ChatColor.YELLOW + "你的出价已被超越! 物品ID: " + item.getId());
-                previousBidder.sendMessage(ChatColor.YELLOW + "新的出价: " + plugin.getEconomyManager().formatAmount(currentBid, currType) + " 由 " + player.getName() + " 提供");
-                previousBidder.sendMessage(ChatColor.YELLOW + "你的出价 " + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), currType) + " 已退还");
+                previousBidder.sendMessage(ChatColor.YELLOW + "新的出价: " + plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType()) + " 由 " + player.getName() + " 提供");
+                previousBidder.sendMessage(ChatColor.YELLOW + "你的出价 " + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()) + " 已退还");
                 // 显示余额信息
-                double bidderBalance = plugin.getEconomyManager().getBalance(previousBidder, currType);
-                previousBidder.sendMessage(ChatColor.GREEN + "你的" + plugin.getEconomyManager().getCurrencyName(currType) + "余额: " + ChatColor.WHITE + 
-                                          plugin.getEconomyManager().formatAmount(bidderBalance, currType));
+                double bidderBalance = plugin.getEconomyManager().getBalance(previousBidder, item.getCurrencyType());
+                previousBidder.sendMessage(ChatColor.GREEN + "你的" + plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()) + "余额: " + ChatColor.WHITE + 
+                                          plugin.getEconomyManager().formatAmount(bidderBalance, item.getCurrencyType()));
             }
         }
         
         // 更新物品信息
-        item.setCurrentPrice(currentBid);
+        item.setCurrentPrice(bidAmount);
         item.setCurrentBidder(player.getUniqueId());
         item.setCurrentBidderName(player.getName());
         plugin.getDatabaseManager().updateAuctionItem(item);
         
-        double balance = plugin.getEconomyManager().getBalance(player, currType);
+        double balance = plugin.getEconomyManager().getBalance(player, item.getCurrencyType());
         
-        player.sendMessage(ChatColor.GREEN + "已确认当前竞价金额: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(currentBid, currType));
-        player.sendMessage(ChatColor.GREEN + "你的" + plugin.getEconomyManager().getCurrencyName(currType) + "余额: " + ChatColor.WHITE + 
-                           plugin.getEconomyManager().formatAmount(balance, currType));
+        player.sendMessage(ChatColor.GREEN + "已确认当前竞价金额: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType()));
+        player.sendMessage(ChatColor.GREEN + "你的" + plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()) + "余额: " + ChatColor.WHITE + 
+                           plugin.getEconomyManager().formatAmount(balance, item.getCurrencyType()));
         
         // 如果达到一口价，直接完成拍卖
-        if (item.hasBuyNowPrice() && currentBid >= item.getBuyNowPrice()) {
+        if (item.hasBuyNowPrice() && bidAmount >= item.getBuyNowPrice()) {
             // 标记为已售出
             item.setStatus("SOLD");
             item.setCurrentBidderName(player.getName());
@@ -1823,27 +1828,27 @@ public class GuiListener implements Listener {
             }
             
             // 给卖家钱（减去手续费）
-            double fee = plugin.getEconomyManager().calculateFee(currentBid, currType);
-            double sellerReceives = currentBid - fee;
-            plugin.getEconomyManager().giveMoney(Bukkit.getOfflinePlayer(item.getSellerUuid()), sellerReceives, currType);
+            double fee = plugin.getEconomyManager().calculateFee(bidAmount, item.getCurrencyType());
+            double sellerReceives = bidAmount - fee;
+            plugin.getEconomyManager().giveMoney(Bukkit.getOfflinePlayer(item.getSellerUuid()), sellerReceives, item.getCurrencyType());
             
             // 发送购买成功消息
             player.sendMessage(ChatColor.YELLOW + "物品ID: " + ChatColor.WHITE + item.getId());
-            player.sendMessage(ChatColor.YELLOW + "价格: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(currentBid, currType));
+            player.sendMessage(ChatColor.YELLOW + "价格: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType()));
             
             // 卖家在线则发送通知
             Player seller = Bukkit.getPlayer(item.getSellerUuid());
             if (seller != null && seller.isOnline()) {
                 seller.sendMessage(ChatColor.GREEN + "你的物品已被购买!");
                 seller.sendMessage(ChatColor.YELLOW + "物品ID: " + ChatColor.WHITE + item.getId());
-                seller.sendMessage(ChatColor.YELLOW + "出售价格: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(currentBid, currType));
-                seller.sendMessage(ChatColor.YELLOW + "手续费: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(fee, currType));
-                seller.sendMessage(ChatColor.YELLOW + "实际获得: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(sellerReceives, currType));
+                seller.sendMessage(ChatColor.YELLOW + "出售价格: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType()));
+                seller.sendMessage(ChatColor.YELLOW + "手续费: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(fee, item.getCurrencyType()));
+                seller.sendMessage(ChatColor.YELLOW + "实际获得: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(sellerReceives, item.getCurrencyType()));
                 seller.sendMessage(ChatColor.YELLOW + "买家: " + ChatColor.WHITE + player.getName());
                 // 显示卖家余额信息
-                double sellerBalance = plugin.getEconomyManager().getBalance(seller, currType);
-                seller.sendMessage(ChatColor.GREEN + "你的" + plugin.getEconomyManager().getCurrencyName(currType) + "余额: " + ChatColor.WHITE + 
-                                   plugin.getEconomyManager().formatAmount(sellerBalance, currType));
+                double sellerBalance = plugin.getEconomyManager().getBalance(seller, item.getCurrencyType());
+                seller.sendMessage(ChatColor.GREEN + "你的" + plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()) + "余额: " + ChatColor.WHITE + 
+                                   plugin.getEconomyManager().formatAmount(sellerBalance, item.getCurrencyType()));
             }
             
             // 广播购买消息
@@ -1855,7 +1860,7 @@ public class GuiListener implements Listener {
             // 发送竞价成功消息
             player.sendMessage(ChatColor.GREEN + "竞价成功!");
             player.sendMessage(ChatColor.YELLOW + "物品ID: " + ChatColor.WHITE + item.getId());
-            player.sendMessage(ChatColor.YELLOW + "你的出价: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(currentBid, currType));
+            player.sendMessage(ChatColor.YELLOW + "你的出价: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType()));
         }
         
         // 关闭界面时会自动清理元数据，因为我们已经设置了auction_bid_confirmed标记

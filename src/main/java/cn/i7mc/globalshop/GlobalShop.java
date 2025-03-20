@@ -14,6 +14,8 @@ import cn.i7mc.globalshop.config.MessageManager;
 import cn.i7mc.globalshop.config.DebugMessageManager;
 import net.milkbowl.vault.economy.Economy;
 import org.black_ixx.playerpoints.PlayerPoints;
+import org.bukkit.ChatColor;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -49,14 +51,16 @@ public class GlobalShop extends JavaPlugin {
         
         // 初始化经济系统
         if (!setupEconomy()) {
-            getLogger().severe("未找到Vault插件或经济系统，插件将无法正常工作！");
+            ConsoleCommandSender console = getServer().getConsoleSender();
+            console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.DARK_RED + "未找到" + ChatColor.GOLD + "Vault" + ChatColor.DARK_RED + "插件或经济系统，插件将无法正常工作！");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
         
         // 初始化点券系统
         if (!setupPlayerPoints()) {
-            getLogger().warning("未找到PlayerPoints插件，点券功能将不可用！");
+            ConsoleCommandSender console = getServer().getConsoleSender();
+            console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.DARK_RED + "未找到" + ChatColor.GOLD + "PlayerPoints" + ChatColor.DARK_RED + "插件，点券功能将不可用！");
         }
         
         // 初始化经济管理器
@@ -83,7 +87,9 @@ public class GlobalShop extends JavaPlugin {
         // 启动定时任务，使用配置中设置的间隔时间来检查过期拍卖
         startAuctionTasks();
         
-        getLogger().info("GlobalShop插件已成功启动!");
+        ConsoleCommandSender console = getServer().getConsoleSender();
+        console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.AQUA + "如有建议或BUG可联系作者QQ642751482反馈");
+        console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.AQUA + "插件已成功启动!");
     }
 
     @Override
@@ -100,7 +106,8 @@ public class GlobalShop extends JavaPlugin {
             this.broadcastManager.shutdown();
         }
         
-        getLogger().info("GlobalShop插件已关闭!");
+        ConsoleCommandSender console = getServer().getConsoleSender();
+        console.sendMessage(ChatColor.AQUA + "[GlobalShop] 插件已关闭!");
     }
 
     private boolean setupEconomy() {
@@ -116,8 +123,11 @@ public class GlobalShop extends JavaPlugin {
     }
 
     private boolean setupPlayerPoints() {
-        playerPoints = (PlayerPoints) getServer().getPluginManager().getPlugin("PlayerPoints");
-        return playerPoints != null;
+        if (getServer().getPluginManager().getPlugin("PlayerPoints") != null) {
+            playerPoints = (PlayerPoints) getServer().getPluginManager().getPlugin("PlayerPoints");
+            return playerPoints != null;
+        }
+        return false;
     }
 
     public static GlobalShop getInstance() {
@@ -215,5 +225,13 @@ public class GlobalShop extends JavaPlugin {
         if (configManager.isDebug()) {
             getLogger().info("已启动拍卖检查任务，间隔: " + checkIntervalSeconds + "秒");
         }
+    }
+
+    /**
+     * 检查点券系统是否可用
+     * @return 点券系统是否可用
+     */
+    public boolean isPlayerPointsAvailable() {
+        return playerPoints != null;
     }
 }

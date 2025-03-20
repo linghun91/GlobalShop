@@ -10,8 +10,14 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,6 +45,9 @@ public class BroadcastManager {
     private int titleFadeIn;
     private int titleStay;
     private int titleFadeOut;
+    
+    // 添加成员变量用于存储最后广播的物品信息
+    private AuctionItem lastBroadcastItem;
     
     /**
      * 广播事件类型
@@ -186,115 +195,6 @@ public class BroadcastManager {
     }
     
     /**
-     * 广播物品上架事件
-     * @param player 上架玩家
-     * @param item 上架物品
-     */
-    public void broadcastItemListed(Player player, AuctionItem item) {
-        if (!isEventEnabled(BroadcastEvent.ITEM_LISTED)) return;
-        
-        String itemName = ChatUtils.getItemName(item.getItem());
-        String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
-        
-        // 从message.yml获取消息格式，填充占位符
-        String chatMessage = getBroadcastMessage("item_listed", "chat");
-        String bossbarMessage = getBroadcastMessage("item_listed", "bossbar");
-        String titleMessage = getBroadcastMessage("item_listed", "title"); 
-        String subtitleMessage = getBroadcastMessage("item_listed", "subtitle");
-        String actionbarMessage = getBroadcastMessage("item_listed", "actionbar");
-        
-        // 替换占位符
-        Map<String, String> placeholders = new HashMap<>();
-        placeholders.put("%player%", player.getName());
-        placeholders.put("%item_name%", itemName);
-        placeholders.put("%start_price%", currencySymbol + String.format("%.2f", item.getStartPrice()));
-        
-        if (item.hasBuyNowPrice()) {
-            placeholders.put("%buy_now_price%", currencySymbol + String.format("%.2f", item.getBuyNowPrice()));
-        } else {
-            placeholders.put("%buy_now_price%", "无");
-        }
-        
-        chatMessage = replacePlaceholders(chatMessage, placeholders);
-        bossbarMessage = replacePlaceholders(bossbarMessage, placeholders);
-        titleMessage = replacePlaceholders(titleMessage, placeholders);
-        subtitleMessage = replacePlaceholders(subtitleMessage, placeholders);
-        actionbarMessage = replacePlaceholders(actionbarMessage, placeholders);
-        
-        broadcastMessage(BroadcastEvent.ITEM_LISTED, chatMessage, bossbarMessage, titleMessage, subtitleMessage, actionbarMessage);
-    }
-    
-    /**
-     * 广播竞拍成功事件
-     * @param buyer 买家
-     * @param seller 卖家
-     * @param item 拍卖物品
-     */
-    public void broadcastAuctionWon(String buyer, String seller, AuctionItem item) {
-        if (!isEventEnabled(BroadcastEvent.AUCTION_WON)) return;
-        
-        String itemName = ChatUtils.getItemName(item.getItem());
-        String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
-        
-        // 从message.yml获取消息格式，填充占位符
-        String chatMessage = getBroadcastMessage("auction_won", "chat");
-        String bossbarMessage = getBroadcastMessage("auction_won", "bossbar");
-        String titleMessage = getBroadcastMessage("auction_won", "title"); 
-        String subtitleMessage = getBroadcastMessage("auction_won", "subtitle");
-        String actionbarMessage = getBroadcastMessage("auction_won", "actionbar");
-        
-        // 替换占位符
-        Map<String, String> placeholders = new HashMap<>();
-        placeholders.put("%buyer%", buyer);
-        placeholders.put("%seller%", seller);
-        placeholders.put("%item_name%", itemName);
-        placeholders.put("%price%", currencySymbol + String.format("%.2f", item.getCurrentPrice()));
-        
-        chatMessage = replacePlaceholders(chatMessage, placeholders);
-        bossbarMessage = replacePlaceholders(bossbarMessage, placeholders);
-        titleMessage = replacePlaceholders(titleMessage, placeholders);
-        subtitleMessage = replacePlaceholders(subtitleMessage, placeholders);
-        actionbarMessage = replacePlaceholders(actionbarMessage, placeholders);
-        
-        broadcastMessage(BroadcastEvent.AUCTION_WON, chatMessage, bossbarMessage, titleMessage, subtitleMessage, actionbarMessage);
-    }
-    
-    /**
-     * 广播一口价购买事件
-     * @param buyer 买家
-     * @param seller 卖家
-     * @param item 拍卖物品
-     */
-    public void broadcastBuyNow(String buyer, String seller, AuctionItem item) {
-        if (!isEventEnabled(BroadcastEvent.BUY_NOW)) return;
-        
-        String itemName = ChatUtils.getItemName(item.getItem());
-        String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
-        
-        // 从message.yml获取消息格式，填充占位符
-        String chatMessage = getBroadcastMessage("buy_now", "chat");
-        String bossbarMessage = getBroadcastMessage("buy_now", "bossbar");
-        String titleMessage = getBroadcastMessage("buy_now", "title"); 
-        String subtitleMessage = getBroadcastMessage("buy_now", "subtitle");
-        String actionbarMessage = getBroadcastMessage("buy_now", "actionbar");
-        
-        // 替换占位符
-        Map<String, String> placeholders = new HashMap<>();
-        placeholders.put("%buyer%", buyer);
-        placeholders.put("%seller%", seller);
-        placeholders.put("%item_name%", itemName);
-        placeholders.put("%price%", currencySymbol + String.format("%.2f", item.getBuyNowPrice()));
-        
-        chatMessage = replacePlaceholders(chatMessage, placeholders);
-        bossbarMessage = replacePlaceholders(bossbarMessage, placeholders);
-        titleMessage = replacePlaceholders(titleMessage, placeholders);
-        subtitleMessage = replacePlaceholders(subtitleMessage, placeholders);
-        actionbarMessage = replacePlaceholders(actionbarMessage, placeholders);
-        
-        broadcastMessage(BroadcastEvent.BUY_NOW, chatMessage, bossbarMessage, titleMessage, subtitleMessage, actionbarMessage);
-    }
-    
-    /**
      * 广播消息到配置的所有位置
      * @param event 广播事件类型
      * @param chatMessage 聊天框消息
@@ -312,7 +212,22 @@ public class BroadcastManager {
         
         // 聊天框广播
         if (config.isLocationEnabled(BroadcastLocation.CHAT) && chatMessage != null && !chatMessage.isEmpty()) {
-            Bukkit.broadcastMessage(chatMessage);
+            // 创建带有详细信息的交互式组件
+            TextComponent mainComponent = new TextComponent(chatMessage);
+            TextComponent detailsComponent = new TextComponent(" §6[§e详细信息§6]");
+            
+            // 根据事件类型创建不同的悬停文本
+            String hoverText = createHoverTextForEvent(event);
+            detailsComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
+                                          new ComponentBuilder(hoverText).create()));
+            
+            // 合并组件
+            mainComponent.addExtra(detailsComponent);
+            
+            // 广播给所有玩家
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.spigot().sendMessage(mainComponent);
+            }
         }
         
         // 其他广播位置需要遍历在线玩家
@@ -337,6 +252,87 @@ public class BroadcastManager {
                 player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, 
                         net.md_5.bungee.api.chat.TextComponent.fromLegacyText(actionbarMessage));
             }
+        }
+    }
+    
+    /**
+     * 根据事件类型创建悬停文本
+     * @param event 广播事件类型
+     * @return 悬停文本
+     */
+    private String createHoverTextForEvent(BroadcastEvent event) {
+        if (lastBroadcastItem == null) {
+            return "§c无详细信息";
+        }
+        
+        try {
+            // 使用完整的createAuctionItemDisplay方法，传递null作为Player参数
+            // 这样可以获取与拍卖行主界面完全一致的物品信息
+            ItemStack itemDisplay = plugin.getGuiManager().createAuctionItemDisplay(lastBroadcastItem, null);
+            ItemMeta meta = itemDisplay.getItemMeta();
+            
+            if (meta != null && meta.hasLore()) {
+                List<String> lore = meta.getLore();
+                if (lore != null && !lore.isEmpty()) {
+                    // 将Lore列表转换为字符串，每行之间用\n分隔
+                    StringBuilder sb = new StringBuilder();
+                    
+                    // 如果物品有自定义名称，先添加物品名称
+                    if (meta.hasDisplayName()) {
+                        sb.append(meta.getDisplayName()).append("\n");
+                    }
+                    
+                    // 添加所有Lore内容
+                    for (int i = 0; i < lore.size(); i++) {
+                        sb.append(lore.get(i));
+                        // 最后一行不添加换行符
+                        if (i < lore.size() - 1) {
+                            sb.append("\n");
+                        }
+                    }
+                    return sb.toString();
+                }
+            }
+        } catch (Exception e) {
+            if (plugin.getConfigManager().isDebug()) {
+                plugin.getLogger().warning("创建悬停文本时发生错误: " + e.getMessage());
+            }
+        }
+        
+        // 如果获取Lore失败，使用备用方案
+        switch (event) {
+            case ITEM_LISTED:
+                String itemName = ChatUtils.getItemName(lastBroadcastItem.getItem());
+                String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(lastBroadcastItem.getCurrencyType());
+                
+                StringBuilder sb = new StringBuilder();
+                sb.append("§6物品: §f").append(itemName).append("\n");
+                sb.append("§6物品ID: §f").append(lastBroadcastItem.getId()).append("\n");
+                sb.append("§6起拍价: §f").append(currencySymbol).append(String.format("%.2f", lastBroadcastItem.getStartPrice())).append("\n");
+                
+                if (lastBroadcastItem.hasBuyNowPrice()) {
+                    sb.append("§6一口价: §f").append(currencySymbol).append(String.format("%.2f", lastBroadcastItem.getBuyNowPrice()));
+                } else {
+                    sb.append("§6一口价: §f无");
+                }
+                
+                return sb.toString();
+                
+            case AUCTION_WON:
+            case BUY_NOW:
+                String itemName2 = ChatUtils.getItemName(lastBroadcastItem.getItem());
+                String currencySymbol2 = plugin.getEconomyManager().getCurrencySymbol(lastBroadcastItem.getCurrencyType());
+                double finalPrice = lastBroadcastItem.getCurrentPrice();
+                
+                StringBuilder sb2 = new StringBuilder();
+                sb2.append("§6物品: §f").append(itemName2).append("\n");
+                sb2.append("§6物品ID: §f").append(lastBroadcastItem.getId()).append("\n");
+                sb2.append("§6成交价格: §f").append(currencySymbol2).append(String.format("%.2f", finalPrice));
+                
+                return sb2.toString();
+                
+            default:
+                return "§c无详细信息";
         }
     }
     
@@ -480,5 +476,123 @@ public class BroadcastManager {
             result = result.replace(entry.getKey(), entry.getValue());
         }
         return result;
+    }
+    
+    /**
+     * 广播物品上架事件
+     * @param player 上架玩家
+     * @param item 上架物品
+     */
+    public void broadcastItemListed(Player player, AuctionItem item) {
+        if (!isEventEnabled(BroadcastEvent.ITEM_LISTED)) return;
+        
+        // 保存当前物品信息用于详细信息显示
+        this.lastBroadcastItem = item;
+        
+        String itemName = ChatUtils.getItemName(item.getItem());
+        String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
+        
+        // 从message.yml获取消息格式，填充占位符
+        String chatMessage = getBroadcastMessage("item_listed", "chat");
+        String bossbarMessage = getBroadcastMessage("item_listed", "bossbar");
+        String titleMessage = getBroadcastMessage("item_listed", "title"); 
+        String subtitleMessage = getBroadcastMessage("item_listed", "subtitle");
+        String actionbarMessage = getBroadcastMessage("item_listed", "actionbar");
+        
+        // 替换占位符
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("%player%", player.getName());
+        placeholders.put("%item_name%", itemName);
+        placeholders.put("%start_price%", currencySymbol + String.format("%.2f", item.getStartPrice()));
+        
+        if (item.hasBuyNowPrice()) {
+            placeholders.put("%buy_now_price%", currencySymbol + String.format("%.2f", item.getBuyNowPrice()));
+        } else {
+            placeholders.put("%buy_now_price%", "无");
+        }
+        
+        chatMessage = replacePlaceholders(chatMessage, placeholders);
+        bossbarMessage = replacePlaceholders(bossbarMessage, placeholders);
+        titleMessage = replacePlaceholders(titleMessage, placeholders);
+        subtitleMessage = replacePlaceholders(subtitleMessage, placeholders);
+        actionbarMessage = replacePlaceholders(actionbarMessage, placeholders);
+        
+        broadcastMessage(BroadcastEvent.ITEM_LISTED, chatMessage, bossbarMessage, titleMessage, subtitleMessage, actionbarMessage);
+    }
+    
+    /**
+     * 广播竞拍成功事件
+     * @param buyer 买家
+     * @param seller 卖家
+     * @param item 拍卖物品
+     */
+    public void broadcastAuctionWon(String buyer, String seller, AuctionItem item) {
+        if (!isEventEnabled(BroadcastEvent.AUCTION_WON)) return;
+        
+        // 保存当前物品信息用于详细信息显示
+        this.lastBroadcastItem = item;
+        
+        String itemName = ChatUtils.getItemName(item.getItem());
+        String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
+        
+        // 从message.yml获取消息格式，填充占位符
+        String chatMessage = getBroadcastMessage("auction_won", "chat");
+        String bossbarMessage = getBroadcastMessage("auction_won", "bossbar");
+        String titleMessage = getBroadcastMessage("auction_won", "title"); 
+        String subtitleMessage = getBroadcastMessage("auction_won", "subtitle");
+        String actionbarMessage = getBroadcastMessage("auction_won", "actionbar");
+        
+        // 替换占位符
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("%buyer%", buyer);
+        placeholders.put("%seller%", seller);
+        placeholders.put("%item_name%", itemName);
+        placeholders.put("%price%", currencySymbol + String.format("%.2f", item.getCurrentPrice()));
+        
+        chatMessage = replacePlaceholders(chatMessage, placeholders);
+        bossbarMessage = replacePlaceholders(bossbarMessage, placeholders);
+        titleMessage = replacePlaceholders(titleMessage, placeholders);
+        subtitleMessage = replacePlaceholders(subtitleMessage, placeholders);
+        actionbarMessage = replacePlaceholders(actionbarMessage, placeholders);
+        
+        broadcastMessage(BroadcastEvent.AUCTION_WON, chatMessage, bossbarMessage, titleMessage, subtitleMessage, actionbarMessage);
+    }
+    
+    /**
+     * 广播一口价购买事件
+     * @param buyer 买家
+     * @param seller 卖家
+     * @param item 拍卖物品
+     */
+    public void broadcastBuyNow(String buyer, String seller, AuctionItem item) {
+        if (!isEventEnabled(BroadcastEvent.BUY_NOW)) return;
+        
+        // 保存当前物品信息用于详细信息显示
+        this.lastBroadcastItem = item;
+        
+        String itemName = ChatUtils.getItemName(item.getItem());
+        String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
+        
+        // 从message.yml获取消息格式，填充占位符
+        String chatMessage = getBroadcastMessage("buy_now", "chat");
+        String bossbarMessage = getBroadcastMessage("buy_now", "bossbar");
+        String titleMessage = getBroadcastMessage("buy_now", "title"); 
+        String subtitleMessage = getBroadcastMessage("buy_now", "subtitle");
+        String actionbarMessage = getBroadcastMessage("buy_now", "actionbar");
+        
+        // 替换占位符
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("%buyer%", buyer);
+        placeholders.put("%seller%", seller);
+        placeholders.put("%item_name%", itemName);
+        placeholders.put("%price%", currencySymbol + String.format("%.2f", item.getBuyNowPrice()));
+        
+        chatMessage = replacePlaceholders(chatMessage, placeholders);
+        bossbarMessage = replacePlaceholders(bossbarMessage, placeholders);
+        titleMessage = replacePlaceholders(titleMessage, placeholders);
+        subtitleMessage = replacePlaceholders(subtitleMessage, placeholders);
+        actionbarMessage = replacePlaceholders(actionbarMessage, placeholders);
+        
+        broadcastMessage(BroadcastEvent.BUY_NOW, chatMessage, bossbarMessage, titleMessage, subtitleMessage, actionbarMessage);
     }
 } 
