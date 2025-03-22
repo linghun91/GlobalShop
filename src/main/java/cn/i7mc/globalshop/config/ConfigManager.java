@@ -177,4 +177,9 @@ public class ConfigManager {
     public boolean isDebug() {
         return config.getBoolean("debug", false);
     }
+
+    // 获取价格最大位数限制
+    public int getMaxPriceDigits() {
+        return config.getInt("economy.max_price_digits", 9);
+    }
 } 

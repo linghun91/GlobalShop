@@ -214,7 +214,9 @@ public class BroadcastManager {
         if (config.isLocationEnabled(BroadcastLocation.CHAT) && chatMessage != null && !chatMessage.isEmpty()) {
             // 创建带有详细信息的交互式组件
             TextComponent mainComponent = new TextComponent(chatMessage);
-            TextComponent detailsComponent = new TextComponent(" §6[§e详细信息§6]");
+            // 从配置文件获取详细信息按钮文本
+            TextComponent detailsComponent = new TextComponent(
+                plugin.getMessageManager().getDetailsButtonText());
             
             // 根据事件类型创建不同的悬停文本
             String hoverText = createHoverTextForEvent(event);
@@ -262,7 +264,8 @@ public class BroadcastManager {
      */
     private String createHoverTextForEvent(BroadcastEvent event) {
         if (lastBroadcastItem == null) {
-            return "§c无详细信息";
+            // 使用配置文件中的无详细信息提示
+            return plugin.getMessageManager().getNoDetailsAvailableText();
         }
         
         try {

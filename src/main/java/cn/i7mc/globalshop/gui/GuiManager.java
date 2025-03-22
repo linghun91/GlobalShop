@@ -20,6 +20,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GuiManager {
     private final GlobalShop plugin;
@@ -81,99 +84,120 @@ public class GuiManager {
         playerPages.put(player, page);
     }
 
-    // 创建拍卖物品显示（不带玩家判断）
-    public ItemStack createAuctionItemDisplay(AuctionItem item) {
-        return createAuctionItemDisplay(item, null);
-    }
-    
-    // 创建拍卖物品显示（带玩家判断）
-    public ItemStack createAuctionItemDisplay(AuctionItem item, Player player) {
-        ItemStack display = item.getItem().clone();
-        ItemMeta meta = display.getItemMeta();
+    /**
+     * 创建拍卖物品显示
+     * @param item 拍卖物品
+     * @param viewer 查看者（可能为null）
+     * @return 展示用的ItemStack
+     */
+    public ItemStack createAuctionItemDisplay(AuctionItem item, Player viewer) {
+        ItemStack original = item.getItem();
+        ItemStack displayItem = original.clone();
+        ItemMeta meta = displayItem.getItemMeta();
+        if (meta == null) return displayItem;
         
-        // 获取原有的Lore
+        // 尝试获取中文名称
+        String itemId = original.getType().name().toLowerCase();
+        String chineseName = plugin.getLanguageManager().getChineseName(itemId);
+        
         List<String> originalLore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
-        if (originalLore == null) originalLore = new ArrayList<>();
-        
-        // 创建拍卖信息Lore
         List<String> auctionLore = new ArrayList<>();
-        
-        // 添加分隔线
-        auctionLore.add("§8§m--------------------");
-        auctionLore.add("§6§l拍卖信息:");
-        
-        // 添加物品ID信息
-        auctionLore.add("§e物品ID: §f" + item.getId());
-        
-        // 如果是原版物品没有自定义名称，添加中文翻译
-        if (!meta.hasDisplayName()) {
-            String materialName = display.getType().name().toLowerCase();
-            // 获取中文名称
-            String chineseName = plugin.getLanguageManager().getChineseName(materialName);
-            if (!chineseName.equals(materialName)) {
-                // 设置中文物品名称
-                meta.setDisplayName("§f" + chineseName);
-            }
-        }
-        
-        // 获取货币类型名称
         String currencyName = plugin.getEconomyManager().getCurrencyName(item.getCurrencyType());
         
-        // 添加货币类型和价格信息
-        auctionLore.add("§e货币类型: §f" + currencyName);
-        auctionLore.add("§e起拍价: §f" + plugin.getEconomyManager().formatAmount(item.getStartPrice(), item.getCurrencyType()));
-        if("SOLD".equals(item.getStatus())) {
-            auctionLore.add("§e成交价格: §f" + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
-        } else {
-            auctionLore.add("§e当前价格: §f" + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
+        // 记录原版物品的展示名称(如果没有自定义名称，使用中文名称)
+        if (!meta.hasDisplayName() && chineseName != null && !chineseName.isEmpty()) {
+            meta.setDisplayName(messageManager.getItemNameColor() + chineseName);
         }
-        if (item.hasBuyNowPrice()) {
-            auctionLore.add("§e一口价: §f" + plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType()));
-        }
-
-        // 添加时间信息
-        auctionLore.add("§e上架时间: §f" + item.getFormattedListTime());
-        auctionLore.add("§e剩余时间: §f" + item.getFormattedRemainingTime());
-
-        // 添加卖家信息
-        auctionLore.add("§e卖家: §f" + item.getSellerName());
-
-        // 添加当前最高出价者信息
-        if (item.getCurrentBidder() != null) {
-            auctionLore.add("§e当前出价者: §f" + Bukkit.getOfflinePlayer(item.getCurrentBidder()).getName());
-        }
-
-        // 添加操作提示
-        auctionLore.add("§8§m--------------------");
         
-        // 根据玩家是否为物品主人显示不同操作提示
-        boolean isOwner = player != null && item.getSellerUuid().equals(player.getUniqueId());
-        boolean isOp = player != null && player.isOp();
+        // 添加原版物品的lore
+        if (originalLore != null && !originalLore.isEmpty()) {
+            auctionLore.addAll(originalLore);
+            auctionLore.add(""); // 空行分隔
+        }
         
-        if (isOwner) {
-            // 如果是物品主人
-            auctionLore.add("§7这是你的拍卖物品");
-            auctionLore.add("§7Shift+右键点击: §f快速下架");
+        // 添加拍卖信息
+        auctionLore.add(messageManager.getAuctionItemDivider());
+        auctionLore.add(messageManager.getAuctionInfoHeader());
+        auctionLore.add(messageManager.getAuctionItemIdFormat().replace("%id%", String.valueOf(item.getId())));
+        auctionLore.add(messageManager.getAuctionCurrencyTypeFormat().replace("%currency%", currencyName));
+        
+        // 根据物品状态显示不同的价格信息
+        if ("SOLD".equals(item.getStatus())) {
+            // 已售出物品显示成交价格
+            String dealPrice = messageManager.getAuctionDealPriceFormat()
+                .replace("%price%", plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
+            auctionLore.add(dealPrice);
         } else {
-            // 如果不是物品主人
-            auctionLore.add("§7左键点击: §f参与竞价");
-            auctionLore.add("§7右键点击: §f快速购买");
+            // 活跃物品显示当前价格
+            String startPrice = messageManager.getAuctionStartPriceFormat()
+                .replace("%price%", plugin.getEconomyManager().formatAmount(item.getStartPrice(), item.getCurrencyType()));
+            auctionLore.add(startPrice);
             
-            // 如果是OP玩家，添加管理员操作提示
-            if (isOp) {
-                auctionLore.add("§8§m--------------------");
-                auctionLore.add("§c§l管理员操作:");
-                auctionLore.add("§cShift+左键点击: §f强制下架该物品");
+            String currentPrice = messageManager.getAuctionCurrentPriceFormat()
+                .replace("%price%", plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
+            auctionLore.add(currentPrice);
+            
+            // 显示一口价（如果有）
+            if (item.getBuyNowPrice() > 0) {
+                String buyNowPrice = messageManager.getAuctionBuyNowPriceFormat()
+                    .replace("%price%", plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType()));
+                auctionLore.add(buyNowPrice);
             }
         }
         
-        // 合并原有Lore和拍卖信息
-        List<String> combinedLore = new ArrayList<>(originalLore);
-        combinedLore.addAll(auctionLore);
+        // 显示时间信息
+        auctionLore.add(messageManager.getAuctionListTimeFormat().replace("%time%", item.getFormattedListTime()));
         
-        meta.setLore(combinedLore);
-        display.setItemMeta(meta);
-        return display;
+        if ("ACTIVE".equals(item.getStatus())) {
+            // 活跃物品显示剩余时间
+            auctionLore.add(messageManager.getAuctionRemainingTimeFormat().replace("%time%", item.getFormattedRemainingTime()));
+        }
+        
+        // 显示卖家信息
+        auctionLore.add(messageManager.getAuctionSellerFormat().replace("%seller%", item.getSellerName()));
+        
+        // 显示当前出价者（如果有）
+        if (item.getCurrentBidder() != null && !item.getCurrentBidder().equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) {
+            String bidderName = Bukkit.getOfflinePlayer(item.getCurrentBidder()).getName();
+            if (bidderName != null) {
+                auctionLore.add(messageManager.getAuctionCurrentBidderFormat().replace("%bidder%", bidderName));
+            }
+        }
+        
+        auctionLore.add(messageManager.getAuctionItemDivider());
+        
+        // 添加操作提示
+        if (viewer != null && "ACTIVE".equals(item.getStatus())) {
+            if (viewer.getUniqueId().equals(item.getSellerUuid())) {
+                // 物品所有者提示
+                auctionLore.add(messageManager.getAuctionOwnerTipsHeader());
+                auctionLore.add(messageManager.getAuctionOwnerCancelTip());
+            } else {
+                // 买家提示
+                auctionLore.add(messageManager.getAuctionBuyerBidTip());
+                auctionLore.add(messageManager.getAuctionBuyerBuyTip());
+            }
+            
+            // 管理员提示
+            if (viewer.hasPermission("globalshop.admin")) {
+                auctionLore.add(messageManager.getAuctionItemDivider());
+                auctionLore.add(messageManager.getAuctionAdminTipsHeader());
+                auctionLore.add(messageManager.getAuctionAdminForceCancelTip());
+            }
+        }
+        
+        meta.setLore(auctionLore);
+        displayItem.setItemMeta(meta);
+        return displayItem;
+    }
+
+    /**
+     * 创建拍卖物品显示（不带玩家判断）
+     * @param item 拍卖物品
+     * @return 展示用的ItemStack
+     */
+    public ItemStack createAuctionItemDisplay(AuctionItem item) {
+        return createAuctionItemDisplay(item, null);
     }
 
     /**
@@ -197,9 +221,9 @@ public class GuiManager {
         
         // 添加上架指南信息
         List<String> sellLore = new ArrayList<>();
-        sellLore.add("§7手持要上架的物品输入:");
-        sellLore.add("§7/auction sell <起拍价> [一口价] [货币类型]");
-        sellLore.add("§7货币类型: §f1=金币, 2=点券");
+        sellLore.add(messageManager.getSellMenuCommandTipsHeader());
+        sellLore.add(messageManager.getSellMenuCommandUsage());
+        sellLore.add(messageManager.getSellMenuCurrencyTypes());
         sellMeta.setLore(sellLore);
         
         sellButton.setItemMeta(sellMeta);
@@ -234,7 +258,9 @@ public class GuiManager {
             ItemStack nextButton = new ItemStack(Material.ARROW);
             ItemMeta nextMeta = nextButton.getItemMeta();
             nextMeta.setDisplayName(messageManager.getNextPageText());
-            nextMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            List<String> nextLore = new ArrayList<>();
+            nextLore.add(messageManager.getNextPageDescText());
+            nextMeta.setLore(nextLore);
             nextButton.setItemMeta(nextMeta);
             inv.setItem(53, nextButton);
         }
@@ -356,10 +382,14 @@ public class GuiManager {
         // 设置页码信息在标题栏中间
         ItemStack pageInfo = new ItemStack(Material.PAPER);
         ItemMeta infoMeta = pageInfo.getItemMeta();
-        infoMeta.setDisplayName(ChatColor.GOLD + messageManager.getSearchResultTitlePrefix() + " " + ChatColor.WHITE + keyword);
+        infoMeta.setDisplayName(ChatColor.GOLD + messageManager.getSearchResultTitlePrefix() + " " + keyword);
         List<String> infoLore = new ArrayList<>();
-        infoLore.add(ChatColor.YELLOW + "当前页: " + ChatColor.WHITE + page + "/" + (totalPages > 0 ? totalPages : 1));
-        infoLore.add(ChatColor.YELLOW + "总计: " + ChatColor.WHITE + totalItems + " 个物品");
+        String pageInfoText = messageManager.getPageInfoPrefix() + page + "/" + (totalPages > 0 ? totalPages : 1);
+        infoLore.add(pageInfoText);
+        
+        String totalItemsText = messageManager.getSoldItemsCountPrefix() + totalItems;
+        infoLore.add(totalItemsText);
+        
         infoMeta.setLore(infoLore);
         pageInfo.setItemMeta(infoMeta);
         inventory.setItem(4, pageInfo);
@@ -392,7 +422,7 @@ public class GuiManager {
             ItemMeta prevMeta = prevButton.getItemMeta();
             prevMeta.setDisplayName(messageManager.getPreviousPageText());
             List<String> prevLore = new ArrayList<>();
-            prevLore.add(ChatColor.GRAY + "点击查看上一页");
+            prevLore.add(messageManager.getPreviousPageDescText());
             prevMeta.setLore(prevLore);
             prevButton.setItemMeta(prevMeta);
             inventory.setItem(45, prevButton);
@@ -404,7 +434,7 @@ public class GuiManager {
             ItemMeta nextMeta = nextButton.getItemMeta();
             nextMeta.setDisplayName(messageManager.getNextPageText());
             List<String> nextLore = new ArrayList<>();
-            nextLore.add(ChatColor.GRAY + "点击查看下一页");
+            nextLore.add(messageManager.getNextPageDescText());
             nextMeta.setLore(nextLore);
             nextButton.setItemMeta(nextMeta);
             inventory.setItem(53, nextButton);
@@ -415,7 +445,7 @@ public class GuiManager {
         ItemMeta searchMeta = searchButton.getItemMeta();
         searchMeta.setDisplayName(messageManager.getNewSearchText());
         List<String> searchLore = new ArrayList<>();
-        searchLore.add(ChatColor.GRAY + "点击执行新搜索");
+        searchLore.add(messageManager.getNewSearchDescText());
         searchMeta.setLore(searchLore);
         searchMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         searchButton.setItemMeta(searchMeta);
@@ -426,7 +456,7 @@ public class GuiManager {
         ItemMeta backMeta = backButton.getItemMeta();
         backMeta.setDisplayName(messageManager.getReturnMainMenuText());
         List<String> backLore = new ArrayList<>();
-        backLore.add(ChatColor.GRAY + "点击返回主菜单");
+        backLore.add(messageManager.getReturnMainMenuDescText());
         backMeta.setLore(backLore);
         backMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         backButton.setItemMeta(backMeta);
@@ -440,16 +470,55 @@ public class GuiManager {
         // 设置上架区 - 只在22号槽位放置提示玻璃板
         inventory.setItem(22, createPlaceholder());
 
+        // 自定义上架时间按钮（钟表材质）
+        ItemStack durationButton = new ItemStack(Material.CLOCK);
+        ItemMeta durationMeta = durationButton.getItemMeta();
+        durationMeta.setDisplayName(messageManager.getDurationButtonTitle());
+        
+        // 初始时间设为最小时间
+        long initialDuration = configManager.getMinDuration();
+        // 将秒转换为小时和分钟格式显示
+        long hours = initialDuration / 3600;
+        long minutes = (initialDuration % 3600) / 60;
+        
+        List<String> durationLore = new ArrayList<>();
+        // 使用配置文件中的文本
+        durationLore.add(messageManager.getDurationCurrentSettingFormat()
+                .replace("%hours%", String.valueOf(hours))
+                .replace("%minutes%", String.valueOf(minutes)));
+        durationLore.add(messageManager.getDurationButtonDivider());
+        durationLore.add(messageManager.getDurationLeftClickTip());
+        durationLore.add(messageManager.getDurationRightClickTip());
+        durationLore.add(messageManager.getDurationShiftLeftClickTip());
+        durationLore.add(messageManager.getDurationShiftRightClickTip());
+        durationLore.add(messageManager.getDurationMiddleClickTip());
+        durationLore.add(messageManager.getDurationButtonDivider());
+        durationLore.add(messageManager.getDurationMinTimeFormat()
+                .replace("%hours%", String.valueOf(configManager.getMinDuration() / 3600)));
+        durationLore.add(messageManager.getDurationMaxTimeFormat()
+                .replace("%hours%", String.valueOf(configManager.getMaxDuration() / 3600)));
+        durationLore.add(messageManager.getDurationButtonDivider());
+        durationLore.add(messageManager.getDurationNote1());
+        durationLore.add(messageManager.getDurationNote2());
+        
+        durationMeta.setLore(durationLore);
+        durationMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        durationButton.setItemMeta(durationMeta);
+        inventory.setItem(47, durationButton);
+        
         // 设置确认上架按钮（将原来的返回按钮改为确认上架按钮）
         ItemStack confirmButton = new ItemStack(Material.EMERALD_BLOCK);
         ItemMeta confirmMeta = confirmButton.getItemMeta();
         confirmMeta.setDisplayName(messageManager.getConfirmSellText());
         List<String> confirmLore = new ArrayList<>();
-        confirmLore.add("§7" + messageManager.getConfirmSellButtonDescription());
+        confirmLore.add(messageManager.getConfirmSellButtonDescriptionWithColor());
         confirmMeta.setLore(confirmLore);
         confirmMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         confirmButton.setItemMeta(confirmMeta);
         inventory.setItem(49, confirmButton);
+        
+        // 设置初始上架时间元数据
+        player.setMetadata("auction_duration", new FixedMetadataValue(plugin, initialDuration));
 
         player.openInventory(inventory);
     }
@@ -508,9 +577,11 @@ public class GuiManager {
         ItemMeta confirmMeta = confirmButton.getItemMeta();
         confirmMeta.setDisplayName(messageManager.getConfirmBuyText());
         List<String> confirmLore = new ArrayList<>();
-        confirmLore.add(ChatColor.YELLOW + "点击确认购买此物品");
-        confirmLore.add(ChatColor.YELLOW + "物品名称: " + ChatColor.WHITE + ChatUtils.getItemName(item.getItem()));
-        confirmLore.add(ChatColor.YELLOW + "购买价格: " + ChatColor.WHITE + item.getBuyNowPrice() + " (一口价)");
+        confirmLore.add(messageManager.getConfirmBuyTipText());
+        String itemNameText = messageManager.getConfirmBuyItemText().replace("%item_name%", ChatUtils.getItemName(item.getItem()));
+        confirmLore.add(itemNameText);
+        String priceText = messageManager.getConfirmBuyPriceText().replace("%price%", String.valueOf(item.getBuyNowPrice()));
+        confirmLore.add(priceText);
         
         // 不再添加税费信息，因为买家不需要支付税费
         
@@ -521,7 +592,7 @@ public class GuiManager {
         ItemStack cancelButton = new ItemStack(Material.REDSTONE_BLOCK);
         ItemMeta cancelMeta = cancelButton.getItemMeta();
         cancelMeta.setDisplayName(messageManager.getCancelBuyText());
-        cancelMeta.setLore(Collections.singletonList(ChatColor.YELLOW + "点击取消购买"));
+        cancelMeta.setLore(Collections.singletonList(messageManager.getCancelBuyTipText()));
         cancelButton.setItemMeta(cancelMeta);
         
         // 设置确认和取消按钮
@@ -608,16 +679,26 @@ public class GuiManager {
         currentBidMeta.setDisplayName(messageManager.getCurrentBidAmountText());
         
         List<String> currentBidLore = new ArrayList<>();
-        currentBidLore.add(ChatColor.GRAY + "物品: " + ChatColor.WHITE + ChatUtils.getItemName(auctionItem.getItem()));
-        currentBidLore.add(ChatColor.GRAY + "原始价格: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(auctionItem.getStartPrice(), currencyType));
-        currentBidLore.add(ChatColor.GRAY + "当前竞价: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(currentPrice, currencyType));
+        String itemText = messageManager.getCurrentBidItemText().replace("%item_name%", ChatUtils.getItemName(auctionItem.getItem()));
+        currentBidLore.add(itemText);
+        
+        String originalPriceText = messageManager.getCurrentBidOriginalPriceText().replace("%price%", 
+                plugin.getEconomyManager().formatAmount(auctionItem.getStartPrice(), currencyType));
+        currentBidLore.add(originalPriceText);
+        
+        String currentPriceText = messageManager.getCurrentBidCurrentPriceText().replace("%price%", 
+                plugin.getEconomyManager().formatAmount(currentPrice, currencyType));
+        currentBidLore.add(currentPriceText);
         
         // 添加预先出价信息（如果提供）
         if (preBidAmount > 0) {
-            currentBidLore.add(ChatColor.GRAY + "预加价金额: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(preBidAmount, currencyType));
+            String preAmountText = messageManager.getCurrentBidPreAmountText().replace("%price%", 
+                    plugin.getEconomyManager().formatAmount(preBidAmount, currencyType));
+            currentBidLore.add(preAmountText);
         }
         
-        currentBidLore.add(ChatColor.GRAY + "加价幅度: " + ChatColor.WHITE + "+" + bidRatePercent + "%");
+        String rateText = messageManager.getCurrentBidRateText().replace("%rate%", String.valueOf(bidRatePercent));
+        currentBidLore.add(rateText);
         currentBidMeta.setLore(currentBidLore);
         currentBidInfo.setItemMeta(currentBidMeta);
         inventory.setItem(4, currentBidInfo);
@@ -628,8 +709,10 @@ public class GuiManager {
         increaseMeta.setDisplayName(messageManager.getIncreaseBidText(bidRatePercent));
         
         List<String> increaseLore = new ArrayList<>();
-        increaseLore.add(ChatColor.GRAY + "点击增加你的竞价金额");
-        increaseLore.add(ChatColor.GRAY + "最小加价: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(minBidIncrease, currencyType));
+        increaseLore.add(messageManager.getIncreaseBidTipText());
+        String minBidText = messageManager.getIncreaseBidMinText().replace("%price%", 
+                plugin.getEconomyManager().formatAmount(minBidIncrease, currencyType));
+        increaseLore.add(minBidText);
         increaseMeta.setLore(increaseLore);
         increaseBid.setItemMeta(increaseMeta);
         inventory.setItem(11, increaseBid);
@@ -642,11 +725,13 @@ public class GuiManager {
         List<String> confirmLore = new ArrayList<>();
         // 如果已有预出价，显示确认信息；否则提示需要先预出价
         if (preBidAmount > 0) {
-            confirmLore.add(ChatColor.GRAY + "点击确认当前竞价金额");
-            confirmLore.add(ChatColor.GRAY + "预加价金额: " + ChatColor.WHITE + plugin.getEconomyManager().formatAmount(preBidAmount, currencyType));
+            confirmLore.add(messageManager.getConfirmBidTipText());
+            String preAmountText = messageManager.getConfirmBidPreAmountText().replace("%price%", 
+                    plugin.getEconomyManager().formatAmount(preBidAmount, currencyType));
+            confirmLore.add(preAmountText);
         } else {
-            confirmLore.add(ChatColor.GRAY + "请先点击预先抬价按钮");
-            confirmLore.add(ChatColor.GRAY + "然后再确认竞价");
+            confirmLore.add(messageManager.getConfirmBidNotice1Text());
+            confirmLore.add(messageManager.getConfirmBidNotice2Text());
         }
         confirmMeta.setLore(confirmLore);
         confirmButton.setItemMeta(confirmMeta);
@@ -658,8 +743,8 @@ public class GuiManager {
         cancelMeta.setDisplayName(messageManager.getCancelBidText());
         
         List<String> cancelLore = new ArrayList<>();
-        cancelLore.add(ChatColor.GRAY + "点击取消竞价");
-        cancelLore.add(ChatColor.GRAY + "并返回主菜单");
+        cancelLore.add(messageManager.getCancelBidTipText());
+        cancelLore.add(messageManager.getCancelBidReturnText());
         cancelMeta.setLore(cancelLore);
         cancelButton.setItemMeta(cancelMeta);
         inventory.setItem(22, cancelButton);
@@ -745,27 +830,33 @@ public class GuiManager {
                     lore.add("");
                 }
                 
-                lore.add(ChatColor.YELLOW + "起拍价: " + ChatColor.WHITE + 
+                String startPriceText = messageManager.getMyAuctionStartPriceText().replace("%price%", 
                         plugin.getEconomyManager().formatAmount(item.getStartPrice(), item.getCurrencyType()));
-                lore.add(ChatColor.YELLOW + "当前价: " + ChatColor.WHITE + 
+                lore.add(startPriceText);
+                
+                String currentPriceText = messageManager.getMyAuctionCurrentPriceText().replace("%price%", 
                         plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
+                lore.add(currentPriceText);
                 
                 if (item.hasBuyNowPrice()) {
-                    lore.add(ChatColor.YELLOW + "一口价: " + ChatColor.WHITE + 
+                    String buyNowPriceText = messageManager.getMyAuctionBuyNowPriceText().replace("%price%", 
                             plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType()));
+                    lore.add(buyNowPriceText);
                 }
                 
-                lore.add(ChatColor.YELLOW + "剩余时间: " + ChatColor.WHITE + item.getFormattedRemainingTime());
+                String remainingTimeText = messageManager.getMyAuctionRemainingTimeText().replace("%time%", item.getFormattedRemainingTime());
+                lore.add(remainingTimeText);
                 
                 if (item.getCurrentBidder() != null) {
-                    lore.add(ChatColor.YELLOW + "当前出价者: " + ChatColor.WHITE + 
+                    String bidderText = messageManager.getMyAuctionCurrentBidderText().replace("%bidder%", 
                             Bukkit.getOfflinePlayer(item.getCurrentBidder()).getName());
+                    lore.add(bidderText);
                     lore.add("");
-                    lore.add(ChatColor.RED + "⚠ 已有人出价，无法取消拍卖 ⚠");
-                    lore.add(ChatColor.RED + "请等待拍卖结束");
+                    lore.add(messageManager.getMyAuctionHasBidderWarning1Text());
+                    lore.add(messageManager.getMyAuctionHasBidderWarning2Text());
                 } else {
                     lore.add("");
-                    lore.add(ChatColor.YELLOW + "右键点击取消拍卖");
+                    lore.add(messageManager.getMyAuctionCancelTipText());
                 }
                 
                 meta.setLore(lore);
@@ -779,17 +870,30 @@ public class GuiManager {
         // 设置页码信息
         ItemStack pageInfo = new ItemStack(Material.PAPER);
         ItemMeta infoMeta = pageInfo.getItemMeta();
-        infoMeta.setDisplayName(ChatColor.GOLD + "我的拍卖");
+        infoMeta.setDisplayName(ChatColor.GOLD + messageManager.getMyAuctionsText());
         
         List<String> infoLore = new ArrayList<>();
-        infoLore.add(ChatColor.YELLOW + "当前页: " + ChatColor.WHITE + page + "/" + totalPages);
-        infoLore.add(ChatColor.YELLOW + "已售出: " + ChatColor.WHITE + completedItems);
-        infoLore.add(ChatColor.YELLOW + "已过期: " + ChatColor.WHITE + expiredItems);
-        infoLore.add(ChatColor.YELLOW + "上架数量: " + ChatColor.WHITE + currentListings + "/" + maxListings);
+        String pageInfoText = messageManager.getMyAuctionPageInfoText()
+                .replace("%page%", String.valueOf(page))
+                .replace("%total_pages%", String.valueOf(totalPages));
+        infoLore.add(pageInfoText);
+        
+        String soldCountText = messageManager.getMyAuctionSoldCountText()
+                .replace("%count%", String.valueOf(completedItems));
+        infoLore.add(soldCountText);
+        
+        String expiredCountText = messageManager.getMyAuctionExpiredCountText()
+                .replace("%count%", String.valueOf(expiredItems));
+        infoLore.add(expiredCountText);
+        
+        String listingsCountText = messageManager.getMyAuctionListingsCountText()
+                .replace("%current%", String.valueOf(currentListings))
+                .replace("%max%", String.valueOf(maxListings));
+        infoLore.add(listingsCountText);
         
         // 如果接近上限，添加警告信息
         if (currentListings >= maxListings * 0.8) {
-            infoLore.add(ChatColor.RED + "⚠ 你的上架数量即将达到上限!");
+            infoLore.add(messageManager.getMyAuctionLimitWarningText());
         }
         
         infoMeta.setLore(infoLore);
@@ -810,8 +914,8 @@ public class GuiManager {
         ItemMeta mailboxMeta = mailboxButton.getItemMeta();
         mailboxMeta.setDisplayName(messageManager.getMailboxText());
         List<String> mailboxLore = new ArrayList<>();
-        mailboxLore.add(ChatColor.GRAY + "查看你的物品邮箱");
-        mailboxLore.add(ChatColor.GRAY + "包含过期、竞拍和背包已满的物品");
+        mailboxLore.add(messageManager.getMailboxDescriptionLine1());
+        mailboxLore.add(messageManager.getMailboxDescriptionLine2());
         mailboxMeta.setLore(mailboxLore);
         mailboxButton.setItemMeta(mailboxMeta);
         inventory.setItem(51, mailboxButton); // 调整位置到51
@@ -840,7 +944,7 @@ public class GuiManager {
             ItemMeta prevMeta = prevButton.getItemMeta();
             prevMeta.setDisplayName(messageManager.getPreviousPageText());
             List<String> prevLore = new ArrayList<>();
-            prevLore.add(ChatColor.GRAY + "点击查看上一页");
+            prevLore.add(messageManager.getPreviousPageDescText());
             prevMeta.setLore(prevLore);
             prevButton.setItemMeta(prevMeta);
             inventory.setItem(48, prevButton);
@@ -852,7 +956,7 @@ public class GuiManager {
             ItemMeta nextMeta = nextButton.getItemMeta();
             nextMeta.setDisplayName(messageManager.getNextPageText());
             List<String> nextLore = new ArrayList<>();
-            nextLore.add(ChatColor.GRAY + "点击查看下一页");
+            nextLore.add(messageManager.getNextPageDescText());
             nextMeta.setLore(nextLore);
             nextButton.setItemMeta(nextMeta);
             inventory.setItem(50, nextButton);
@@ -863,7 +967,7 @@ public class GuiManager {
         ItemMeta backMeta = backButton.getItemMeta();
         backMeta.setDisplayName(messageManager.getReturnMainMenuText());
         List<String> backLore = new ArrayList<>();
-        backLore.add(ChatColor.GRAY + "点击返回主菜单");
+        backLore.add(messageManager.getReturnMainMenuDescText());
         backMeta.setLore(backLore);
         backMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         backButton.setItemMeta(backMeta);
@@ -914,8 +1018,9 @@ public class GuiManager {
                     lore.add("");
                 }
                 
-                lore.add(ChatColor.YELLOW + "成交价格: " + ChatColor.WHITE + 
+                String dealPriceText = messageManager.getSoldItemDealPriceText().replace("%price%", 
                         plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
+                lore.add(dealPriceText);
                 
                 // 显示买家信息，优先使用存储的买家名称
                 String buyerName = "未知";
@@ -928,19 +1033,19 @@ public class GuiManager {
                         // 如果名称仍然为空，使用UUID前8位
                         buyerName = item.getCurrentBidder().toString().substring(0, 8) + "...";
                     }
-                } else {
                 }
-                lore.add(ChatColor.YELLOW + "购买者: " + ChatColor.WHITE + buyerName);
+                String buyerText = messageManager.getSoldItemBuyerText().replace("%buyer%", buyerName);
+                lore.add(buyerText);
                 
                 // 显示售出时间，使用专门的售出时间字段，不再回退到结束时间
                 long displayTime = item.getSoldTime();
-                
-                lore.add(ChatColor.YELLOW + "售出时间: " + ChatColor.WHITE + 
-                        new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(displayTime)));
+                String timeFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(displayTime));
+                String soldTimeText = messageManager.getSoldItemSoldTimeText().replace("%time%", timeFormat);
+                lore.add(soldTimeText);
                 
                 lore.add("");
-                lore.add(ChatColor.RED + "此物品已售出，仅供查看");
-                lore.add(ChatColor.RED + "无法取回或再次出售");
+                lore.add(messageManager.getSoldItemNotice1Text());
+                lore.add(messageManager.getSoldItemNotice2Text());
                 
                 meta.setLore(lore);
                 displayItem.setItemMeta(meta);
@@ -953,11 +1058,11 @@ public class GuiManager {
         // 设置页码信息
         ItemStack pageInfo = new ItemStack(Material.PAPER);
         ItemMeta infoMeta = pageInfo.getItemMeta();
-        infoMeta.setDisplayName(ChatColor.GOLD + "我的已售出拍卖");
+        infoMeta.setDisplayName(messageManager.getMySoldAuctionsTitle());
         
         List<String> infoLore = new ArrayList<>();
-        infoLore.add(ChatColor.YELLOW + "当前页: " + ChatColor.WHITE + page + "/" + totalPages);
-        infoLore.add(ChatColor.YELLOW + "已售出: " + ChatColor.WHITE + soldItems.size());
+        infoLore.add(messageManager.getPageInfoPrefix() + page + "/" + totalPages);
+        infoLore.add(messageManager.getSoldItemsCountPrefix() + soldItems.size());
         
         infoMeta.setLore(infoLore);
         pageInfo.setItemMeta(infoMeta);
@@ -980,10 +1085,33 @@ public class GuiManager {
             inventory.setItem(53, nextPage);
         }
         
-        // 设置筛选按钮
-        ItemStack soldButton = new ItemStack(Material.GOLD_BLOCK);
+        // 计算总收益（金币和点券分开计算）
+        double totalCoins = 0;
+        double totalPoints = 0;
+        
+        for (AuctionItem item : soldItems) {
+            String currencyType = item.getCurrencyType().toUpperCase();
+            if ("MONEY".equals(currencyType) || "VAULT".equals(currencyType)) {
+                totalCoins += item.getCurrentPrice();
+            } else if ("POINTS".equals(currencyType)) {
+                totalPoints += item.getCurrentPrice();
+            }
+        }
+        
+        // 设置筛选按钮，将金块改为金锭，并添加总收益信息
+        ItemStack soldButton = new ItemStack(Material.GOLD_INGOT);
         ItemMeta soldMeta = soldButton.getItemMeta();
         soldMeta.setDisplayName(messageManager.getSoldItemsText());
+        
+        // 添加总收益信息到LORE
+        List<String> soldLore = new ArrayList<>();
+        soldLore.add(messageManager.getTotalSoldItemsCountPrefix() + soldItems.size());
+        soldLore.add(messageManager.getTotalCoinsEarnedPrefix() + 
+                plugin.getEconomyManager().formatAmount(totalCoins, "VAULT"));
+        soldLore.add(messageManager.getTotalPointsEarnedPrefix() + 
+                plugin.getEconomyManager().formatAmount(totalPoints, "POINTS"));
+        
+        soldMeta.setLore(soldLore);
         soldButton.setItemMeta(soldMeta);
         inventory.setItem(47, soldButton);
         
@@ -991,8 +1119,8 @@ public class GuiManager {
         ItemMeta mailboxMeta = mailboxButton.getItemMeta();
         mailboxMeta.setDisplayName(messageManager.getMailboxText());
         List<String> mailboxLore = new ArrayList<>();
-        mailboxLore.add(ChatColor.GRAY + "查看你的物品邮箱");
-        mailboxLore.add(ChatColor.GRAY + "包含过期、竞拍和背包已满的物品");
+        mailboxLore.add(messageManager.getMailboxDescriptionLine1());
+        mailboxLore.add(messageManager.getMailboxDescriptionLine2());
         mailboxMeta.setLore(mailboxLore);
         mailboxButton.setItemMeta(mailboxMeta);
         inventory.setItem(51, mailboxButton);
@@ -1014,55 +1142,46 @@ public class GuiManager {
     }
 
     /**
-     * 打开我的过期拍卖界面
+     * 打开我的物品邮箱界面
      * @param player 玩家
      * @param page 页码
      */
     public void openMyMailboxMenu(Player player, int page) {
+        // 获取玩家的所有拍卖物品
+        List<AuctionItem> myItems = plugin.getDatabaseManager().getPlayerAuctionItems(player.getUniqueId());
+        List<AuctionItem> yourMailboxItemsFromWonBids = plugin.getDatabaseManager().getAllMailboxItems(player.getUniqueId());
+        
+        // 结合所有邮箱物品
         List<AuctionItem> combinedMailboxItems = new ArrayList<>();
         
-        // 1. 获取玩家的拍卖物品 (auction_items表)
-        List<AuctionItem> auctionItems = plugin.getDatabaseManager().getPlayerAuctionItems(player.getUniqueId());
-        
-        // 筛选状态为EXPIRED且无人出价的物品
-        List<AuctionItem> expiredItems = auctionItems.stream()
-                .filter(item -> "EXPIRED".equals(item.getStatus()) && item.getCurrentBidder() == null)
-                .toList();
-        
-        // 2. 获取玩家的待领取物品 (pending_items表)，只获取不是从过期物品转移来的物品
-        // 这里不再获取所有待领取物品，而是筛选出没有对应过期物品的物品
-        List<AuctionItem> pendingItems = plugin.getDatabaseManager().getPendingItemsAsAuctionItems(player.getUniqueId());
-        
-        // 3. 合并两个来源的物品，确保不出现重复
-        combinedMailboxItems.addAll(expiredItems);
-        
-        // 只添加那些不是由过期物品自动添加的待领取物品
-        // 这样可以避免既从auction_items又从pending_items加载同一个物品
-        List<AuctionItem> filteredPendingItems = pendingItems.stream()
-                .filter(pendingItem -> !isFromExpiredAuction(pendingItem))
-                .toList();
-        
-        combinedMailboxItems.addAll(filteredPendingItems);
-        
-        // 增强日志记录，记录更详细的邮箱物品信息
-        if (!combinedMailboxItems.isEmpty()) {
-            // 邮箱中有物品
+        // 添加自己发布但过期未售出的物品
+        for (AuctionItem item : myItems) {
+            if ("EXPIRED".equals(item.getStatus()) && item.getCurrentBidder() == null) {
+                combinedMailboxItems.add(item);
+            }
         }
         
-        // 计算分页 - 界面第二行到第五行（槽位9-44）可用于显示物品，共36个槽位
-        int itemsPerPage = 36;
+        // 添加竞拍成功或背包已满时购买的物品
+        combinedMailboxItems.addAll(yourMailboxItemsFromWonBids);
+        
+        // 按结束时间降序排序
+        combinedMailboxItems.sort((item1, item2) -> 
+            Long.compare(item2.getEndTime(), item1.getEndTime()));
+        
+        // 计算总页数
         int totalItems = combinedMailboxItems.size();
+        int itemsPerPage = 36; // 每页显示36个物品
         int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
         
-        // 确保页码有效
         if (page < 1) {
             page = 1;
         } else if (page > totalPages && totalPages > 0) {
             page = totalPages;
         }
         
-        // 创建界面
-        Inventory inventory = Bukkit.createInventory(null, 54, messageManager.getMyMailboxMenuTitlePrefix() + " §7- 第 " + page + " 页");
+        // 创建界面，使用配置文件中的页码分隔符格式
+        String pageSeparator = messageManager.getPageSeparatorFormat().replace("%page%", String.valueOf(page));
+        Inventory inventory = Bukkit.createInventory(null, 54, messageManager.getMyMailboxMenuTitlePrefix() + pageSeparator);
         
         // 计算当前页显示的物品范围
         int startIndex = (page - 1) * itemsPerPage;
@@ -1078,16 +1197,16 @@ public class GuiManager {
         // 设置页码信息
         ItemStack pageInfo = new ItemStack(Material.PAPER);
         ItemMeta infoMeta = pageInfo.getItemMeta();
-        infoMeta.setDisplayName(ChatColor.GOLD + "物品邮箱");
+        infoMeta.setDisplayName(ChatColor.GOLD + messageManager.getMailboxText());
         
         List<String> infoLore = new ArrayList<>();
-        infoLore.add(ChatColor.YELLOW + "当前页: " + ChatColor.WHITE + page + "/" + totalPages);
-        infoLore.add(ChatColor.YELLOW + "物品数量: " + ChatColor.WHITE + combinedMailboxItems.size());
+        infoLore.add(messageManager.getMailboxPageInfo() + page + "/" + totalPages);
+        infoLore.add(messageManager.getMailboxItemsCount() + combinedMailboxItems.size());
         infoLore.add("");
-        infoLore.add(ChatColor.GRAY + "这里存储:");
-        infoLore.add(ChatColor.GRAY + "- 过期未售出的物品");
-        infoLore.add(ChatColor.GRAY + "- 竞拍成功的物品");
-        infoLore.add(ChatColor.GRAY + "- 背包已满时购买的物品");
+        infoLore.add(messageManager.getMailboxStorageHeader());
+        infoLore.add(messageManager.getMailboxStorageExpired());
+        infoLore.add(messageManager.getMailboxStorageWon());
+        infoLore.add(messageManager.getMailboxStorageFull());
         
         infoMeta.setLore(infoLore);
         pageInfo.setItemMeta(infoMeta);
@@ -1121,8 +1240,8 @@ public class GuiManager {
         ItemMeta mailboxMeta = mailboxButton.getItemMeta();
         mailboxMeta.setDisplayName(messageManager.getMailboxText());
         List<String> mailboxLore = new ArrayList<>();
-        mailboxLore.add(ChatColor.GRAY + "查看你的物品邮箱");
-        mailboxLore.add(ChatColor.GRAY + "包含过期、竞拍和背包已满的物品");
+        mailboxLore.add(messageManager.getMailboxDescriptionLine1());
+        mailboxLore.add(messageManager.getMailboxDescriptionLine2());
         mailboxMeta.setLore(mailboxLore);
         mailboxButton.setItemMeta(mailboxMeta);
         inventory.setItem(51, mailboxButton);
@@ -1159,13 +1278,9 @@ public class GuiManager {
             
             // 如果已有Lore，检查是否有我们添加的邮箱标记，如果有则去除游戏内已有的邮箱标记
             // 以避免重复显示邮箱相关信息
+            List<String> filterTags = messageManager.getMailboxFilterTags();
             lore.removeIf(line -> 
-                line.contains("✉") || 
-                line.contains("§8-----------------") ||
-                line.contains("成交价") ||
-                line.contains("获得时间") ||
-                line.contains("下架时间") ||
-                line.contains("购买时间"));
+                filterTags.stream().anyMatch(tag -> line.contains(tag)));
             
             if (!lore.isEmpty()) {
                 lore.add("");
@@ -1175,26 +1290,24 @@ public class GuiManager {
         // 根据物品的状态添加不同的描述
         if ("MAILBOX_PENDING".equals(item.getStatus())) {
             // 来自pending_items表的物品
-            lore.add(ChatColor.YELLOW + "状态: " + ChatColor.WHITE + "待领取物品");
+            lore.add(messageManager.getMailboxItemStatusPending());
             // 使用创建时间而不是结束时间
-            lore.add(ChatColor.YELLOW + "添加时间: " + ChatColor.WHITE + 
+            lore.add(messageManager.getMailboxItemAddTime() + 
                     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(item.getStartTime())));
         } else if ("EXPIRED".equals(item.getStatus())) {
             // 来自auction_items表的过期物品
-            lore.add(ChatColor.YELLOW + "状态: " + ChatColor.WHITE + "过期未售出");
+            lore.add(messageManager.getMailboxItemStatusExpired());
             // 使用结束时间，因为这表示物品过期的实际时间
-            lore.add(ChatColor.YELLOW + "过期时间: " + ChatColor.WHITE + 
+            lore.add(messageManager.getMailboxItemExpireTime() + 
                     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(item.getEndTime())));
         } else {
             // 其他状态（通常不会出现）
-            lore.add(ChatColor.YELLOW + "状态: " + ChatColor.WHITE + item.getStatus());
-            // 对于其他状态，使用开始时间作为添加时间
-            lore.add(ChatColor.YELLOW + "添加时间: " + ChatColor.WHITE + 
-                    new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(item.getStartTime())));
+            lore.add(messageManager.getMailboxItemStatusOther() + item.getStatus());
         }
         
+        // 添加操作提示
         lore.add("");
-        lore.add(ChatColor.GRAY + "右键点击领取物品");
+        lore.add(messageManager.getMailboxItemCollectTip());
         
         meta.setLore(lore);
         displayItem.setItemMeta(meta);
@@ -1207,9 +1320,9 @@ public class GuiManager {
         // 检查物品是否有"过期未售出的物品"或"AUCTION_EXPIRED"的标记
         if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
             List<String> lore = item.getItem().getItemMeta().getLore();
+            List<String> expiredTags = messageManager.getExpiredAuctionTags();
             return lore.stream().anyMatch(line -> 
-                line.contains("过期未售出") || 
-                line.contains("AUCTION_EXPIRED"));
+                expiredTags.stream().anyMatch(tag -> line.contains(tag)));
         }
         return false;
     }
@@ -1221,7 +1334,7 @@ public class GuiManager {
      */
     public void openBidMenu(Player player, AuctionItem item) {
         if (item == null) {
-            player.sendMessage(ChatColor.RED + "物品不存在或已被购买!");
+            player.sendMessage(messageManager.getItemNotExistsErrorMessage());
             return;
         }
         

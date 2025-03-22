@@ -92,20 +92,25 @@ public class AuctionTask extends BukkitRunnable {
         // 通知买家
         Player buyer = Bukkit.getPlayer(buyerUUID);
         if (buyer != null && buyer.isOnline()) {
-            buyer.sendMessage("§a你竞拍的物品已送达至物品邮箱！");
-            buyer.sendMessage("§e物品: " + ChatUtils.getItemName(item.getItem()));
-            buyer.sendMessage("§e价格: " + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
-            buyer.sendMessage("§e使用 /auction my 进入拍卖系统，点击\"物品邮箱\"领取");
+            // 使用MessageManager获取消息
+            buyer.sendMessage(plugin.getMessageManager().getBuyerWinSuccessMessage());
+            buyer.sendMessage(plugin.getMessageManager().getBuyerWinItemMessage(ChatUtils.getItemName(item.getItem())));
+            buyer.sendMessage(plugin.getMessageManager().getBuyerWinPriceMessage(
+                    plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType())));
+            buyer.sendMessage(plugin.getMessageManager().getBuyerWinCollectGuideMessage());
         }
         
         // 通知卖家
         Player seller = Bukkit.getPlayer(sellerUUID);
         if (seller != null && seller.isOnline()) {
-            seller.sendMessage("§a你的物品已被拍卖成功！");
-            seller.sendMessage("§e物品: " + ChatUtils.getItemName(item.getItem()));
-            seller.sendMessage("§e价格: " + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
-            seller.sendMessage("§e收入: " + plugin.getEconomyManager().formatAmount(sellerAmount, item.getCurrencyType()));
-            seller.sendMessage("§e买家: " + (item.getCurrentBidderName() != null ? item.getCurrentBidderName() : "未知"));
+            // 使用MessageManager获取消息
+            seller.sendMessage(plugin.getMessageManager().getSellerWinSuccessMessage());
+            seller.sendMessage(plugin.getMessageManager().getSellerWinItemMessage(ChatUtils.getItemName(item.getItem())));
+            seller.sendMessage(plugin.getMessageManager().getSellerWinPriceMessage(
+                    plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType())));
+            seller.sendMessage(plugin.getMessageManager().getSellerWinIncomeMessage(
+                    plugin.getEconomyManager().formatAmount(sellerAmount, item.getCurrencyType())));
+            seller.sendMessage(plugin.getMessageManager().getSellerWinBuyerMessage(item.getCurrentBidderName()));
         }
     }
 
@@ -186,9 +191,10 @@ public class AuctionTask extends BukkitRunnable {
         // 通知卖家
         Player seller = Bukkit.getPlayer(sellerUUID);
         if (seller != null && seller.isOnline()) {
-            seller.sendMessage("§a你的拍卖物品已过期，物品已放入物品邮箱！");
-            seller.sendMessage("§e物品: " + ChatUtils.getItemName(item.getItem()));
-            seller.sendMessage("§e使用 /auction my 进入拍卖系统，点击\"物品邮箱\"领取");
+            // 使用MessageManager获取消息
+            seller.sendMessage(plugin.getMessageManager().getSellerExpiredNoticeMessage());
+            seller.sendMessage(plugin.getMessageManager().getSellerExpiredItemMessage(ChatUtils.getItemName(item.getItem())));
+            seller.sendMessage(plugin.getMessageManager().getSellerExpiredCollectGuideMessage());
         }
     }
     
@@ -208,29 +214,40 @@ public class AuctionTask extends BukkitRunnable {
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         
         // 添加邮箱标记和来源信息
-        lore.add("§8-----------------");
+        lore.add(plugin.getMessageManager().getAuctionItemDivider());
+        
         if ("AUCTION_WON".equals(reason)) {
-            lore.add("§6✉ 竞拍获得的物品");
-            lore.add("§7成交价: " + plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType()));
-            lore.add("§7获得时间: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()));
+            // 使用MessageManager中的国际化文本
+            lore.add(plugin.getMessageManager().getMailboxStorageWon());
+            lore.add(plugin.getMessageManager().getAuctionCurrentPriceFormat()
+                    .replace("%price%", plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType())));
+            lore.add(plugin.getMessageManager().getMailboxItemAddTime() 
+                    + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()));
         } else if ("AUCTION_EXPIRED".equals(reason)) {
-            lore.add("§6✉ 过期未售出的物品");
-            lore.add("§7下架时间: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()));
+            // 使用MessageManager中的国际化文本
+            lore.add(plugin.getMessageManager().getMailboxStorageExpired());
+            lore.add(plugin.getMessageManager().getMailboxItemExpireTime()
+                    + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()));
         } else if ("BUY_NOW".equals(reason)) {
-            lore.add("§6✉ 一口价购买的物品");
-            lore.add("§7成交价: " + plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType()));
-            lore.add("§7购买时间: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()));
+            // 使用MessageManager中的国际化文本
+            lore.add(plugin.getMessageManager().getMailboxStorageFull());
+            lore.add(plugin.getMessageManager().getAuctionDealPriceFormat()
+                    .replace("%price%", plugin.getEconomyManager().formatAmount(item.getBuyNowPrice(), item.getCurrencyType())));
+            lore.add(plugin.getMessageManager().getMailboxItemAddTime()
+                    + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date()));
         }
         
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
         
         // 存储到数据库
-        boolean success = plugin.getDatabaseManager().storePendingItem(ownerUuid, itemStack);
+        boolean success = plugin.getDatabaseManager().storePendingItem(ownerUuid, itemStack, reason);
         
         // 记录物品添加到邮箱的最终结果
         if (success) {
+            // 日志记录
         } else {
+            // 日志记录
         }
     }
 } 

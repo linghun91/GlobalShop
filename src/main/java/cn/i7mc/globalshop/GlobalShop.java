@@ -41,9 +41,13 @@ public class GlobalShop extends JavaPlugin {
     public void onEnable() {
         instance = this;
         
-        // 初始化配置
-        this.configManager = new ConfigManager(this);
-        this.messageManager = new MessageManager(this);
+        // 加载配置文件
+        configManager = new ConfigManager(this);
+        messageManager = new MessageManager(this);
+        
+        // 安装所有语言文件
+        messageManager.installLanguageFiles();
+        
         this.debugMessageManager = new DebugMessageManager(this);
         
         // 初始化数据库
@@ -82,6 +86,12 @@ public class GlobalShop extends JavaPlugin {
         AuctionCommand auctionCommand = new AuctionCommand(this);
         getCommand("auction").setExecutor(auctionCommand);
         getCommand("auction").setTabCompleter(auctionCommand);
+        
+        // 添加调试信息，确保TabCompleter正确注册
+        if (getConfigManager().isDebug()) {
+            getLogger().info("已注册auction命令的TabCompleter");
+        }
+        
         getServer().getPluginManager().registerEvents(new GuiListener(this), this);
         
         // 启动定时任务，使用配置中设置的间隔时间来检查过期拍卖

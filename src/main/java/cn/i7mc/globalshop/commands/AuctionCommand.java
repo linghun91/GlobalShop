@@ -29,7 +29,7 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "此命令只能由玩家使用!");
+            sender.sendMessage(plugin.getMessageManager().getCommandPlayerOnlyMessage());
             return true;
         }
 
@@ -62,7 +62,7 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
             case "checkexpired":
                 return handleCheckExpiredCommand(player);
             default:
-                player.sendMessage(ChatColor.RED + "未知命令! 使用 /auction help查看帮助");
+                player.sendMessage(plugin.getMessageManager().getCommandUnknownCommandMessage());
                 return true;
         }
     }
@@ -80,6 +80,21 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
         
         // sell命令的参数补全
         if (args.length >= 2 && args[0].equalsIgnoreCase("sell")) {
+            // 如果输入了上架价格，提示补全一口价
+            if (args.length == 2) {
+                // 这里不提供具体补全，但可以添加一个占位提示
+                List<String> hints = new ArrayList<>();
+                hints.add(plugin.getMessageManager().getTabCompletionSellPriceMessage());
+                return hints;
+            }
+            
+            // 如果输入了上架价格，提示补全一口价
+            if (args.length == 3) {
+                List<String> hints = new ArrayList<>();
+                hints.add(plugin.getMessageManager().getTabCompletionSellBuyNowMessage());
+                return hints;
+            }
+            
             // 如果输入了上架价格和一口价，补全货币类型
             if (args.length == 4) {
                 List<String> availableCurrencyTypes = new ArrayList<>();
@@ -91,8 +106,19 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
                 }
                 
                 StringUtil.copyPartialMatches(args[3], availableCurrencyTypes, completions);
+                if (completions.isEmpty()) {
+                    // 如果没有匹配项，显示提示
+                    completions.add(plugin.getMessageManager().getTabCompletionSellCurrencyMessage());
+                }
                 return completions;
             }
+        }
+        
+        // search命令的补全
+        if (args.length == 2 && args[0].equalsIgnoreCase("search")) {
+            List<String> hints = new ArrayList<>();
+            hints.add(plugin.getMessageManager().getTabCompletionSearchKeywordMessage());
+            return hints;
         }
         
         return completions;
@@ -104,47 +130,47 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
     }
 
     private void sendHelp(Player player) {
-        player.sendMessage(ChatColor.GOLD + "===== 拍卖行帮助 =====");
-        player.sendMessage(ChatColor.YELLOW + "/auction help - 显示此帮助信息");
-        player.sendMessage(ChatColor.YELLOW + "/auction open - 打开拍卖行");
-        player.sendMessage(ChatColor.YELLOW + "/auction sell <起拍价> [一口价] [货币类型] - 上架物品 (1=金币, 2=点券)");
-        player.sendMessage(ChatColor.YELLOW + "/auction search <关键词> - 搜索物品");
-        player.sendMessage(ChatColor.YELLOW + "/auction my - 查看我的拍卖和物品邮箱");
-        player.sendMessage(ChatColor.YELLOW + "/auction collect - 领取待领取物品");
+        player.sendMessage(plugin.getMessageManager().getCommandHelpHeaderMessage());
+        player.sendMessage(plugin.getMessageManager().getCommandHelpHelpMessage());
+        player.sendMessage(plugin.getMessageManager().getCommandHelpOpenMessage());
+        player.sendMessage(plugin.getMessageManager().getCommandHelpSellMessage());
+        player.sendMessage(plugin.getMessageManager().getCommandHelpSearchMessage());
+        player.sendMessage(plugin.getMessageManager().getCommandHelpMyMessage());
+        player.sendMessage(plugin.getMessageManager().getCommandHelpCollectMessage());
         
         // 只向管理员显示管理员命令
         if (player.hasPermission("globalshop.admin")) {
-            player.sendMessage(ChatColor.RED + "===== 管理员命令 =====");
-            player.sendMessage(ChatColor.YELLOW + "/auction reload - 重新加载配置文件");
-            player.sendMessage(ChatColor.YELLOW + "/auction close - " + ChatColor.RED + "[测试] " + 
-                             ChatColor.YELLOW + "强制关闭所有拍卖物品并标记为过期");
+            player.sendMessage(plugin.getMessageManager().getCommandHelpAdminHeaderMessage());
+            player.sendMessage(plugin.getMessageManager().getCommandHelpReloadMessage());
+            player.sendMessage(plugin.getMessageManager().getCommandHelpCloseMessage());
+            player.sendMessage(plugin.getMessageManager().getCommandHelpCheckExpiredMessage());
         }
     }
 
     private boolean handleCollectCommand(Player player) {
         // 检查权限
         if (!player.hasPermission("globalshop.use")) {
-            player.sendMessage(ChatColor.RED + "你没有权限使用该命令!");
+            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
         
         // 打开物品邮箱界面
         plugin.getGuiManager().openMyMailboxMenu(player, 1);
-        player.sendMessage(ChatColor.GREEN + "已打开物品邮箱，你可以在这里领取所有待领取的物品。");
+        player.sendMessage(plugin.getMessageManager().getCommandCollectSuccessMessage());
         return true;
     }
 
     private boolean handleSellCommand(Player player, String[] args) {
         // 检查玩家是否有权限
         if (!player.hasPermission("globalshop.sell")) {
-            player.sendMessage(ChatColor.RED + "你没有权限使用该命令!");
+            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
         
         // 命令格式检查
         if (args.length < 3) {
-            player.sendMessage(ChatColor.RED + "用法: /auction sell <起拍价> <一口价> [货币类型]");
-            player.sendMessage(ChatColor.RED + "货币类型: 1 = 金币, 2 = 点券 (默认为金币)");
+            player.sendMessage(plugin.getMessageManager().getCommandSellUsageMessage());
+            player.sendMessage(plugin.getMessageManager().getCommandSellCurrencyTypesMessage());
             return true;
         }
         
@@ -156,13 +182,13 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
             } else if (args[3].equals("2")) {
                 // 检查PlayerPoints是否可用
                 if (!plugin.isPlayerPointsAvailable()) {
-                    player.sendMessage(ChatColor.RED + "点券系统不可用，服务器未安装PlayerPoints插件。");
-                    player.sendMessage(ChatColor.RED + "请使用金币上架物品，或联系服务器管理员获取帮助。");
+                    player.sendMessage(plugin.getMessageManager().getCommandSellPointsUnavailableMessage());
+                    player.sendMessage(plugin.getMessageManager().getCommandSellPointsUnavailableSolutionMessage());
                     return true;
                 }
                 currencyType = "POINTS";
             } else {
-                player.sendMessage(ChatColor.RED + "无效的货币类型! 使用: 1 = 金币, 2 = 点券");
+                player.sendMessage(plugin.getMessageManager().getCommandSellInvalidCurrencyMessage());
                 return true;
             }
         }
@@ -172,8 +198,8 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
         int currentListings = plugin.getDatabaseManager().countPlayerActiveAuctions(player.getUniqueId());
         
         if (currentListings >= maxListings) {
-            player.sendMessage(ChatColor.RED + "你已达到最大上架数量限制 (" + maxListings + " 个物品)!");
-            player.sendMessage(ChatColor.RED + "请等待已上架物品售出或过期后再尝试上架新物品。");
+            player.sendMessage(plugin.getMessageManager().getCommandSellMaxListingsReachedMessage(maxListings));
+            player.sendMessage(plugin.getMessageManager().getCommandSellWaitForItemsSoldMessage());
             return true;
         }
         
@@ -182,13 +208,27 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
             double buyNowPrice = Double.parseDouble(args[2]);
             
             if (startPrice <= 0) {
-                player.sendMessage(ChatColor.RED + "起拍价必须大于0!");
+                player.sendMessage(plugin.getMessageManager().getCommandSellStartPriceZeroMessage());
                 return true;
             }
+            
             if (buyNowPrice > 0 && buyNowPrice <= startPrice) {
-                player.sendMessage(ChatColor.RED + "一口价必须大于起拍价!");
+                player.sendMessage(plugin.getMessageManager().getCommandSellBuyNowLessThanStartMessage());
                 return true;
             }
+            
+            // 检查价格是否超过最大位数限制
+            int maxPriceDigits = plugin.getConfigManager().getMaxPriceDigits();
+            int startPriceDigits = countDigits(startPrice);
+            int buyNowPriceDigits = countDigits(buyNowPrice);
+
+            if (startPriceDigits > maxPriceDigits || buyNowPriceDigits > maxPriceDigits) {
+                String message = plugin.getMessageManager().getPriceExceedsMaxLimitMessage()
+                        .replace("%max_digits%", String.valueOf(maxPriceDigits));
+                player.sendMessage(message);
+                return true;
+            }
+            
             // 保存命令信息
             String command = String.join(" ", args);
             player.setMetadata("auction_sell_command", new org.bukkit.metadata.FixedMetadataValue(plugin, command));
@@ -196,15 +236,33 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
             player.setMetadata("auction_currency_type", new org.bukkit.metadata.FixedMetadataValue(plugin, currencyType));
             plugin.getGuiManager().openSellMenu(player);
         } catch (NumberFormatException e) {
-            player.sendMessage(ChatColor.RED + "请输入有效的价格!");
+            player.sendMessage(plugin.getMessageManager().getCommandSellInvalidPriceMessage());
         }
         return true;
+    }
+
+    /**
+     * 计算数字的位数
+     * @param number 需要计算位数的数字
+     * @return 数字的位数
+     */
+    private int countDigits(double number) {
+        // 使用更可靠的数学方法计算整数部分位数
+        long integerPart = (long) Math.abs(number);
+        
+        // 对于0特殊处理
+        if (integerPart == 0) {
+            return 1;
+        }
+        
+        // 使用对数计算位数 (log10(n) + 1)
+        return (int) (Math.log10(integerPart) + 1);
     }
 
     private boolean handleSearchCommand(Player player, String[] args) {
         // 检查参数数量
         if (args.length < 2) {
-            player.sendMessage(ChatColor.RED + "用法: /auction search <关键词>");
+            player.sendMessage(plugin.getMessageManager().getCommandSearchUsageMessage());
             return true;
         }
         
@@ -218,12 +276,12 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
         
         // 检查关键词长度
         if (keyword.length() < 2) {
-            player.sendMessage(ChatColor.RED + "搜索关键词至少需要2个字符!");
+            player.sendMessage(plugin.getMessageManager().getCommandSearchMinLengthMessage());
             return true;
         }
         
         // 打开搜索结果界面
-        player.sendMessage(ChatColor.GREEN + "正在搜索: " + ChatColor.YELLOW + keyword);
+        player.sendMessage(plugin.getMessageManager().getCommandSearchingMessage(keyword));
         plugin.getGuiManager().openSearchResultMenu(player, keyword, 1);
         return true;
     }
@@ -235,7 +293,7 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
     private boolean handleMyCommand(Player player) {
         // 检查权限
         if (!player.hasPermission("globalshop.use")) {
-            player.sendMessage(ChatColor.RED + "你没有权限使用该命令!");
+            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
         
@@ -247,13 +305,13 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
     private boolean handleCloseCommand(Player player) {
         // 检查权限
         if (!player.hasPermission("globalshop.admin")) {
-            player.sendMessage(ChatColor.RED + "你没有权限使用该命令!");
+            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
         
         // 创建并执行关闭所有拍卖的任务
-        player.sendMessage(ChatColor.YELLOW + "正在强制关闭所有拍卖物品...");
-        player.sendMessage(ChatColor.YELLOW + "此操作将在后台异步执行，以避免服务器卡顿，请耐心等待。");
+        player.sendMessage(plugin.getMessageManager().getCommandCloseStartingMessage());
+        player.sendMessage(plugin.getMessageManager().getCommandCloseAsyncNoticeMessage());
         
         // 创建并运行任务（异步执行以避免卡服）
         cn.i7mc.globalshop.tasks.CloseAllAuctionsTask task = new cn.i7mc.globalshop.tasks.CloseAllAuctionsTask(plugin, player);
@@ -269,17 +327,17 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
     private boolean handleCheckExpiredCommand(Player player) {
         // 检查权限
         if (!player.hasPermission("globalshop.admin")) {
-            player.sendMessage(ChatColor.RED + "你没有权限使用该命令!");
+            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
         
         // 只有玩家可以执行此命令
         if (!(player instanceof Player)) {
-            player.sendMessage("§c只有玩家可以执行此命令！");
+            player.sendMessage(plugin.getMessageManager().getCommandCheckExpiredPlayerOnlyMessage());
             return true;
         }
         
-        player.sendMessage("§a正在检查所有拍卖物品，查找过期但未处理的物品...");
+        player.sendMessage(plugin.getMessageManager().getCommandCheckExpiredCheckingMessage());
         
         // 异步执行检查任务
         Bukkit.getScheduler().runTaskAsynchronously(plugin, new cn.i7mc.globalshop.tasks.CheckAllAuctionsTask(plugin, player));
@@ -308,14 +366,14 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
             
             // 输出调试信息，帮助确认配置已正确加载
             if (plugin.getConfigManager().isDebug()) {
-                player.sendMessage(ChatColor.YELLOW + "调试信息: 检查间隔已设置为 " + 
-                    plugin.getConfigManager().getCheckInterval() + " 秒");
+                player.sendMessage(plugin.getMessageManager().getCommandReloadDebugInfoMessage(
+                    plugin.getConfigManager().getCheckInterval()));
             }
             
-            player.sendMessage(ChatColor.GREEN + "GlobalShop配置已重载!");
+            player.sendMessage(plugin.getMessageManager().getCommandReloadSuccessMessage());
             return true;
         } else {
-            player.sendMessage(ChatColor.RED + "你没有权限重载配置!");
+            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
     }

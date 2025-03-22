@@ -1,6 +1,21 @@
 # GlobalShop 全局拍卖行插件配置文件
 # 本配置文件包含插件的所有设置选项，修改后需重启服务器或使用/ah reload命令生效
 
+# 语言设置
+language:
+  # 选择消息文件的语言版本，可选值：
+  # zh_CN - 简体中文（默认）
+  # en - English (English)
+  # es - Español (Spanish)
+  # de - Deutsch (German)
+  # ru - Русский (Russian)
+  # pt - Português (Portuguese)
+  # ja - 日本語 (Japanese)
+  # ar - العربية (Arabic)
+  # hi - हिन्दी (Hindi)
+  # it - Italiano (Italian)
+  locale: "zh_CN"
+
 # 数据库配置
 database:
   # 数据库类型，目前仅支持sqlite
@@ -13,6 +28,10 @@ economy:
   # 买家税率（购买物品时需支付的额外费用百分比）
   # 范围: 0.0-1.0，0表示不收税，0.02表示收取2%的税
   buyer_tax_rate: 0.02
+  
+  # 价格最大位数限制
+  # 例如: 9表示最大价格为999,999,999
+  max_price_digits: 9
   
   # Vault经济系统配置（金币）
   vault:

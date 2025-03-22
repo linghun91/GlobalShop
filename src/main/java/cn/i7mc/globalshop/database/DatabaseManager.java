@@ -692,9 +692,20 @@ public class DatabaseManager {
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         
         return auctionItems;
+    }
+    
+    /**
+     * 获取玩家的所有邮箱物品（包括待领取物品）
+     * @param playerUuid 玩家UUID
+     * @return 邮箱物品列表（以AuctionItem形式表示）
+     */
+    public List<AuctionItem> getAllMailboxItems(UUID playerUuid) {
+        // 直接调用现有方法获取待领取物品
+        return getPendingItemsAsAuctionItems(playerUuid);
     }
     
     // 根据ID删除待领取物品
