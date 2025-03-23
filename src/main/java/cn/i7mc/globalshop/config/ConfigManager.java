@@ -182,4 +182,21 @@ public class ConfigManager {
     public int getMaxPriceDigits() {
         return config.getInt("economy.max_price_digits", 9);
     }
+    
+    /**
+     * 获取语言设置
+     * @return 设置的语言代码(如zh_CN, en等)
+     */
+    public String getLanguageLocale() {
+        return config.getString("language.locale", "zh_CN");
+    }
+    
+    /**
+     * 检查是否使用中文
+     * @return 是否使用中文
+     */
+    public boolean isChineseLanguage() {
+        String locale = getLanguageLocale();
+        return "zh_CN".equals(locale) || "zh".equals(locale);
+    }
 } 

@@ -15,6 +15,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.ChatColor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -282,7 +283,14 @@ public class BroadcastManager {
                     
                     // 如果物品有自定义名称，先添加物品名称
                     if (meta.hasDisplayName()) {
-                        sb.append(meta.getDisplayName()).append("\n");
+                        sb.append(meta.getDisplayName());
+                        
+                        // 添加物品数量显示
+                        if (lastBroadcastItem.getItem().getAmount() > 1) {
+                            sb.append(" x").append(lastBroadcastItem.getItem().getAmount());
+                        }
+                        
+                        sb.append("\n");
                     }
                     
                     // 添加所有Lore内容
@@ -423,48 +431,23 @@ public class BroadcastManager {
      */
     private String getBroadcastMessage(String eventKey, String locationType) {
         String path = "broadcast." + eventKey + "." + locationType;
+        
+        // 使用一个通用的简单默认消息，确保能从message.yml加载正确的配置
         String defaultMessage = "";
         
-        // 为每种事件类型和位置设置默认消息
-        if (eventKey.equals("item_listed")) {
-            if (locationType.equals("chat")) {
-                defaultMessage = "§6[拍卖行] §e%player% §f上架了 §a%item_name% §f起拍价 §e%start_price% §f一口价 §e%buy_now_price%";
-            } else if (locationType.equals("bossbar")) {
-                defaultMessage = "§e%player% §f上架了 §a%item_name% §f起拍价 §e%start_price% §f一口价 §e%buy_now_price%";
-            } else if (locationType.equals("title")) {
-                defaultMessage = "§6物品上架";
-            } else if (locationType.equals("subtitle")) {
-                defaultMessage = "§e%player% §f上架了 §a%item_name%";
-            } else if (locationType.equals("actionbar")) {
-                defaultMessage = "§e%player% §f上架了 §a%item_name% §f价格 §e%start_price%";
+        // 通过MessageManager获取消息，确保从message.yml中加载
+        String message = plugin.getMessageManager().getMessages().getString(path, defaultMessage);
+        
+        // 如果配置中没有设置，使用简单的默认消息（不含任何格式，只用于调试）
+        if (message == null || message.isEmpty()) {
+            if (plugin.getConfigManager().isDebug()) {
+                plugin.getLogger().warning("警告: 未找到广播消息配置: " + path);
             }
-        } else if (eventKey.equals("auction_won")) {
-            if (locationType.equals("chat")) {
-                defaultMessage = "§6[拍卖行] §e%buyer% §f以 §a%price% §f的价格竞拍到了 §e%seller% §f的 §a%item_name%";
-            } else if (locationType.equals("bossbar")) {
-                defaultMessage = "§e%buyer% §f以 §a%price% §f的价格竞拍到了 §e%seller% §f的 §a%item_name%";
-            } else if (locationType.equals("title")) {
-                defaultMessage = "§6竞拍成功";
-            } else if (locationType.equals("subtitle")) {
-                defaultMessage = "§e%buyer% §f竞拍到了 §a%item_name%";
-            } else if (locationType.equals("actionbar")) {
-                defaultMessage = "§e%buyer% §f以 §a%price% §f竞拍到了 §a%item_name%";
-            }
-        } else if (eventKey.equals("buy_now")) {
-            if (locationType.equals("chat")) {
-                defaultMessage = "§6[拍卖行] §e%buyer% §f以 §a%price% §f的一口价购买了 §e%seller% §f的 §a%item_name%";
-            } else if (locationType.equals("bossbar")) {
-                defaultMessage = "§e%buyer% §f以一口价购买了 §e%seller% §f的 §a%item_name%";
-            } else if (locationType.equals("title")) {
-                defaultMessage = "§6物品售出";
-            } else if (locationType.equals("subtitle")) {
-                defaultMessage = "§e%buyer% §f购买了 §a%item_name%";
-            } else if (locationType.equals("actionbar")) {
-                defaultMessage = "§e%buyer% §f以 §a%price% §f购买了 §a%item_name%";
-            }
+            // 返回一个非常简单的默认消息，确保有显示
+            return "§7[广播] " + eventKey + " - " + locationType;
         }
         
-        return plugin.getMessageManager().getMessages().getString(path, defaultMessage);
+        return message;
     }
     
     /**
@@ -492,7 +475,29 @@ public class BroadcastManager {
         // 保存当前物品信息用于详细信息显示
         this.lastBroadcastItem = item;
         
-        String itemName = ChatUtils.getItemName(item.getItem());
+        // 使用与GUI中相同的方法获取物品名称，保持一致性
+        ItemStack original = item.getItem();
+        String itemName;
+        
+        // 尝试获取物品的自定义显示名称
+        ItemMeta meta = original.getItemMeta();
+        if (meta != null && meta.hasDisplayName()) {
+            // 移除颜色代码，让message.yml中的颜色设置生效
+            itemName = ChatColor.stripColor(meta.getDisplayName());
+        } else {
+            // 只有在设置为中文语言时才进行原版物品名称的中文翻译
+            if (plugin.getConfigManager().isChineseLanguage()) {
+                // 使用与GuiManager相同的逻辑获取中文名称，但不添加颜色代码
+                String chineseName = plugin.getLanguageManager().getChineseName(original.getType());
+                itemName = (chineseName != null && !chineseName.isEmpty()) ? 
+                        chineseName : 
+                        ChatColor.stripColor(ChatUtils.getItemName(original));
+            } else {
+                // 非中文语言环境下使用原版物品名称
+                itemName = ChatColor.stripColor(ChatUtils.getItemName(original));
+            }
+        }
+        
         String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
         
         // 从message.yml获取消息格式，填充占位符
@@ -506,6 +511,7 @@ public class BroadcastManager {
         Map<String, String> placeholders = new HashMap<>();
         placeholders.put("%player%", player.getName());
         placeholders.put("%item_name%", itemName);
+        placeholders.put("%amount%", String.valueOf(original.getAmount()));
         placeholders.put("%start_price%", currencySymbol + String.format("%.2f", item.getStartPrice()));
         
         if (item.hasBuyNowPrice()) {
@@ -535,7 +541,34 @@ public class BroadcastManager {
         // 保存当前物品信息用于详细信息显示
         this.lastBroadcastItem = item;
         
-        String itemName = ChatUtils.getItemName(item.getItem());
+        // 使用与GUI中相同的方法获取物品名称，保持一致性
+        ItemStack original = item.getItem();
+        String itemName;
+        
+        // 尝试获取物品的自定义显示名称
+        ItemMeta meta = original.getItemMeta();
+        if (meta != null && meta.hasDisplayName()) {
+            // 移除颜色代码，让message.yml中的颜色设置生效
+            itemName = ChatColor.stripColor(meta.getDisplayName());
+        } else {
+            // 只有在设置为中文语言时才进行原版物品名称的中文翻译
+            if (plugin.getConfigManager().isChineseLanguage()) {
+                // 使用与GuiManager相同的逻辑获取中文名称，但不添加颜色代码
+                String chineseName = plugin.getLanguageManager().getChineseName(original.getType());
+                itemName = (chineseName != null && !chineseName.isEmpty()) ? 
+                        chineseName : 
+                        ChatColor.stripColor(ChatUtils.getItemName(original));
+            } else {
+                // 非中文语言环境下使用原版物品名称
+                itemName = ChatColor.stripColor(ChatUtils.getItemName(original));
+            }
+        }
+        
+        // 添加物品数量显示
+        if (original.getAmount() > 1) {
+            itemName += " x" + original.getAmount();
+        }
+        
         String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
         
         // 从message.yml获取消息格式，填充占位符
@@ -550,6 +583,7 @@ public class BroadcastManager {
         placeholders.put("%buyer%", buyer);
         placeholders.put("%seller%", seller);
         placeholders.put("%item_name%", itemName);
+        placeholders.put("%amount%", String.valueOf(item.getItem().getAmount()));
         placeholders.put("%price%", currencySymbol + String.format("%.2f", item.getCurrentPrice()));
         
         chatMessage = replacePlaceholders(chatMessage, placeholders);
@@ -573,7 +607,34 @@ public class BroadcastManager {
         // 保存当前物品信息用于详细信息显示
         this.lastBroadcastItem = item;
         
-        String itemName = ChatUtils.getItemName(item.getItem());
+        // 使用与GUI中相同的方法获取物品名称，保持一致性
+        ItemStack original = item.getItem();
+        String itemName;
+        
+        // 尝试获取物品的自定义显示名称
+        ItemMeta meta = original.getItemMeta();
+        if (meta != null && meta.hasDisplayName()) {
+            // 移除颜色代码，让message.yml中的颜色设置生效
+            itemName = ChatColor.stripColor(meta.getDisplayName());
+        } else {
+            // 只有在设置为中文语言时才进行原版物品名称的中文翻译
+            if (plugin.getConfigManager().isChineseLanguage()) {
+                // 使用与GuiManager相同的逻辑获取中文名称，但不添加颜色代码
+                String chineseName = plugin.getLanguageManager().getChineseName(original.getType());
+                itemName = (chineseName != null && !chineseName.isEmpty()) ? 
+                        chineseName : 
+                        ChatColor.stripColor(ChatUtils.getItemName(original));
+            } else {
+                // 非中文语言环境下使用原版物品名称
+                itemName = ChatColor.stripColor(ChatUtils.getItemName(original));
+            }
+        }
+        
+        // 添加物品数量显示
+        if (original.getAmount() > 1) {
+            itemName += " x" + original.getAmount();
+        }
+        
         String currencySymbol = plugin.getEconomyManager().getCurrencySymbol(item.getCurrencyType());
         
         // 从message.yml获取消息格式，填充占位符
@@ -588,6 +649,7 @@ public class BroadcastManager {
         placeholders.put("%buyer%", buyer);
         placeholders.put("%seller%", seller);
         placeholders.put("%item_name%", itemName);
+        placeholders.put("%amount%", String.valueOf(item.getItem().getAmount()));
         placeholders.put("%price%", currencySymbol + String.format("%.2f", item.getBuyNowPrice()));
         
         chatMessage = replacePlaceholders(chatMessage, placeholders);

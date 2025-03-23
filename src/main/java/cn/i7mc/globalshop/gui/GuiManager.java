@@ -96,18 +96,54 @@ public class GuiManager {
         ItemMeta meta = displayItem.getItemMeta();
         if (meta == null) return displayItem;
         
-        // 尝试获取中文名称
-        String itemId = original.getType().name().toLowerCase();
-        String chineseName = plugin.getLanguageManager().getChineseName(itemId);
+        // 只有在中文语言环境时才进行物品中文名称转译
+        if (plugin.getConfigManager().isChineseLanguage()) {
+            // 尝试获取中文名称
+            String itemId = original.getType().name().toLowerCase();
+            String chineseName = plugin.getLanguageManager().getChineseName(itemId);
+            
+            List<String> originalLore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+            List<String> auctionLore = new ArrayList<>();
+            String currencyName = plugin.getEconomyManager().getCurrencyName(item.getCurrencyType());
+            
+            // 记录原版物品的展示名称(如果没有自定义名称，使用中文名称)
+            if (!meta.hasDisplayName() && chineseName != null && !chineseName.isEmpty()) {
+                meta.setDisplayName(messageManager.getItemNameColor() + chineseName);
+            }
+        } else {
+            // 非中文环境下，如果没有自定义名称，使用原版格式化名称
+            List<String> originalLore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+            List<String> auctionLore = new ArrayList<>();
+            String currencyName = plugin.getEconomyManager().getCurrencyName(item.getCurrencyType());
+            
+            if (!meta.hasDisplayName()) {
+                // 将物品类型名称转换为更易读的格式
+                String typeName = original.getType().toString();
+                typeName = typeName.toLowerCase().replace('_', ' ');
+                
+                // 首字母大写处理
+                StringBuilder result = new StringBuilder();
+                boolean capitalizeNext = true;
+                for (char c : typeName.toCharArray()) {
+                    if (c == ' ') {
+                        result.append(c);
+                        capitalizeNext = true;
+                    } else if (capitalizeNext) {
+                        result.append(Character.toUpperCase(c));
+                        capitalizeNext = false;
+                    } else {
+                        result.append(c);
+                    }
+                }
+                
+                meta.setDisplayName(messageManager.getItemNameColor() + result.toString());
+            }
+        }
         
+        // 共用部分：获取原始lore和添加拍卖信息
         List<String> originalLore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         List<String> auctionLore = new ArrayList<>();
         String currencyName = plugin.getEconomyManager().getCurrencyName(item.getCurrencyType());
-        
-        // 记录原版物品的展示名称(如果没有自定义名称，使用中文名称)
-        if (!meta.hasDisplayName() && chineseName != null && !chineseName.isEmpty()) {
-            meta.setDisplayName(messageManager.getItemNameColor() + chineseName);
-        }
         
         // 添加原版物品的lore
         if (originalLore != null && !originalLore.isEmpty()) {

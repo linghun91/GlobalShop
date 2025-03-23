@@ -189,7 +189,7 @@ broadcast:
   # 物品上架广播消息
   item_listed:
 #    chat: "§6[拍卖行] §e%player% §f上架了 §a%item_name% §f起拍价 §e%start_price% §f一口价 §e%buy_now_price%"
-    chat: "§6[拍卖行] §e%player% §f上架了 §a%item_name% "
+    chat: "§a[§6拍卖行§a] §e%player% §f上架了 §b[§d%item_name%§b]§f*§6%amount%§r"
     bossbar: "§e%player% §f上架了 §a%item_name% §f起拍价 §e%start_price% §f一口价 §e%buy_now_price%"
     title: "§6物品上架"
     subtitle: "§e%player% §f上架了 §a%item_name%"
