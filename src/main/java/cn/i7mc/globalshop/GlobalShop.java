@@ -5,6 +5,13 @@ import cn.i7mc.globalshop.config.ConfigManager;
 import cn.i7mc.globalshop.database.DatabaseManager;
 import cn.i7mc.globalshop.economy.EconomyManager;
 import cn.i7mc.globalshop.gui.GuiManager;
+import cn.i7mc.globalshop.hologram.AuctionHistoryManager;
+import cn.i7mc.globalshop.hologram.HologramCommandManager;
+import cn.i7mc.globalshop.hologram.HologramConfigManager;
+import cn.i7mc.globalshop.hologram.HologramDisplayManager;
+import cn.i7mc.globalshop.hologram.HologramUpdateTask;
+import cn.i7mc.globalshop.hologram.ItemDisplayManager;
+import cn.i7mc.globalshop.hologram.TextDisplayManager;
 import cn.i7mc.globalshop.listeners.GuiListener;
 import cn.i7mc.globalshop.tasks.AuctionTask;
 import cn.i7mc.globalshop.utils.MinecraftLanguageManager;
@@ -33,6 +40,15 @@ public class GlobalShop extends JavaPlugin {
     private MessageManager messageManager;
     private DebugMessageManager debugMessageManager;
     private BroadcastManager broadcastManager;
+    
+    // 全息相关组件
+    private HologramDisplayManager hologramDisplayManager;
+    private ItemDisplayManager itemDisplayManager;
+    private TextDisplayManager textDisplayManager;
+    private AuctionHistoryManager auctionHistoryManager;
+    private HologramConfigManager hologramConfigManager;
+    private HologramCommandManager hologramCommandManager;
+    private HologramUpdateTask hologramUpdateTask;
     
     // 用于存储拍卖检查任务的引用，以便能够取消
     private BukkitTask auctionTask;
@@ -82,6 +98,9 @@ public class GlobalShop extends JavaPlugin {
         // 初始化广播管理器
         this.broadcastManager = new BroadcastManager(this);
         
+        // 初始化全息相关组件
+        initHologramComponents();
+        
         // 注册命令和监听器
         AuctionCommand auctionCommand = new AuctionCommand(this);
         getCommand("auction").setExecutor(auctionCommand);
@@ -97,6 +116,12 @@ public class GlobalShop extends JavaPlugin {
         // 启动定时任务，使用配置中设置的间隔时间来检查过期拍卖
         startAuctionTasks();
         
+        // 在插件启动时强制清空并初始化所有全息显示
+        if (hologramCommandManager != null) {
+            getLogger().info("§b[GlobalShop] 正在清空并初始化所有全息显示...");
+            hologramCommandManager.forceUpdateAll();
+        }
+        
         ConsoleCommandSender console = getServer().getConsoleSender();
         console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.AQUA + "如有建议或BUG可联系作者QQ642751482反馈");
         console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.AQUA + "插件已成功启动!");
@@ -106,6 +131,16 @@ public class GlobalShop extends JavaPlugin {
     public void onDisable() {
         // 取消所有任务
         cancelAuctionTasks();
+        
+        // 关闭全息系统
+        if (hologramUpdateTask != null) {
+            hologramUpdateTask.cancel();
+        }
+        
+        // 移除所有全息实体
+        if (hologramDisplayManager != null) {
+            hologramDisplayManager.removeAllHolograms();
+        }
         
         if (databaseManager != null) {
             databaseManager.close();
@@ -118,6 +153,50 @@ public class GlobalShop extends JavaPlugin {
         
         ConsoleCommandSender console = getServer().getConsoleSender();
         console.sendMessage(ChatColor.AQUA + "[GlobalShop] 插件已关闭!");
+    }
+
+    /**
+     * 初始化全息相关组件
+     */
+    private void initHologramComponents() {
+        getLogger().info("§a[GlobalShop] 开始初始化全息组件...");
+        try {
+            // 初始化全息显示管理器
+            this.hologramDisplayManager = new HologramDisplayManager(this);
+            getLogger().info("§a[GlobalShop] 全息显示管理器初始化成功");
+            
+            this.itemDisplayManager = new ItemDisplayManager(this, hologramDisplayManager);
+            getLogger().info("§a[GlobalShop] 物品显示管理器初始化成功");
+            
+            this.textDisplayManager = new TextDisplayManager(this, hologramDisplayManager);
+            getLogger().info("§a[GlobalShop] 文本显示管理器初始化成功");
+            
+            // 初始化拍卖历史记录管理器
+            this.auctionHistoryManager = new AuctionHistoryManager(this, 50);
+            getLogger().info("§a[GlobalShop] 拍卖历史记录管理器初始化成功");
+            
+            // 初始化全息配置管理器
+            this.hologramConfigManager = new HologramConfigManager(this);
+            getLogger().info("§a[GlobalShop] 全息配置管理器初始化成功");
+            
+            // 初始化全息命令管理器
+            this.hologramCommandManager = new HologramCommandManager(this, hologramDisplayManager, hologramConfigManager);
+            getLogger().info("§a[GlobalShop] 全息命令管理器初始化成功");
+            
+            // 创建并启动全息更新任务
+            int updateInterval = hologramConfigManager.getUpdateInterval();
+            this.hologramUpdateTask = new HologramUpdateTask(this, hologramDisplayManager, itemDisplayManager, textDisplayManager, auctionHistoryManager, hologramConfigManager);
+            // 使用同步任务而非异步任务
+            hologramUpdateTask.runTaskTimer(this, 20L, updateInterval * 20L);
+            getLogger().info("§a[GlobalShop] 全息更新任务已启动，更新间隔：" + updateInterval + "秒");
+            
+            if (getConfigManager().isDebug()) {
+                getLogger().info("全息拍卖行组件已初始化，更新间隔：" + updateInterval + "秒");
+            }
+        } catch (Exception e) {
+            getLogger().severe("§c[GlobalShop] 初始化全息组件时发生错误：" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private boolean setupEconomy() {
@@ -204,44 +283,123 @@ public class GlobalShop extends JavaPlugin {
     public BroadcastManager getBroadcastManager() {
         return broadcastManager;
     }
+    
+    /**
+     * 获取全息显示管理器
+     * @return 全息显示管理器
+     */
+    public HologramDisplayManager getHologramDisplayManager() {
+        return hologramDisplayManager;
+    }
+    
+    /**
+     * 获取物品显示管理器
+     * @return 物品显示管理器
+     */
+    public ItemDisplayManager getItemDisplayManager() {
+        return itemDisplayManager;
+    }
+    
+    /**
+     * 获取文本显示管理器
+     * @return 文本显示管理器
+     */
+    public TextDisplayManager getTextDisplayManager() {
+        return textDisplayManager;
+    }
+    
+    /**
+     * 获取拍卖历史记录管理器
+     * @return 拍卖历史记录管理器
+     */
+    public AuctionHistoryManager getAuctionHistoryManager() {
+        return auctionHistoryManager;
+    }
+    
+    /**
+     * 获取全息配置管理器
+     * @return 全息配置管理器
+     */
+    public HologramConfigManager getHologramConfigManager() {
+        return hologramConfigManager;
+    }
+    
+    /**
+     * 获取全息命令管理器
+     * @return 全息命令管理器
+     */
+    public HologramCommandManager getHologramCommandManager() {
+        return hologramCommandManager;
+    }
+    
+    /**
+     * 获取全息更新任务
+     * @return 全息更新任务
+     */
+    public HologramUpdateTask getHologramUpdateTask() {
+        return hologramUpdateTask;
+    }
 
     /**
-     * 取消当前运行的拍卖检查任务
+     * 取消所有拍卖相关任务
      */
     public void cancelAuctionTasks() {
-        if (auctionTask != null && !auctionTask.isCancelled()) {
+        if (auctionTask != null) {
             auctionTask.cancel();
             auctionTask = null;
-            if (configManager.isDebug()) {
-                getLogger().info("已取消拍卖检查任务");
-            }
         }
     }
     
     /**
-     * 启动拍卖检查任务，使用配置中的check_interval设置
+     * 启动拍卖相关任务
      */
     public void startAuctionTasks() {
-        // 先取消现有任务，确保不会有多个任务同时运行
+        // 取消现有任务，如果有的话
         cancelAuctionTasks();
         
-        // 使用配置中设置的间隔时间来检查过期拍卖
-        int checkIntervalSeconds = configManager.getCheckInterval();
-        long checkIntervalTicks = checkIntervalSeconds * 20L; // 转换为tick (1秒=20tick)
+        // 从配置中获取检查间隔（秒）
+        int checkIntervalSeconds = configManager.getConfig().getInt("auction.check-interval", 60);
         
-        // 保存任务引用，以便后续可以取消
-        auctionTask = new AuctionTask(this).runTaskTimer(this, checkIntervalTicks, checkIntervalTicks);
+        // 确保间隔时间至少为30秒，避免过于频繁的检查
+        checkIntervalSeconds = Math.max(checkIntervalSeconds, 30);
         
-        if (configManager.isDebug()) {
-            getLogger().info("已启动拍卖检查任务，间隔: " + checkIntervalSeconds + "秒");
+        // 将秒转换为tick（1秒 = 20 tick）
+        long checkIntervalTicks = checkIntervalSeconds * 20L;
+        
+        // 添加调试信息
+        if (getConfigManager().isDebug()) {
+            getLogger().info("启动拍卖检查任务，间隔：" + checkIntervalSeconds + "秒");
         }
+        
+        // 创建并启动拍卖检查任务
+        auctionTask = new AuctionTask(this).runTaskTimer(this, checkIntervalTicks, checkIntervalTicks);
     }
 
     /**
-     * 检查点券系统是否可用
-     * @return 点券系统是否可用
+     * 检查PlayerPoints插件是否可用
+     * @return PlayerPoints是否可用
      */
     public boolean isPlayerPointsAvailable() {
         return playerPoints != null;
+    }
+
+    /**
+     * 重新调度全息更新任务
+     * @param intervalSeconds 更新间隔（秒）
+     */
+    public void rescheduleHologramTask(int intervalSeconds) {
+        try {
+            // 创建新的全息更新任务实例
+            this.hologramUpdateTask = new HologramUpdateTask(this, hologramDisplayManager, 
+                itemDisplayManager, textDisplayManager, auctionHistoryManager, hologramConfigManager);
+            
+            // 以新的间隔启动任务（使用同步任务，而非异步）
+            hologramUpdateTask.runTaskTimer(this, 20L, intervalSeconds * 20L);
+            
+            getLogger().info("§a[GlobalShop] 已重新调度全息更新任务，新间隔：" + intervalSeconds + "秒");
+        } catch (Exception e) {
+            getLogger().severe("§c[GlobalShop] 重新调度全息更新任务时发生错误：" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

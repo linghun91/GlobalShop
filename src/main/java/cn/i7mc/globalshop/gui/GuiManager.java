@@ -1377,4 +1377,53 @@ public class GuiManager {
         // 调用基础方法
         openBidMenu(player, item.getId(), 0);
     }
+
+    /**
+     * 检查玩家是否正在查看拍卖行界面
+     * @param player 要检查的玩家
+     * @return 如果玩家正在查看拍卖行界面则返回true，否则返回false
+     */
+    public boolean isViewingGui(Player player) {
+        // 通过检查玩家是否有相关元数据或者当前显示的标题来判断
+        return player.getOpenInventory() != null && 
+               (player.getOpenInventory().getTitle().equals(configManager.getGuiTitle()) ||
+                player.getOpenInventory().getTitle().equals(messageManager.getSearchMenuTitle()) ||
+                player.getOpenInventory().getTitle().startsWith(messageManager.getSearchResultTitlePrefix()) ||
+                player.getOpenInventory().getTitle().equals(messageManager.getSellMenuTitle()) ||
+                player.getOpenInventory().getTitle().equals(messageManager.getConfirmBuyMenuTitle()) ||
+                player.getOpenInventory().getTitle().equals(messageManager.getBidMenuTitle()) ||
+                player.getOpenInventory().getTitle().equals(messageManager.getMyAuctionsMenuTitle()) ||
+                player.getOpenInventory().getTitle().equals(messageManager.getMySoldAuctionsMenuTitle()) ||
+                player.getOpenInventory().getTitle().equals(messageManager.getMailboxMenuTitle()) ||
+                player.hasMetadata("currentGui"));
+    }
+    
+    /**
+     * 关闭玩家当前的GUI界面
+     * @param player 要关闭界面的玩家
+     */
+    public void closeGui(Player player) {
+        if (isViewingGui(player)) {
+            player.closeInventory();
+            // 清除可能的元数据
+            if (player.hasMetadata("auction_page")) {
+                player.removeMetadata("auction_page", plugin);
+            }
+            if (player.hasMetadata("auction_search_input")) {
+                player.removeMetadata("auction_search_input", plugin);
+            }
+            if (player.hasMetadata("currentGui")) {
+                player.removeMetadata("currentGui", plugin);
+            }
+            if (player.hasMetadata("auction_my_page")) {
+                player.removeMetadata("auction_my_page", plugin);
+            }
+            if (player.hasMetadata("auction_my_filter")) {
+                player.removeMetadata("auction_my_filter", plugin);
+            }
+            // 清除玩家页码缓存
+            playerPages.remove(player);
+            playerSearchQueries.remove(player);
+        }
+    }
 } 

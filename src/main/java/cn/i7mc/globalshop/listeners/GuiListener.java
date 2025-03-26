@@ -882,6 +882,9 @@ public class GuiListener implements Listener {
                 // 广播上架信息
                 plugin.getBroadcastManager().broadcastItemListed(player, auctionItem);
                 
+                // 记录拍卖历史事件
+                plugin.getAuctionHistoryManager().addListEvent(player, auctionItem);
+                
                 // 通知玩家
                 if (fee > 0) {
                     String message = messageManager.getItemListedSuccessWithFeeMessage().replace("%fee%", plugin.getEconomyManager().formatAmount(fee, currencyType));
@@ -982,7 +985,7 @@ public class GuiListener implements Listener {
         }
         
         // OP强制下架物品（Shift+左键点击）
-        if (event.isShiftClick() && event.isLeftClick() && isOp && !isOwner) {
+        if (event.isShiftClick() && event.isLeftClick() && isOp) {
             // 管理员强制下架
             handleForceRemoveAuction(player, item);
             return;
@@ -1139,6 +1142,9 @@ public class GuiListener implements Listener {
             
             // 更新物品到数据库
             plugin.getDatabaseManager().updateAuctionItem(item);
+            
+            // 记录拍卖历史购买事件
+            plugin.getAuctionHistoryManager().addBuyEvent(player, item);
             
             // 广播一口价购买消息
             plugin.getBroadcastManager().broadcastBuyNow(player.getName(), item.getSellerName(), item);
@@ -1489,6 +1495,9 @@ public class GuiListener implements Listener {
             boolean updated = plugin.getDatabaseManager().updateAuctionItem(item);
             
             if (updated) {
+                // 记录拍卖历史取消事件
+                plugin.getAuctionHistoryManager().addCancelledEvent(player, item);
+                
                 // 物品返还给玩家
                 HashMap<Integer, ItemStack> leftover = player.getInventory().addItem(item.getItem());
                 
@@ -1641,6 +1650,9 @@ public class GuiListener implements Listener {
         item.setSoldTime(System.currentTimeMillis());
         plugin.getDatabaseManager().updateAuctionItem(item);
         
+        // 记录拍卖历史购买事件
+        plugin.getAuctionHistoryManager().addBuyEvent(player, item);
+        
         // 尝试直接放入背包，如果背包满了则放入邮箱
         if (player.getInventory().firstEmpty() != -1) {
             player.getInventory().addItem(item.getItem());
@@ -1752,16 +1764,15 @@ public class GuiListener implements Listener {
     // 处理竞价按钮点击
     private void handleBidIncreaseButton(Player player) {
         // 获取拍卖物品ID
-        if (!player.hasMetadata("auction_bid_id") || !player.hasMetadata("auction_item_price")) {
+        if (!player.hasMetadata("auction_bid_id")) {
             player.closeInventory();
             player.sendMessage(messageManager.getExpiredBidInfoMessage());
             return;
         }
 
         int itemId = player.getMetadata("auction_bid_id").get(0).asInt();
-        double currentPrice = player.getMetadata("auction_item_price").get(0).asDouble();
         
-        // 获取拍卖物品
+        // 获取拍卖物品的最新信息
         AuctionItem item = plugin.getDatabaseManager().getAuctionItem(itemId);
         if (item == null) {
             player.sendMessage(messageManager.getExpiredItemMessage());
@@ -1783,11 +1794,17 @@ public class GuiListener implements Listener {
             return;
         }
         
+        // 始终使用物品的最新当前价格，而不是缓存的价格
+        double currentPrice = item.getCurrentPrice();
+        
+        // 更新元数据中的当前价格，确保使用最新值
+        player.setMetadata("auction_item_price", new FixedMetadataValue(plugin, currentPrice));
+        
         // 获取货币类型和最低加价金额
         String currencyType = item.getCurrencyType();
-        double minBidIncrease = plugin.getEconomyManager().calculateMinBid(item.getCurrentPrice(), currencyType);
+        double minBidIncrease = plugin.getEconomyManager().calculateMinBid(currentPrice, currencyType);
         
-        // 计算新的出价金额 - 使用当前的预加价金额（如果存在），否则使用物品的当前价格
+        // 计算新的出价金额 - 使用当前的预加价金额（如果存在），否则使用物品的当前最新价格
         double currentBidAmount = player.hasMetadata("auction_bid_amount") ? 
                                 player.getMetadata("auction_bid_amount").get(0).asDouble() : 
                                 currentPrice;
@@ -1795,7 +1812,7 @@ public class GuiListener implements Listener {
         double newBid = currentBidAmount + minBidIncrease;
         
         // 检查新出价是否大于最低加价要求 - 只有首次加价时才需要检查
-        if (!player.hasMetadata("auction_bid_amount") && newBid < item.getCurrentPrice() + minBidIncrease) {
+        if (!player.hasMetadata("auction_bid_amount") && newBid < currentPrice + minBidIncrease) {
             player.sendMessage(messageManager.getBidBelowMinimumMessage(plugin.getEconomyManager().formatAmount(minBidIncrease, currencyType)));
             return;
         }
@@ -1904,7 +1921,7 @@ public class GuiListener implements Listener {
         int auctionId = player.getMetadata("auction_bid_id").get(0).asInt();
         double bidAmount = player.getMetadata("auction_bid_amount").get(0).asDouble();
         
-        // 获取拍卖物品
+        // 获取拍卖物品的最新信息
         AuctionItem item = plugin.getDatabaseManager().getAuctionItem(auctionId);
         if (item == null) {
             player.sendMessage(messageManager.getInvalidItemMessage());
@@ -1921,6 +1938,26 @@ public class GuiListener implements Listener {
         if (item.isExpired()) {
             player.sendMessage(messageManager.getExpiredBidMessage());
             return;
+        }
+        
+        // 获取最新的物品当前价格
+        double currentPrice = item.getCurrentPrice();
+        
+        // 检查是否已达到一口价
+        boolean reachedBuyNowPrice = item.hasBuyNowPrice() && bidAmount >= item.getBuyNowPrice();
+        
+        // 如果没有达到一口价，检查竞价是否合法
+        if (!reachedBuyNowPrice) {
+            double minBidIncrease = plugin.getEconomyManager().calculateMinBid(currentPrice, item.getCurrencyType());
+            if (bidAmount < currentPrice + minBidIncrease) {
+                player.sendMessage(messageManager.getBidBelowCurrentPriceMessage());
+                // 更新元数据中的当前价格
+                player.setMetadata("auction_item_price", new FixedMetadataValue(plugin, currentPrice));
+                // 关闭界面并重新打开竞价界面
+                player.closeInventory();
+                plugin.getGuiManager().openBidMenu(player, auctionId);
+                return;
+            }
         }
         
         // 检查玩家是否有足够的钱
@@ -1974,7 +2011,7 @@ public class GuiListener implements Listener {
         player.sendMessage(messageManager.getBalanceMessage(plugin.getEconomyManager().getCurrencyName(item.getCurrencyType()), bidderBalance));
         
         // 如果达到一口价，直接完成拍卖
-        if (item.hasBuyNowPrice() && bidAmount >= item.getBuyNowPrice()) {
+        if (reachedBuyNowPrice) {
             // 标记为已售出
             item.setStatus("SOLD");
             item.setCurrentBidderName(player.getName());
@@ -2032,10 +2069,21 @@ public class GuiListener implements Listener {
             // 竞价成功但未达到一口价，更新数据库
             plugin.getDatabaseManager().updateAuctionItem(item);
             
+            // 记录拍卖历史竞价事件
+            plugin.getAuctionHistoryManager().addBidEvent(player, item);
+            
             // 发送竞价成功消息
             player.sendMessage(messageManager.getBidSuccessMessage(plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType())));
             player.sendMessage(messageManager.getBidItemMessage(String.valueOf(item.getId())));
             player.sendMessage(messageManager.getBidPriceMessage(plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType())));
+            
+            // 输出调试信息
+            if (plugin.getConfigManager().isDebug()) {
+                plugin.getLogger().info("调试: 准备广播竞价确认消息, 玩家: " + player.getName() + ", 物品ID: " + item.getId() + ", 出价: " + bidAmount);
+            }
+            
+            // 广播竞价确认消息
+            plugin.getBroadcastManager().broadcastBidConfirmed(player.getName(), item);
         }
         
         // 关闭界面时会自动清理元数据，因为我们已经设置了auction_bid_confirmed标记
@@ -2121,6 +2169,9 @@ public class GuiListener implements Listener {
         
         // 更新数据库中的物品状态
         plugin.getDatabaseManager().updateAuctionItem(item);
+
+        // 记录拍卖历史取消事件
+        plugin.getAuctionHistoryManager().addCancelledEvent(player, item);
 
         // 将物品直接添加到卖家邮箱
         // 明确的理由说明这是被管理员强制下架的

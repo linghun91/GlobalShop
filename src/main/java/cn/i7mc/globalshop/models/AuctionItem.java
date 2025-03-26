@@ -197,4 +197,21 @@ public class AuctionItem {
         if (soldTime <= 0) return "未售出";
         return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(soldTime));
     }
+    
+    /**
+     * 获取物品显示名称
+     * @return 物品显示名称，如果没有则返回物品类型名称
+     */
+    public String getDisplayName() {
+        if (item == null) {
+            return "未知物品";
+        }
+        
+        if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+            return item.getItemMeta().getDisplayName();
+        } else {
+            // 返回物品类型名称
+            return item.getType().toString().toLowerCase().replace("_", " ");
+        }
+    }
 } 

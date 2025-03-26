@@ -18,7 +18,10 @@ import java.util.List;
 public class AuctionCommand implements CommandExecutor, TabCompleter {
     private final GlobalShop plugin;
     private final List<String> subCommands = Arrays.asList(
-        "help", "open", "sell", "search", "my", "collect", "reload", "close", "checkexpired"
+        "help", "open", "sell", "search", "my", "collect", "reload", "close", "checkexpired", "hud"
+    );
+    private final List<String> hudSubCommands = Arrays.asList(
+        "create", "remove", "list", "reload"
     );
     private final List<String> currencyTypes = Arrays.asList("1", "2");
 
@@ -28,41 +31,64 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getMessageManager().getCommandPlayerOnlyMessage());
-            return true;
-        }
-
-        Player player = (Player) sender;
-
         if (args.length == 0) {
-            // 默认打开主菜单
-            plugin.getGuiManager().openMainMenu(player);
+            if (sender instanceof Player) {
+                // 默认打开主菜单
+                plugin.getGuiManager().openMainMenu((Player) sender);
+            } else {
+                sender.sendMessage(plugin.getMessageManager().getCommandPlayerOnlyMessage());
+            }
             return true;
         }
 
         switch (args[0].toLowerCase()) {
             case "help":
-                return handleHelpCommand(player);
+                return handleHelpCommand(sender);
             case "open":
-                plugin.getGuiManager().openMainMenu(player);
+                if (sender instanceof Player) {
+                    plugin.getGuiManager().openMainMenu((Player) sender);
+                } else {
+                    sender.sendMessage(plugin.getMessageManager().getCommandPlayerOnlyMessage());
+                }
                 return true;
             case "sell":
-                return handleSellCommand(player, args);
+                if (sender instanceof Player) {
+                    return handleSellCommand((Player) sender, args);
+                } else {
+                    sender.sendMessage(plugin.getMessageManager().getCommandPlayerOnlyMessage());
+                }
+                return true;
             case "search":
-                return handleSearchCommand(player, args);
+                if (sender instanceof Player) {
+                    return handleSearchCommand((Player) sender, args);
+                } else {
+                    sender.sendMessage(plugin.getMessageManager().getCommandPlayerOnlyMessage());
+                }
+                return true;
             case "my":
-                return handleMyCommand(player);
+                if (sender instanceof Player) {
+                    return handleMyCommand((Player) sender);
+                } else {
+                    sender.sendMessage(plugin.getMessageManager().getCommandPlayerOnlyMessage());
+                }
+                return true;
             case "collect":
-                return handleCollectCommand(player);
+                if (sender instanceof Player) {
+                    return handleCollectCommand((Player) sender);
+                } else {
+                    sender.sendMessage(plugin.getMessageManager().getCommandPlayerOnlyMessage());
+                }
+                return true;
             case "reload":
-                return handleReloadCommand(player);
+                return handleReloadCommand(sender);
             case "close":
-                return handleCloseCommand(player);
+                return handleCloseCommand(sender);
             case "checkexpired":
-                return handleCheckExpiredCommand(player);
+                return handleCheckExpiredCommand(sender);
+            case "hud":
+                return handleHudCommand(sender, args);
             default:
-                player.sendMessage(plugin.getMessageManager().getCommandUnknownCommandMessage());
+                sender.sendMessage(plugin.getMessageManager().getCommandUnknownCommandMessage());
                 return true;
         }
     }
@@ -76,6 +102,23 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
             StringUtil.copyPartialMatches(args[0], subCommands, completions);
             Collections.sort(completions);
             return completions;
+        }
+        
+        // hud命令的参数补全
+        if (args.length >= 2 && args[0].equalsIgnoreCase("hud")) {
+            if (args.length == 2) {
+                StringUtil.copyPartialMatches(args[1], hudSubCommands, completions);
+                Collections.sort(completions);
+                return completions;
+            }
+            
+            // hud remove命令的参数补全
+            if (args.length == 3 && args[1].equalsIgnoreCase("remove")) {
+                List<String> hudNames = new ArrayList<>(plugin.getHologramCommandManager().getHologramLocations().keySet());
+                StringUtil.copyPartialMatches(args[2], hudNames, completions);
+                Collections.sort(completions);
+                return completions;
+            }
         }
         
         // sell命令的参数补全
@@ -124,26 +167,33 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
         return completions;
     }
 
-    private boolean handleHelpCommand(Player player) {
-        sendHelp(player);
+    private boolean handleHelpCommand(CommandSender sender) {
+        sendHelp(sender);
         return true;
     }
 
-    private void sendHelp(Player player) {
-        player.sendMessage(plugin.getMessageManager().getCommandHelpHeaderMessage());
-        player.sendMessage(plugin.getMessageManager().getCommandHelpHelpMessage());
-        player.sendMessage(plugin.getMessageManager().getCommandHelpOpenMessage());
-        player.sendMessage(plugin.getMessageManager().getCommandHelpSellMessage());
-        player.sendMessage(plugin.getMessageManager().getCommandHelpSearchMessage());
-        player.sendMessage(plugin.getMessageManager().getCommandHelpMyMessage());
-        player.sendMessage(plugin.getMessageManager().getCommandHelpCollectMessage());
+    private void sendHelp(CommandSender sender) {
+        sender.sendMessage(plugin.getMessageManager().getCommandHelpHeaderMessage());
+        sender.sendMessage(plugin.getMessageManager().getCommandHelpHelpMessage());
+        sender.sendMessage(plugin.getMessageManager().getCommandHelpOpenMessage());
+        sender.sendMessage(plugin.getMessageManager().getCommandHelpSellMessage());
+        sender.sendMessage(plugin.getMessageManager().getCommandHelpSearchMessage());
+        sender.sendMessage(plugin.getMessageManager().getCommandHelpMyMessage());
+        sender.sendMessage(plugin.getMessageManager().getCommandHelpCollectMessage());
         
         // 只向管理员显示管理员命令
-        if (player.hasPermission("globalshop.admin")) {
-            player.sendMessage(plugin.getMessageManager().getCommandHelpAdminHeaderMessage());
-            player.sendMessage(plugin.getMessageManager().getCommandHelpReloadMessage());
-            player.sendMessage(plugin.getMessageManager().getCommandHelpCloseMessage());
-            player.sendMessage(plugin.getMessageManager().getCommandHelpCheckExpiredMessage());
+        if (sender.hasPermission("globalshop.admin")) {
+            sender.sendMessage(plugin.getMessageManager().getCommandHelpAdminHeaderMessage());
+            sender.sendMessage(plugin.getMessageManager().getCommandHelpReloadMessage());
+            sender.sendMessage(plugin.getMessageManager().getCommandHelpCloseMessage());
+            sender.sendMessage(plugin.getMessageManager().getCommandHelpCheckExpiredMessage());
+            
+            // 显示全息相关命令
+            sender.sendMessage("§6===== 全息拍卖行命令 =====");
+            sender.sendMessage("§e/ah hud create <名称> §7- 在当前位置创建全息拍卖行");
+            sender.sendMessage("§e/ah hud remove <名称> §7- 移除指定名称的全息拍卖行");
+            sender.sendMessage("§e/ah hud list §7- 列出所有全息拍卖行");
+            sender.sendMessage("§e/ah hud reload §7- 重新加载全息拍卖行配置");
         }
     }
 
@@ -302,51 +352,60 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    private boolean handleCloseCommand(Player player) {
-        // 检查权限
-        if (!player.hasPermission("globalshop.admin")) {
-            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
+    /**
+     * 处理close命令
+     * @param sender 命令发送者
+     * @return 命令执行结果
+     */
+    private boolean handleCloseCommand(CommandSender sender) {
+        if (sender.hasPermission("globalshop.admin")) {
+            // 强制所有在线玩家关闭拍卖行界面
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                if (plugin.getGuiManager().isViewingGui(onlinePlayer)) {
+                    plugin.getGuiManager().closeGui(onlinePlayer);
+                    onlinePlayer.sendMessage(plugin.getMessageManager().getCommandCloseForceCloseMessage());
+                }
+            }
+            sender.sendMessage(plugin.getMessageManager().getCommandCloseSuccessMessage());
+            return true;
+        } else {
+            sender.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
-        
-        // 创建并执行关闭所有拍卖的任务
-        player.sendMessage(plugin.getMessageManager().getCommandCloseStartingMessage());
-        player.sendMessage(plugin.getMessageManager().getCommandCloseAsyncNoticeMessage());
-        
-        // 创建并运行任务（异步执行以避免卡服）
-        cn.i7mc.globalshop.tasks.CloseAllAuctionsTask task = new cn.i7mc.globalshop.tasks.CloseAllAuctionsTask(plugin, player);
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, task);
-        return true;
     }
 
     /**
-     * 处理检查过期物品命令
-     * @param player 命令发送者
+     * 处理checkexpired命令
+     * @param sender 命令发送者
      * @return 命令执行结果
      */
-    private boolean handleCheckExpiredCommand(Player player) {
-        // 检查权限
-        if (!player.hasPermission("globalshop.admin")) {
-            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
+    private boolean handleCheckExpiredCommand(CommandSender sender) {
+        if (sender.hasPermission("globalshop.admin")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                player.sendMessage(plugin.getMessageManager().getCommandCheckExpiredCheckingMessage());
+                
+                // 异步执行检查任务
+                Bukkit.getScheduler().runTaskAsynchronously(plugin, new cn.i7mc.globalshop.tasks.CheckAllAuctionsTask(plugin, player));
+            } else {
+                int expiredItems = plugin.getDatabaseManager().processExpiredAuctions();
+                
+                // 发送过期物品处理结果消息
+                if (expiredItems > 0) {
+                    sender.sendMessage(plugin.getMessageManager().getCommandCheckExpiredSuccessMessage(expiredItems));
+                } else {
+                    sender.sendMessage(plugin.getMessageManager().getCommandCheckExpiredNoneMessage());
+                }
+            }
+            return true;
+        } else {
+            sender.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
-        
-        // 只有玩家可以执行此命令
-        if (!(player instanceof Player)) {
-            player.sendMessage(plugin.getMessageManager().getCommandCheckExpiredPlayerOnlyMessage());
-            return true;
-        }
-        
-        player.sendMessage(plugin.getMessageManager().getCommandCheckExpiredCheckingMessage());
-        
-        // 异步执行检查任务
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, new cn.i7mc.globalshop.tasks.CheckAllAuctionsTask(plugin, player));
-        
-        return true;
     }
 
-    private boolean handleReloadCommand(Player player) {
-        if (player.hasPermission("globalshop.admin")) {
+    private boolean handleReloadCommand(CommandSender sender) {
+        if (sender.hasPermission("globalshop.admin")) {
             // 先取消现有任务 (如果主类GlobalShop中有提供方法的话)
             plugin.cancelAuctionTasks();
             
@@ -361,20 +420,52 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
             // 重新加载界面管理器配置
             plugin.getGuiManager().reloadConfig();
             
+            // 重新加载全息显示配置
+            if (plugin.getHologramConfigManager() != null) {
+                plugin.getHologramConfigManager().reloadConfig();
+            }
+            
+            // 重新加载全息显示位置
+            if (plugin.getHologramCommandManager() != null) {
+                // 调用HologramCommandManager的reload方法
+                plugin.getHologramCommandManager().handleReloadCommand(sender);
+            }
+            
             // 使用新配置重新启动任务
             plugin.startAuctionTasks();
             
             // 输出调试信息，帮助确认配置已正确加载
             if (plugin.getConfigManager().isDebug()) {
-                player.sendMessage(plugin.getMessageManager().getCommandReloadDebugInfoMessage(
+                sender.sendMessage(plugin.getMessageManager().getCommandReloadDebugInfoMessage(
                     plugin.getConfigManager().getCheckInterval()));
             }
             
-            player.sendMessage(plugin.getMessageManager().getCommandReloadSuccessMessage());
+            sender.sendMessage(plugin.getMessageManager().getCommandReloadSuccessMessage());
             return true;
         } else {
-            player.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
+            sender.sendMessage(plugin.getMessageManager().getCommandNoPermissionMessage());
             return true;
         }
+    }
+
+    /**
+     * 处理全息拍卖行命令
+     * @param sender 命令发送者
+     * @param args 命令参数
+     * @return 命令执行结果
+     */
+    private boolean handleHudCommand(CommandSender sender, String[] args) {
+        // 添加调试信息
+        if (plugin.getConfigManager().isDebug()) {
+        }
+        
+        // 检查HologramCommandManager是否可用
+        if (plugin.getHologramCommandManager() == null) {
+            sender.sendMessage("§c全息拍卖行功能未启用");
+            return true;
+        }
+        
+        // 调用HologramCommandManager处理命令
+        return plugin.getHologramCommandManager().onCommand(sender, args);
     }
 } 

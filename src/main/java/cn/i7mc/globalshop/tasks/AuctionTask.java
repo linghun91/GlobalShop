@@ -75,6 +75,12 @@ public class AuctionTask extends BukkitRunnable {
         if (!updated) {
         }
         
+        // 记录拍卖历史购买事件
+        Player buyer = Bukkit.getPlayer(buyerUUID);
+        if (buyer != null && buyer.isOnline()) {
+            plugin.getAuctionHistoryManager().addBuyEvent(buyer, item);
+        }
+        
         // 给卖家货币（扣除手续费）
         double sellerAmount = item.getCurrentPrice() - 
                 plugin.getEconomyManager().calculateFee(item.getCurrentPrice(), item.getCurrencyType());
@@ -90,27 +96,27 @@ public class AuctionTask extends BukkitRunnable {
         addToMailbox(item, buyerUUID, "AUCTION_WON");
         
         // 通知买家
-        Player buyer = Bukkit.getPlayer(buyerUUID);
-        if (buyer != null && buyer.isOnline()) {
+        Player buyerPlayer = Bukkit.getPlayer(buyerUUID);
+        if (buyerPlayer != null && buyerPlayer.isOnline()) {
             // 使用MessageManager获取消息
-            buyer.sendMessage(plugin.getMessageManager().getBuyerWinSuccessMessage());
-            buyer.sendMessage(plugin.getMessageManager().getBuyerWinItemMessage(ChatUtils.getItemName(item.getItem())));
-            buyer.sendMessage(plugin.getMessageManager().getBuyerWinPriceMessage(
+            buyerPlayer.sendMessage(plugin.getMessageManager().getBuyerWinSuccessMessage());
+            buyerPlayer.sendMessage(plugin.getMessageManager().getBuyerWinItemMessage(ChatUtils.getItemName(item.getItem())));
+            buyerPlayer.sendMessage(plugin.getMessageManager().getBuyerWinPriceMessage(
                     plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType())));
-            buyer.sendMessage(plugin.getMessageManager().getBuyerWinCollectGuideMessage());
+            buyerPlayer.sendMessage(plugin.getMessageManager().getBuyerWinCollectGuideMessage());
         }
         
         // 通知卖家
-        Player seller = Bukkit.getPlayer(sellerUUID);
-        if (seller != null && seller.isOnline()) {
+        Player sellerPlayer = Bukkit.getPlayer(sellerUUID);
+        if (sellerPlayer != null && sellerPlayer.isOnline()) {
             // 使用MessageManager获取消息
-            seller.sendMessage(plugin.getMessageManager().getSellerWinSuccessMessage());
-            seller.sendMessage(plugin.getMessageManager().getSellerWinItemMessage(ChatUtils.getItemName(item.getItem())));
-            seller.sendMessage(plugin.getMessageManager().getSellerWinPriceMessage(
+            sellerPlayer.sendMessage(plugin.getMessageManager().getSellerWinSuccessMessage());
+            sellerPlayer.sendMessage(plugin.getMessageManager().getSellerWinItemMessage(ChatUtils.getItemName(item.getItem())));
+            sellerPlayer.sendMessage(plugin.getMessageManager().getSellerWinPriceMessage(
                     plugin.getEconomyManager().formatAmount(item.getCurrentPrice(), item.getCurrencyType())));
-            seller.sendMessage(plugin.getMessageManager().getSellerWinIncomeMessage(
+            sellerPlayer.sendMessage(plugin.getMessageManager().getSellerWinIncomeMessage(
                     plugin.getEconomyManager().formatAmount(sellerAmount, item.getCurrencyType())));
-            seller.sendMessage(plugin.getMessageManager().getSellerWinBuyerMessage(item.getCurrentBidderName()));
+            sellerPlayer.sendMessage(plugin.getMessageManager().getSellerWinBuyerMessage(item.getCurrentBidderName()));
         }
     }
 
@@ -183,18 +189,20 @@ public class AuctionTask extends BukkitRunnable {
         if (!updated) {
             return;
         }
+        
+        // 记录拍卖历史过期事件
+        plugin.getAuctionHistoryManager().addExpiredEvent(item);
+        
         // 将过期物品放入邮箱（使用统一方法处理）
-        // 关键修改：这里不再使用addToMailbox方法，而是直接设置物品状态为MAILBOX_ITEM
-        // 数据库中的字段会记录这是一个"过期未售出"的物品，而不会创建重复记录
         directAddToMailbox(item, sellerUUID);
         
         // 通知卖家
-        Player seller = Bukkit.getPlayer(sellerUUID);
-        if (seller != null && seller.isOnline()) {
+        Player sellerPlayer = Bukkit.getPlayer(sellerUUID);
+        if (sellerPlayer != null && sellerPlayer.isOnline()) {
             // 使用MessageManager获取消息
-            seller.sendMessage(plugin.getMessageManager().getSellerExpiredNoticeMessage());
-            seller.sendMessage(plugin.getMessageManager().getSellerExpiredItemMessage(ChatUtils.getItemName(item.getItem())));
-            seller.sendMessage(plugin.getMessageManager().getSellerExpiredCollectGuideMessage());
+            sellerPlayer.sendMessage(plugin.getMessageManager().getSellerExpiredNoticeMessage());
+            sellerPlayer.sendMessage(plugin.getMessageManager().getSellerExpiredItemMessage(ChatUtils.getItemName(item.getItem())));
+            sellerPlayer.sendMessage(plugin.getMessageManager().getSellerExpiredCollectGuideMessage());
         }
     }
     

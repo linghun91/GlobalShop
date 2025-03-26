@@ -1097,4 +1097,65 @@ public class DatabaseManager {
         
         return count;
     }
+
+    /**
+     * 处理所有过期但未处理的拍卖物品
+     * @return 处理的过期物品数量
+     */
+    public int processExpiredAuctions() {
+        // 检查连接
+        if (!checkConnection()) {
+            return 0;
+        }
+        
+        // 获取所有过期的拍卖
+        List<AuctionItem> expiredItems = getExpiredAuctionItems();
+        if (expiredItems.isEmpty()) return 0;
+        
+        int processedCount = 0;
+        
+        // 处理每一个过期物品
+        for (AuctionItem item : expiredItems) {
+            // 只处理活跃状态的物品
+            if (item.isActive()) {
+                if (item.getCurrentBidder() != null) {
+                    // 有出价者，拍卖成功
+                    // 更新状态为已售出
+                    item.setStatus("SOLD");
+                    item.setSoldTime(System.currentTimeMillis());
+                    updateAuctionItem(item);
+                    
+                    // 将物品添加到买家的待领取列表
+                    storePendingItem(item.getCurrentBidder(), item.getItem(), "BID_WIN");
+                    
+                    // 交易金额(当前价格)
+                    double price = item.getCurrentPrice();
+                    double fee = plugin.getEconomyManager().calculateFee(price, item.getCurrencyType());
+                    double income = price - fee;
+                    
+                    // 给卖家转账
+                    plugin.getEconomyManager().giveMoney(Bukkit.getOfflinePlayer(item.getSellerUuid()), income, item.getCurrencyType());
+                    
+                    // 记录拍卖历史购买事件
+                    plugin.getAuctionHistoryManager().addBuyEvent(Bukkit.getPlayer(item.getCurrentBidder()), item);
+                    
+                    processedCount++;
+                } else {
+                    // 没有出价者，拍卖失败，将物品返还给卖家
+                    item.setStatus("EXPIRED");
+                    updateAuctionItem(item);
+                    
+                    // 记录拍卖历史过期事件
+                    plugin.getAuctionHistoryManager().addExpiredEvent(item);
+                    
+                    // 将物品添加到卖家的待领取列表
+                    storePendingItem(item.getSellerUuid(), item.getItem(), "EXPIRED");
+                    
+                    processedCount++;
+                }
+            }
+        }
+        
+        return processedCount;
+    }
 } 

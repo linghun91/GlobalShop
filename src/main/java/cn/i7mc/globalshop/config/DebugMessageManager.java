@@ -63,7 +63,6 @@ public class DebugMessageManager {
             try {
                 return MessageFormat.format(message, args);
             } catch (Exception e) {
-                plugin.getLogger().warning("调试消息格式化错误，键: " + key);
                 return message;
             }
         }
@@ -78,7 +77,6 @@ public class DebugMessageManager {
     public void debug(String key, Object... args) {
         if (debugEnabled) {
             String message = getMessage(key, key, args);
-            plugin.getLogger().info("[DEBUG] " + message);
         }
     }
 

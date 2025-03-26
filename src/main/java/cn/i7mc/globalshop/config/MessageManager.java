@@ -50,7 +50,6 @@ public class MessageManager {
                 if (localeFile.exists()) {
                     messagesFile = localeFile;
                     messages = YamlConfiguration.loadConfiguration(messagesFile);
-                    plugin.getLogger().info("已加载语言文件: " + localeFile.getPath());
                     return;
                 }
             }
@@ -68,7 +67,6 @@ public class MessageManager {
                 if (!messagesFile.exists()) {
                     plugin.saveResource("message.yml", false);
                 }
-                plugin.getLogger().warning("找不到语言文件: " + messageFileName + "，已使用默认的message.yml");
             }
         }
         
@@ -82,7 +80,6 @@ public class MessageManager {
         try {
             messages.save(messagesFile);
         } catch (IOException e) {
-            plugin.getLogger().severe("无法保存message.yml: " + e.getMessage());
         }
     }
 
@@ -1078,11 +1075,9 @@ public class MessageManager {
                             // 如果本地已有该文件，则记录信息
                             plugin.getLogger().info("使用本地语言文件: " + fileName);
                         } else {
-                            plugin.getLogger().warning("找不到语言文件: " + fileName);
                         }
                     }
                 } catch (Exception e) {
-                    plugin.getLogger().warning("无法安装语言文件: " + fileName + " - " + e.getMessage());
                 }
             }
         }
@@ -1096,7 +1091,6 @@ public class MessageManager {
                     plugin.getLogger().info("已安装语言说明文件: LANG.md");
                 }
             } catch (Exception e) {
-                plugin.getLogger().warning("无法安装语言说明文件: LANG.md - " + e.getMessage());
             }
         }
     }
@@ -1647,7 +1641,7 @@ public class MessageManager {
      * @return 交易失败消息
      */
     public String getFailedTransactionMessage() {
-        return messages.getString("gui_listener.failed_transaction", "§c扣款失败，请重试!");
+        return ChatColor.translateAlternateColorCodes('&', messages.getString("messages.failed_transaction", "§c交易失败，请检查您的余额!"));
     }
     
     /**
@@ -1784,8 +1778,7 @@ public class MessageManager {
      * @return 竞价低于最低要求消息
      */
     public String getBidBelowMinimumMessage(String minBid) {
-        return messages.getString("gui_listener.bid_below_minimum", "§c出价必须至少比当前价格高 %min_bid%!")
-                .replace("%min_bid%", minBid);
+        return ChatColor.translateAlternateColorCodes('&', messages.getString("messages.bid_below_minimum", "§c最低加价不能低于 %min_amount%!").replace("%min_amount%", minBid));
     }
     
     /**
@@ -2519,5 +2512,43 @@ public class MessageManager {
      */
     public String getTabCompletionSearchKeywordMessage() {
         return messages.getString("auction_commands.tab_completion.search_keyword", "<关键词>");
+    }
+    
+    public String getBidBelowCurrentPriceMessage() {
+        return ChatColor.translateAlternateColorCodes('&', messages.getString("messages.bid_below_current_price", "§c价格已更新，您的竞价低于当前最新价格，请重新出价!"));
+    }
+
+    /**
+     * 获取关闭命令强制关闭消息
+     * @return 强制关闭消息
+     */
+    public String getCommandCloseForceCloseMessage() {
+        return messages.getString("auction_commands.close.force_close", "§c拍卖行已被管理员强制关闭!");
+    }
+    
+    /**
+     * 获取关闭命令成功消息
+     * @return 关闭成功消息
+     */
+    public String getCommandCloseSuccessMessage() {
+        return messages.getString("auction_commands.close.success", "§a所有玩家的拍卖行已被强制关闭!");
+    }
+    
+    /**
+     * 获取检查过期成功消息
+     * @param count 处理的过期物品数量
+     * @return 检查过期成功消息
+     */
+    public String getCommandCheckExpiredSuccessMessage(int count) {
+        return messages.getString("auction_commands.checkexpired.success", "§a成功处理了 %count% 个过期物品!")
+                .replace("%count%", String.valueOf(count));
+    }
+    
+    /**
+     * 获取检查过期无物品消息
+     * @return 检查过期无物品消息
+     */
+    public String getCommandCheckExpiredNoneMessage() {
+        return messages.getString("auction_commands.checkexpired.none", "§a没有发现过期但未处理的物品。");
     }
 } 

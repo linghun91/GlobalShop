@@ -25,3 +25,6 @@ permissions:
   globalshop.admin:
     description: 允许使用管理员命令
     default: op
+  globalshop.admin.hud:
+    description: 允许管理全息拍卖行展示
+    default: op
