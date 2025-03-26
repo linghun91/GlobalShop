@@ -1,4 +1,4 @@
-[# GlobalShop - 全局拍卖行插件
+# GlobalShop - 全局拍卖行插件
 
 ## 项目概述
 GlobalShop是一个基于Spigot 1.21.4开发的Minecraft服务器拍卖行插件，提供类似魔兽世界拍卖行的功能。该插件支持自定义物品的拍卖、购买和搜索功能。
@@ -174,10 +174,13 @@ GlobalShop是一个基于Spigot 1.21.4开发的Minecraft服务器拍卖行插件
 - `MessageManager.java` - 消息管理类
   - 负责读取和保存message.yml，提供消息文本访问方法
   - 包含GUI按钮文本配置项，支持自定义界面文本
+  - 支持多语言消息配置
+  - 提供动态占位符替换功能
 
 - `DebugMessageManager.java` - 调试消息管理类
   - 负责读取和保存debugmessage.yml，提供调试消息访问方法
   - 包含调试消息配置项，支持开发调试和错误追踪
+  - 支持动态开关调试输出
 
 - `DatabaseManager.java` - 数据库管理器，负责与数据库进行交互
   - 管理拍卖物品数据库
@@ -216,6 +219,36 @@ GlobalShop是一个基于Spigot 1.21.4开发的Minecraft服务器拍卖行插件
   - 界面数据管理
     - 玩家页码跟踪 (playerPages)
     - 玩家搜索查询跟踪 (playerSearchQueries)
+
+### 全息显示系统
+- `AuctionHistoryManager.java` - 拍卖历史管理器
+  - 管理拍卖历史记录
+  - 处理历史记录显示
+  - 支持历史记录查询
+- `HologramCommandManager.java` - 全息命令管理器
+  - 处理全息相关命令
+  - 管理全息显示位置
+  - 支持全息显示配置
+- `HologramConfigManager.java` - 全息配置管理器
+  - 加载全息显示配置
+  - 管理全息显示设置
+  - 支持配置热重载
+- `HologramDisplayManager.java` - 全息显示管理器
+  - 创建和管理全息显示
+  - 处理全息显示更新
+  - 支持动态显示内容
+- `HologramUpdateTask.java` - 全息更新任务
+  - 定期更新全息显示
+  - 处理全息显示刷新
+  - 优化显示性能
+- `ItemDisplayManager.java` - 物品显示管理器
+  - 管理物品全息显示
+  - 处理物品显示效果
+  - 支持3D物品展示
+- `TextDisplayManager.java` - 文本显示管理器
+  - 管理文本全息显示
+  - 处理文本显示效果
+  - 支持动态文本更新
 
 ### 监听器
 - `GuiListener.java` - GUI事件监听器，处理界面交互
@@ -265,29 +298,42 @@ GlobalShop是一个基于Spigot 1.21.4开发的Minecraft服务器拍卖行插件
     - 时间格式化方法（getFormattedRemainingTime）
 
 ### 工具类
+- `BroadcastManager.java` - 广播管理器
+  - 管理不同事件类型的广播配置
+  - 处理物品上架、竞拍成功、一口价购买等广播
+  - 支持聊天框、Boss栏、标题、副标题、动作栏等显示位置
+  - 支持动态消息格式配置
+  - 处理物品悬停信息显示
 - `ChatUtils.java` - 聊天和文本工具类
   - 提供物品名称获取方法
   - 提供时间格式化方法
-- `SearchHistoryManager.java` - 搜索历史管理类
-  - 存储每个玩家的搜索历史
-  - 管理搜索历史的添加、获取和清除
+  - 处理聊天消息格式化
 - `MinecraftLanguageManager.java` - Minecraft语言管理类
   - 英文ID到中文名称的映射
   - 中文名称到英文ID的映射
   - 加载minecraft_lang.yml翻译文件
   - 根据中文关键词查找可能的物品ID
-- `BroadcastManager.java` - 广播管理器
-  - 管理不同事件类型的广播配置
-  - 处理物品上架、竞拍成功、一口价购买等广播
-  - 支持聊天框、Boss栏、标题、副标题、动作栏等显示位置
+  - 支持多语言物品名称转换
+- `SearchHistoryManager.java` - 搜索历史管理类
+  - 存储每个玩家的搜索历史
+  - 管理搜索历史的添加、获取和清除
+  - 支持历史记录限制
+  - 提供历史记录清理功能
 
 ### 任务类
 - `AuctionTask.java` - 拍卖定时任务类
   - 定期检查过期拍卖
   - 处理过期拍卖（成功竞拍、未售出等）
   - 存储待领取物品
+  - 发送拍卖结果通知
 - `CheckAllAuctionsTask.java` - 检查所有拍卖任务类
+  - 检查所有拍卖状态
+  - 处理异常拍卖
+  - 更新拍卖信息
 - `CloseAllAuctionsTask.java` - 关闭所有拍卖任务类
+  - 强制关闭所有拍卖
+  - 退还竞价金额
+  - 返还物品给卖家
 
 ### 项目结构树
 
@@ -496,6 +542,12 @@ src/
 /auction reload - 重新加载配置文件（需要管理员权限）
 /auction close - 强制关闭所有拍卖（仅管理员可用，测试用）
 /auction checkexpired - 手动检查过期物品（仅管理员可用）
+
+全息拍卖行命令（需要管理员权限）：
+/auction hud create <名称> - 在当前位置创建全息拍卖行
+/auction hud remove <名称> - 移除指定名称的全息拍卖行
+/auction hud list - 列出所有全息拍卖行
+/auction hud reload - 重新加载全息拍卖行配置
 ```
 
 ## 权限节点
@@ -526,4 +578,3 @@ globalshop.admin - 管理员权限
   - 广播位置设置（聊天框/Boss栏/标题/副标题/动作栏）
   - Boss栏样式和持续时间
   - 标题显示时间
-](https://github.com/linghun91/GlobalShop/edit/master/README.md)
