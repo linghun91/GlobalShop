@@ -106,10 +106,7 @@ public class GlobalShop extends JavaPlugin {
         getCommand("auction").setExecutor(auctionCommand);
         getCommand("auction").setTabCompleter(auctionCommand);
         
-        // 添加调试信息，确保TabCompleter正确注册
-        if (getConfigManager().isDebug()) {
-            getLogger().info("已注册auction命令的TabCompleter");
-        }
+
         
         getServer().getPluginManager().registerEvents(new GuiListener(this), this);
         
@@ -118,7 +115,6 @@ public class GlobalShop extends JavaPlugin {
         
         // 在插件启动时强制清空并初始化所有全息显示
         if (hologramCommandManager != null) {
-            getLogger().info("§b[GlobalShop] 正在清空并初始化所有全息显示...");
             hologramCommandManager.forceUpdateAll();
         }
         
@@ -159,42 +155,18 @@ public class GlobalShop extends JavaPlugin {
      * 初始化全息相关组件
      */
     private void initHologramComponents() {
-        getLogger().info("§a[GlobalShop] 开始初始化全息组件...");
         try {
             // 初始化全息显示管理器
             this.hologramDisplayManager = new HologramDisplayManager(this);
-            getLogger().info("§a[GlobalShop] 全息显示管理器初始化成功");
-            
             this.itemDisplayManager = new ItemDisplayManager(this, hologramDisplayManager);
-            getLogger().info("§a[GlobalShop] 物品显示管理器初始化成功");
-            
             this.textDisplayManager = new TextDisplayManager(this, hologramDisplayManager);
-            getLogger().info("§a[GlobalShop] 文本显示管理器初始化成功");
-            
-            // 初始化拍卖历史记录管理器
             this.auctionHistoryManager = new AuctionHistoryManager(this, 50);
-            getLogger().info("§a[GlobalShop] 拍卖历史记录管理器初始化成功");
-            
-            // 初始化全息配置管理器
             this.hologramConfigManager = new HologramConfigManager(this);
-            getLogger().info("§a[GlobalShop] 全息配置管理器初始化成功");
-            
-            // 初始化全息命令管理器
             this.hologramCommandManager = new HologramCommandManager(this, hologramDisplayManager, hologramConfigManager);
-            getLogger().info("§a[GlobalShop] 全息命令管理器初始化成功");
-            
-            // 创建并启动全息更新任务
             int updateInterval = hologramConfigManager.getUpdateInterval();
             this.hologramUpdateTask = new HologramUpdateTask(this, hologramDisplayManager, itemDisplayManager, textDisplayManager, auctionHistoryManager, hologramConfigManager);
-            // 使用同步任务而非异步任务
             hologramUpdateTask.runTaskTimer(this, 20L, updateInterval * 20L);
-            getLogger().info("§a[GlobalShop] 全息更新任务已启动，更新间隔：" + updateInterval + "秒");
-            
-            if (getConfigManager().isDebug()) {
-                getLogger().info("全息拍卖行组件已初始化，更新间隔：" + updateInterval + "秒");
-            }
         } catch (Exception e) {
-            getLogger().severe("§c[GlobalShop] 初始化全息组件时发生错误：" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -366,11 +338,6 @@ public class GlobalShop extends JavaPlugin {
         // 将秒转换为tick（1秒 = 20 tick）
         long checkIntervalTicks = checkIntervalSeconds * 20L;
         
-        // 添加调试信息
-        if (getConfigManager().isDebug()) {
-            getLogger().info("启动拍卖检查任务，间隔：" + checkIntervalSeconds + "秒");
-        }
-        
         // 创建并启动拍卖检查任务
         auctionTask = new AuctionTask(this).runTaskTimer(this, checkIntervalTicks, checkIntervalTicks);
     }
@@ -396,9 +363,7 @@ public class GlobalShop extends JavaPlugin {
             // 以新的间隔启动任务（使用同步任务，而非异步）
             hologramUpdateTask.runTaskTimer(this, 20L, intervalSeconds * 20L);
             
-            getLogger().info("§a[GlobalShop] 已重新调度全息更新任务，新间隔：" + intervalSeconds + "秒");
         } catch (Exception e) {
-            getLogger().severe("§c[GlobalShop] 重新调度全息更新任务时发生错误：" + e.getMessage());
             e.printStackTrace();
         }
     }

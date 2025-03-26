@@ -119,7 +119,6 @@ public class HologramDisplayManager {
      * @param viewRange 可视范围
      */
     public void setDisplayDefaults(Display display, float viewRange) {
-        display.setBillboard(Display.Billboard.CENTER);
         display.setViewRange(viewRange);
         display.setShadowRadius(0);
         display.setShadowStrength(0);

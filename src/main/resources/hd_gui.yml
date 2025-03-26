@@ -82,7 +82,7 @@ hologram:
       background-color: "#33000000"
       # 是否使用默认背景
       default-background: false
-      # 广告牌样式 (FIXED, VERTICAL, HORIZONTAL, CENTER)
+      # 广告牌样式 (FIXED=固定朝向, VERTICAL=垂直旋转, CENTER=面向玩家, HORIZONTAL=水平旋转)
       billboard: "CENTER"
       # 亮度设置
       brightness:
@@ -115,7 +115,7 @@ hologram:
       background-color: ""
       # 是否使用默认背景
       default-background: false
-      # 广告牌样式 (FIXED, VERTICAL, HORIZONTAL, CENTER)
+      # 广告牌样式 (FIXED=固定朝向, VERTICAL=垂直旋转, CENTER=面向玩家, HORIZONTAL=水平旋转)
       billboard: "CENTER"
       # 亮度设置
       brightness:

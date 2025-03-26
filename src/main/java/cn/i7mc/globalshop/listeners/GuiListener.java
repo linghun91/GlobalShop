@@ -2076,12 +2076,6 @@ public class GuiListener implements Listener {
             player.sendMessage(messageManager.getBidSuccessMessage(plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType())));
             player.sendMessage(messageManager.getBidItemMessage(String.valueOf(item.getId())));
             player.sendMessage(messageManager.getBidPriceMessage(plugin.getEconomyManager().formatAmount(bidAmount, item.getCurrencyType())));
-            
-            // 输出调试信息
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().info("调试: 准备广播竞价确认消息, 玩家: " + player.getName() + ", 物品ID: " + item.getId() + ", 出价: " + bidAmount);
-            }
-            
             // 广播竞价确认消息
             plugin.getBroadcastManager().broadcastBidConfirmed(player.getName(), item);
         }

@@ -182,18 +182,12 @@ public class BroadcastManager {
     private void loadEventConfig(ConfigurationSection eventsConfig, String configKey, BroadcastEvent event) {
         ConfigurationSection eventConfig = eventsConfig.getConfigurationSection(configKey);
         if (eventConfig == null) {
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().info("调试: 未找到广播事件配置: " + configKey);
-            }
             return;
         }
         
         boolean eventEnabled = eventConfig.getBoolean("enabled", false);
         BroadcastConfig broadcastConfig = new BroadcastConfig(eventEnabled);
         
-        if (plugin.getConfigManager().isDebug()) {
-            plugin.getLogger().info("调试: 加载广播事件配置: " + configKey + ", 启用状态: " + eventEnabled);
-        }
         
         ConfigurationSection locationsConfig = eventConfig.getConfigurationSection("locations");
         if (locationsConfig != null) {
@@ -209,11 +203,7 @@ public class BroadcastManager {
             broadcastConfig.setLocationEnabled(BroadcastLocation.SUBTITLE, subtitleEnabled);
             broadcastConfig.setLocationEnabled(BroadcastLocation.ACTIONBAR, actionbarEnabled);
             
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().info("调试: 广播位置配置 - " + configKey + ": chat=" + chatEnabled 
-                    + ", bossbar=" + bossbarEnabled + ", title=" + titleEnabled 
-                    + ", subtitle=" + subtitleEnabled + ", actionbar=" + actionbarEnabled);
-            }
+
         }
         
         this.eventConfigs.put(event, broadcastConfig);
@@ -231,25 +221,13 @@ public class BroadcastManager {
     private void broadcastMessage(BroadcastEvent event, String chatMessage, String bossbarMessage, 
                                  String titleMessage, String subtitleMessage, String actionbarMessage) {
         if (!this.enabled) {
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().info("调试: 广播系统总开关已关闭，不发送任何消息");
-            }
             return;
         }
-        
         BroadcastConfig config = this.eventConfigs.get(event);
         if (config == null || !config.isEnabled()) {
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().info("调试: 广播事件 " + event.name() + " 的配置不存在或已禁用");
-            }
             return;
         }
-        
-        // 记录开始广播的调试信息
-        if (plugin.getConfigManager().isDebug()) {
-            plugin.getLogger().info("调试: 开始广播事件 " + event.name() + " 的消息");
-        }
-        
+
         // 聊天框广播
         if (config.isLocationEnabled(BroadcastLocation.CHAT) && chatMessage != null && !chatMessage.isEmpty()) {
             // 创建带有详细信息的交互式组件
@@ -270,9 +248,6 @@ public class BroadcastManager {
                     
                     detailsComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverEventComponents));
                 } catch (Exception e) {
-                    if (plugin.getConfigManager().isDebug()) {
-                        plugin.getLogger().warning("创建悬停文本时发生错误: " + e.getMessage());
-                    }
                     // 使用备用文本
                     detailsComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
                         new ComponentBuilder(plugin.getMessageManager().getNoDetailsAvailableText()).create()));
@@ -375,9 +350,7 @@ public class BroadcastManager {
             ItemStack itemDisplay = plugin.getGuiManager().createAuctionItemDisplay(lastBroadcastItem, null);
             return createItemInfoText(itemDisplay);
         } catch (Exception e) {
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().warning("创建悬停文本时发生错误: " + e.getMessage());
-            }
+
         }
         
         // 如果获取Lore失败，使用备用方案
@@ -470,19 +443,12 @@ public class BroadcastManager {
      */
     private boolean isEventEnabled(BroadcastEvent event) {
         if (!this.enabled) {
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().info("调试: 广播系统总开关已关闭，事件类型: " + event.name());
-            }
             return false;
         }
         
         BroadcastConfig config = this.eventConfigs.get(event);
         boolean isEnabled = config != null && config.isEnabled();
-        
-        if (plugin.getConfigManager().isDebug()) {
-            plugin.getLogger().info("调试: 广播事件 " + event.name() + " 启用状态: " + isEnabled);
-        }
-        
+
         return isEnabled;
     }
     
@@ -521,9 +487,6 @@ public class BroadcastManager {
         
         // 如果配置中没有设置，使用简单的默认消息（不含任何格式，只用于调试）
         if (message == null || message.isEmpty()) {
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().warning("警告: 未找到广播消息配置: " + path);
-            }
             // 返回一个非常简单的默认消息，确保有显示
             return "§7[广播] " + eventKey + " - " + locationType;
         }
@@ -749,15 +712,9 @@ public class BroadcastManager {
      */
     public void broadcastBidConfirmed(String bidder, AuctionItem item) {
         if (!isEventEnabled(BroadcastEvent.BID_CONFIRMED)) {
-            if (plugin.getConfigManager().isDebug()) {
-                plugin.getLogger().info("调试: 竞价确认广播已禁用或未配置");
-            }
             return;
         }
         
-        if (plugin.getConfigManager().isDebug()) {
-            plugin.getLogger().info("调试: 正在广播竞价确认消息，玩家: " + bidder + ", 物品ID: " + item.getId());
-        }
         
         // 保存要广播的物品信息，用于悬停显示
         this.lastBroadcastItem = item;

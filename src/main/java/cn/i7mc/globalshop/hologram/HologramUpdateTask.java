@@ -1,6 +1,7 @@
 package cn.i7mc.globalshop.hologram;
 
 import cn.i7mc.globalshop.GlobalShop;
+import cn.i7mc.globalshop.utils.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -8,7 +9,9 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.ChatColor;
 
 import java.util.Collection;
 import java.util.List;
@@ -200,20 +203,42 @@ public class HologramUpdateTask extends BukkitRunnable {
         StringBuilder text = new StringBuilder();
         
         // 物品名称，最多显示10个字符
-        String itemName = event.getItem().getDisplayName();
-        if (itemName == null || itemName.isEmpty()) {
-            itemName = event.getItem().getItem().getType().toString();
+        String itemName;
+        ItemStack original = event.getItem().getItem();
+        ItemMeta meta = original.getItemMeta();
+        
+        // 尝试获取物品的自定义显示名称
+        if (meta != null && meta.hasDisplayName()) {
+            // 保留原有的颜色代码和样式
+            itemName = meta.getDisplayName();
+        } else {
+            // 只有在中文语言环境时才进行原版物品名称的中文翻译
+            if (plugin.getConfigManager().isChineseLanguage()) {
+                // 使用与GuiManager相同的逻辑获取中文名称
+                String chineseName = plugin.getLanguageManager().getChineseName(original.getType());
+                itemName = (chineseName != null && !chineseName.isEmpty()) ? 
+                        "§e" + chineseName : // 只有非自定义名称才使用黄色
+                        "§e" + ChatUtils.getItemName(original);
+            } else {
+                // 非中文语言环境下使用原版物品名称
+                itemName = "§e" + ChatUtils.getItemName(original);
+            }
         }
-        if (itemName.length() > 10) {
-            itemName = itemName.substring(0, 9) + "…";
+        
+        // 如果名称超过10个字符，截断并添加省略号
+        if (ChatColor.stripColor(itemName).length() > 10) {
+            // 保留颜色代码，但截断实际文本
+            String colorCodes = getColorCodesBeforeIndex(itemName, 10);
+            String plainText = ChatColor.stripColor(itemName);
+            itemName = colorCodes + plainText.substring(0, 9) + "…";
         }
         
         // 物品数量（如果大于1）
-        int amount = event.getItem().getItem().getAmount();
+        int amount = original.getAmount();
         if (amount > 1) {
             itemName += " §fx" + amount;
         }
-        text.append("§e").append(itemName);
+        text.append(itemName);
         
         // 卖家信息
         String sellerName = event.getSellerName();
@@ -280,6 +305,29 @@ public class HologramUpdateTask extends BukkitRunnable {
         text.append(" §7| §8").append(timeStr);
         
         return text.toString();
+    }
+    
+    /**
+     * 获取指定位置之前的所有颜色代码
+     * @param text 包含颜色代码的文本
+     * @param index 指定位置
+     * @return 颜色代码字符串
+     */
+    private String getColorCodesBeforeIndex(String text, int index) {
+        StringBuilder codes = new StringBuilder();
+        char[] chars = text.toCharArray();
+        int realCharCount = 0;
+        
+        for (int i = 0; i < chars.length - 1 && realCharCount < index; i++) {
+            if (chars[i] == '§') {
+                codes.append('§').append(chars[i + 1]);
+                i++; // 跳过颜色代码字符
+            } else {
+                realCharCount++;
+            }
+        }
+        
+        return codes.toString();
     }
     
     /**
