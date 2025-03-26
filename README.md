@@ -297,53 +297,62 @@ src/
     ├─java/
     │  └─cn/
     │      └─i7mc/
-    │          └─globalshop/                      # 插件主包
-    │              │  GlobalShop.java             # 插件主类
+    │          └─globalshop/                            # 插件主包
+    │              │  GlobalShop.java                   # 插件主类
     │              │
-    │              ├─commands/                    # 命令处理模块
-    │              │      AuctionCommand.java     # 拍卖命令处理类
+    │              ├─commands/                          # 命令处理模块
+    │              │      AuctionCommand.java           # 拍卖命令处理类
     │              │
-    │              ├─config/                      # 配置管理模块
-    │              │      ConfigManager.java      # 配置管理器
-    │              │      DebugMessageManager.java # 调试消息管理类
-    │              │      MessageManager.java     # 消息管理类
+    │              ├─config/                            # 配置管理模块
+    │              │      ConfigManager.java            # 配置管理器
+    │              │      DebugMessageManager.java      # 调试消息管理类
+    │              │      MessageManager.java           # 消息管理类
     │              │
-    │              ├─database/                    # 数据库模块
-    │              │      DatabaseManager.java    # 数据库管理器
+    │              ├─database/                          # 数据库模块
+    │              │      DatabaseManager.java          # 数据库管理器
     │              │
-    │              ├─economy/                     # 经济系统模块
-    │              │      EconomyManager.java     # 经济管理器
+    │              ├─economy/                           # 经济系统模块
+    │              │      EconomyManager.java           # 经济管理器
     │              │
-    │              ├─gui/                         # 界面系统模块
-    │              │      GuiManager.java         # GUI管理器
+    │              ├─gui/                               # 界面系统模块
+    │              │      GuiManager.java               # GUI管理器
     │              │
-    │              ├─listeners/                   # 事件监听模块
-    │              │      GuiListener.java        # GUI事件监听器
+    │              ├─hologram/                          # 全息显示模块
+    │              │      AuctionHistoryManager.java    # 拍卖历史管理器
+    │              │      HologramCommandManager.java   # 全息命令管理器
+    │              │      HologramConfigManager.java    # 全息配置管理器
+    │              │      HologramDisplayManager.java   # 全息显示管理器
+    │              │      HologramUpdateTask.java       # 全息更新任务
+    │              │      ItemDisplayManager.java       # 物品显示管理器
+    │              │      TextDisplayManager.java       # 文本显示管理器
     │              │
-    │              ├─models/                      # 数据模型模块
-    │              │      AuctionItem.java        # 拍卖物品模型类
+    │              ├─listeners/                         # 事件监听模块
+    │              │      GuiListener.java              # GUI事件监听器
     │              │
-    │              ├─tasks/                       # 定时任务模块
-    │              │      AuctionTask.java        # 拍卖定时任务类
-    │              │      CheckAllAuctionsTask.java # 检查所有拍卖任务类
-    │              │      CloseAllAuctionsTask.java # 关闭所有拍卖任务类
+    │              ├─models/                            # 数据模型模块
+    │              │      AuctionItem.java              # 拍卖物品模型类
     │              │
-    │              └─utils/                       # 工具类模块
-    │                     BroadcastManager.java   # 广播管理器
-    │                     ChatUtils.java          # 聊天和文本工具类
+    │              ├─tasks/                             # 定时任务模块
+    │              │      AuctionTask.java              # 拍卖定时任务类
+    │              │      CheckAllAuctionsTask.java     # 检查所有拍卖任务类
+    │              │      CloseAllAuctionsTask.java     # 关闭所有拍卖任务类
+    │              │
+    │              └─utils/                             # 工具类模块
+    │                     BroadcastManager.java         # 广播管理器
+    │                     ChatUtils.java                # 聊天和文本工具类
     │                     MinecraftLanguageManager.java # Minecraft语言管理类
-    │                     SearchHistoryManager.java # 搜索历史管理类
+    │                     SearchHistoryManager.java     # 搜索历史管理类
     │
-    └─resources/                                  # 资源文件目录
-        │  config.yml                            # 插件配置文件
-        │  debugmessage.yml                      # 调试信息配置文件
-        │  message.yml                           # 中文界面文本和提示消息
-        │  minecraft_lang.yml                    # 中英文物品名称对照表
-        │  plugin.yml                            # 插件描述文件
+    └─resources/                                        # 资源文件目录
+        │  config.yml                                   # 插件配置文件
+        │  debugmessage.yml                             # 调试信息配置文件
+        │  message.yml                                  # 中文界面文本和提示消息
+        │  minecraft_lang.yml                           # 中英文物品名称对照表
+        │  plugin.yml                                   # 插件描述文件
         │
-        └─lang/                                  # 多语言文件目录
-               message_en.yml                    # 英语语言文件
-               message_es.yml                    # 西班牙语语言文件
+        └─lang/                                         # 多语言文件目录
+               message_en.yml                           # 英语语言文件
+               message_es.yml                           # 西班牙语语言文件
 ```
 
 ## 核心功能需求
