@@ -1,4 +1,4 @@
-# GlobalShop - 全局拍卖行插件
+[# GlobalShop - 全局拍卖行插件
 
 ## 项目概述
 GlobalShop是一个基于Spigot 1.21.4开发的Minecraft服务器拍卖行插件，提供类似魔兽世界拍卖行的功能。该插件支持自定义物品的拍卖、购买和搜索功能。
@@ -526,3 +526,4 @@ globalshop.admin - 管理员权限
   - 广播位置设置（聊天框/Boss栏/标题/副标题/动作栏）
   - Boss栏样式和持续时间
   - 标题显示时间
+](https://github.com/linghun91/GlobalShop/edit/master/README.md)
