@@ -5,7 +5,7 @@ hologram:
     # 显示的历史记录行数
     display-rows: 10
     # 更新频率（秒）
-    update-interval: 30
+    update-interval: 3
     # 行距
     line-spacing: 0.3
     # 物品与文本间距
@@ -42,7 +42,7 @@ hologram:
     bid: "竞价更新"
     buy: "被购买"
     expired: "已到期"
-    cancelled: "已取消" 
+    cancelled: "已下架" 
     
   # 全息显示标题和提示信息
   messages:
@@ -79,7 +79,7 @@ hologram:
       # 文本不透明度（0-255）
       text-opacity: 255
       # 背景颜色（ARGB格式，前两位是透明度）
-      background-color: "#33000000"
+      background-color: "#00000000"
       # 是否使用默认背景
       default-background: false
       # 广告牌样式 (FIXED=固定朝向, VERTICAL=垂直旋转, CENTER=面向玩家, HORIZONTAL=水平旋转)
@@ -112,7 +112,7 @@ hologram:
       # 文本不透明度（0-255）
       text-opacity: 255
       # 背景颜色（ARGB格式，前两位是透明度）
-      background-color: ""
+      background-color: "#00000000"
       # 是否使用默认背景
       default-background: false
       # 广告牌样式 (FIXED=固定朝向, VERTICAL=垂直旋转, CENTER=面向玩家, HORIZONTAL=水平旋转)

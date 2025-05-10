@@ -33,6 +33,14 @@ public class ConfigManager {
         config.addDefault("database.type", "sqlite");
         config.addDefault("database.file", "data.db");
         
+        // MySQL默认配置
+        config.addDefault("database.mysql.host", "localhost");
+        config.addDefault("database.mysql.port", 3306);
+        config.addDefault("database.mysql.database", "globalshop");
+        config.addDefault("database.mysql.username", "root");
+        config.addDefault("database.mysql.password", "password");
+        config.addDefault("database.mysql.useSSL", false);
+        
         config.addDefault("economy.buyer_tax_rate", 0.02);
         config.addDefault("economy.vault.name", "金币");
         config.addDefault("economy.vault.symbol", "§6$");
@@ -75,6 +83,31 @@ public class ConfigManager {
 
     public String getDatabaseFile() {
         return config.getString("database.file", "data.db");
+    }
+    
+    // MySQL数据库配置
+    public String getMySQLHost() {
+        return config.getString("database.mysql.host", "localhost");
+    }
+    
+    public int getMySQLPort() {
+        return config.getInt("database.mysql.port", 3306);
+    }
+    
+    public String getMySQLDatabase() {
+        return config.getString("database.mysql.database", "globalshop");
+    }
+    
+    public String getMySQLUsername() {
+        return config.getString("database.mysql.username", "root");
+    }
+    
+    public String getMySQLPassword() {
+        return config.getString("database.mysql.password", "password");
+    }
+    
+    public boolean getMySQLUseSSL() {
+        return config.getBoolean("database.mysql.useSSL", false);
     }
 
     // Vault经济配置

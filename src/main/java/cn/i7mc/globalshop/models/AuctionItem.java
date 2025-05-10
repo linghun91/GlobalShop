@@ -1,5 +1,7 @@
 package cn.i7mc.globalshop.models;
 
+import cn.i7mc.globalshop.GlobalShop;
+import cn.i7mc.globalshop.config.MessageManager;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
@@ -146,8 +148,10 @@ public class AuctionItem {
     }
 
     public String getFormattedRemainingTime() {
+        MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
+        
         long remainingMillis = endTime - System.currentTimeMillis();
-        if (remainingMillis <= 0) return "已过期";
+        if (remainingMillis <= 0) return messageManager.getTimeExpiredText();
         
         long seconds = remainingMillis / 1000;
         long minutes = seconds / 60;
@@ -159,10 +163,10 @@ public class AuctionItem {
         hours %= 24;
         
         StringBuilder sb = new StringBuilder();
-        if (days > 0) sb.append(days).append("天");
-        if (hours > 0) sb.append(hours).append("小时");
-        if (minutes > 0) sb.append(minutes).append("分钟");
-        if (seconds > 0) sb.append(seconds).append("秒");
+        if (days > 0) sb.append(days).append(messageManager.getTimeDayText());
+        if (hours > 0) sb.append(hours).append(messageManager.getTimeHourText());
+        if (minutes > 0) sb.append(minutes).append(messageManager.getTimeMinuteText());
+        if (seconds > 0) sb.append(seconds).append(messageManager.getTimeSecondText());
         
         return sb.toString();
     }
@@ -194,7 +198,8 @@ public class AuctionItem {
     
     // 获取格式化的售出时间
     public String getFormattedSoldTime() {
-        if (soldTime <= 0) return "未售出";
+        MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
+        if (soldTime <= 0) return messageManager.getTimeNotSoldText();
         return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(soldTime));
     }
     
@@ -203,8 +208,9 @@ public class AuctionItem {
      * @return 物品显示名称，如果没有则返回物品类型名称
      */
     public String getDisplayName() {
+        MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
         if (item == null) {
-            return "未知物品";
+            return messageManager.getUnknownItemText();
         }
         
         if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {

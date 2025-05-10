@@ -14,10 +14,10 @@ import org.joml.Vector3f;
  * 负责创建和管理物品全息显示
  */
 public class ItemDisplayManager {
-    
+
     private final GlobalShop plugin;
     private final HologramDisplayManager displayManager;
-    
+
     /**
      * 构造函数
      * @param plugin 插件实例
@@ -27,7 +27,7 @@ public class ItemDisplayManager {
         this.plugin = plugin;
         this.displayManager = displayManager;
     }
-    
+
     /**
      * 创建物品全息显示
      * @param location 位置
@@ -41,14 +41,14 @@ public class ItemDisplayManager {
         if (world == null) {
             return null;
         }
-        
+
         // 创建物品显示实体
         ItemDisplay itemDisplay = (ItemDisplay) world.spawnEntity(location, EntityType.ITEM_DISPLAY);
-        
+
         // 设置物品及变换模式
         itemDisplay.setItemStack(itemStack);
         itemDisplay.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.GUI);
-        
+
         // 设置缩放
         Transformation transformation = itemDisplay.getTransformation();
         Vector3f scaleVector = new Vector3f(scale, scale, scale);
@@ -59,16 +59,23 @@ public class ItemDisplayManager {
                 transformation.getRightRotation()
         );
         itemDisplay.setTransformation(transformation);
-        
+
         // 设置基本属性
         displayManager.setDisplayDefaults(itemDisplay, 48.0f);
-        
+
+        // 设置持久性为false，确保服务器关闭后不会有残留实体
+        itemDisplay.setPersistent(false);
+
+        // 设置自定义名称，便于识别
+        itemDisplay.setCustomName("GlobalShop_Item_" + itemStack.getType().name());
+        itemDisplay.setCustomNameVisible(false);
+
         // 添加到全息组
         displayManager.addEntityToHologram(hologramId, itemDisplay);
-        
+
         return itemDisplay;
     }
-    
+
     /**
      * 更新物品显示
      * @param itemDisplay 物品显示实体
@@ -77,7 +84,7 @@ public class ItemDisplayManager {
     public void updateItemDisplay(ItemDisplay itemDisplay, ItemStack itemStack) {
         itemDisplay.setItemStack(itemStack);
     }
-    
+
     /**
      * 调整物品显示大小
      * @param itemDisplay 物品显示实体
@@ -94,4 +101,4 @@ public class ItemDisplayManager {
         );
         itemDisplay.setTransformation(transformation);
     }
-} 
+}

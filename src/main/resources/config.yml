@@ -5,6 +5,7 @@
 language:
   # 选择消息文件的语言版本，可选值：
   # zh_CN - 简体中文（默认）
+  # vi - Tiếng Việt (Vietnamese)
   # en - English (English)
   # es - Español (Spanish)
   # de - Deutsch (German)
@@ -18,21 +19,29 @@ language:
 
 # 数据库配置
 database:
-  # 数据库类型，目前仅支持sqlite
+  # 数据库类型，支持 sqlite 和 mysql
   type: sqlite
-  # 数据库文件名，存储在plugins/GlobalShop/目录下
+  # SQLite数据库文件名，存储在plugins/GlobalShop/目录下
   file: data.db
+  # MySQL数据库配置
+  mysql:
+    host: localhost
+    port: 3306
+    database: globalshop
+    username: root
+    password: password
+    useSSL: false
 
 # 经济系统配置
 economy:
   # 买家税率（购买物品时需支付的额外费用百分比）
   # 范围: 0.0-1.0，0表示不收税，0.02表示收取2%的税
   buyer_tax_rate: 0.02
-  
+
   # 价格最大位数限制
   # 例如: 9表示最大价格为999,999,999
   max_price_digits: 9
-  
+
   # Vault经济系统配置（金币）
   vault:
     # 货币名称，显示在GUI界面和消息中
@@ -49,7 +58,7 @@ economy:
     min_bid_rate: 0.05
     # 最低加价金额，竞价时最少需要加价的金额
     min_bid_amount: 1.0
-  
+
   # PlayerPoints点券系统配置（点券）
   points:
     # 点券名称，显示在GUI界面和消息中
@@ -89,13 +98,13 @@ gui:
   # 拍卖行GUI标题，支持颜色代码
   title: "§8[§6拍卖行§8]"
   # GUI大小，必须是9的倍数，最大值为54（6行*9列）
-  size: 54 
+  size: 54
 
 # 广播系统配置
 broadcast:
   # 广播系统总开关，设置为false将关闭所有广播
   enabled: true
-  
+
   # 广播事件配置
   events:
     # 物品上架广播
@@ -108,7 +117,7 @@ broadcast:
         title: false         # 屏幕标题广播
         actionbar: false     # 动作栏广播
         subtitle: false      # 副标题广播
-    
+
     # 竞拍成功广播
     auction_won:
       enabled: true
@@ -119,7 +128,7 @@ broadcast:
         title: false
         actionbar: false
         subtitle: false
-    
+
     # 一口价购买广播
     buy_now:
       enabled: true
@@ -130,7 +139,7 @@ broadcast:
         title: false
         actionbar: true
         subtitle: false
-    
+
     # 竞价确认广播（新增）
     bid_confirmed:
       enabled: true
@@ -141,7 +150,7 @@ broadcast:
         title: false
         actionbar: true
         subtitle: false
-  
+
   # 广播样式配置
   styles:
     # Boss栏设置
@@ -149,12 +158,29 @@ broadcast:
       color: PURPLE         # 颜色: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
       style: SOLID          # 样式: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
       duration: 5           # 持续时间（秒）
-    
+
     # 标题设置
     title:
       fade_in: 10           # 淡入时间（tick）
       stay: 40              # 停留时间（tick）
-      fade_out: 10          # 淡出时间（tick） 
+      fade_out: 10          # 淡出时间（tick）
+
+# Web服务配置
+web:
+  # 是否启用Web服务
+  enabled: true
+  # Web服务端口
+  port: 20088
+  # 数据刷新间隔（秒）
+  refresh_interval: 30
+  # 每页显示的物品数量
+  items_per_page: 20
+  # 是否显示已过期物品
+  show_expired: false
+  # 是否显示已售出物品
+  show_sold: true
+  # 是否允许跨域请求（CORS）
+  allow_cors: false
 
 # 调试模式 - 设置为true时会在控制台输出调试信息
-debug: false 
+debug: false

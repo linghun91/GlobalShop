@@ -523,22 +523,22 @@ public class BroadcastManager {
         ItemStack original = item.getItem();
         String itemName;
         
-        // 尝试获取物品的自定义显示名称
+        // 尝试获取物品的自定义显示名称，保留原始颜色代码
         ItemMeta meta = original.getItemMeta();
         if (meta != null && meta.hasDisplayName()) {
-            // 移除颜色代码，让message.yml中的颜色设置生效
-            itemName = ChatColor.stripColor(meta.getDisplayName());
+            // 保留原始颜色代码，不再使用ChatColor.stripColor
+            itemName = meta.getDisplayName();
         } else {
             // 只有在设置为中文语言时才进行原版物品名称的中文翻译
             if (plugin.getConfigManager().isChineseLanguage()) {
-                // 使用与GuiManager相同的逻辑获取中文名称，但不添加颜色代码
+                // 使用与GuiManager相同的逻辑获取中文名称，保留颜色代码
                 String chineseName = plugin.getLanguageManager().getChineseName(original.getType());
                 itemName = (chineseName != null && !chineseName.isEmpty()) ? 
                         chineseName : 
-                        ChatColor.stripColor(ChatUtils.getItemName(original));
+                        ChatUtils.getItemName(original);
             } else {
-                // 非中文语言环境下使用原版物品名称
-                itemName = ChatColor.stripColor(ChatUtils.getItemName(original));
+                // 非中文语言环境下使用原版物品名称，保留颜色代码
+                itemName = ChatUtils.getItemName(original);
             }
         }
         
@@ -589,22 +589,22 @@ public class BroadcastManager {
         ItemStack original = item.getItem();
         String itemName;
         
-        // 尝试获取物品的自定义显示名称
+        // 尝试获取物品的自定义显示名称，保留原始颜色代码
         ItemMeta meta = original.getItemMeta();
         if (meta != null && meta.hasDisplayName()) {
-            // 移除颜色代码，让message.yml中的颜色设置生效
-            itemName = ChatColor.stripColor(meta.getDisplayName());
+            // 保留原始颜色代码
+            itemName = meta.getDisplayName();
         } else {
             // 只有在设置为中文语言时才进行原版物品名称的中文翻译
             if (plugin.getConfigManager().isChineseLanguage()) {
-                // 使用与GuiManager相同的逻辑获取中文名称，但不添加颜色代码
+                // 使用与GuiManager相同的逻辑获取中文名称，保留颜色代码
                 String chineseName = plugin.getLanguageManager().getChineseName(original.getType());
                 itemName = (chineseName != null && !chineseName.isEmpty()) ? 
                         chineseName : 
-                        ChatColor.stripColor(ChatUtils.getItemName(original));
+                        ChatUtils.getItemName(original);
             } else {
-                // 非中文语言环境下使用原版物品名称
-                itemName = ChatColor.stripColor(ChatUtils.getItemName(original));
+                // 非中文语言环境下使用原版物品名称，保留颜色代码
+                itemName = ChatUtils.getItemName(original);
             }
         }
         
@@ -655,22 +655,22 @@ public class BroadcastManager {
         ItemStack original = item.getItem();
         String itemName;
         
-        // 尝试获取物品的自定义显示名称
+        // 尝试获取物品的自定义显示名称，保留原始颜色代码
         ItemMeta meta = original.getItemMeta();
         if (meta != null && meta.hasDisplayName()) {
-            // 移除颜色代码，让message.yml中的颜色设置生效
-            itemName = ChatColor.stripColor(meta.getDisplayName());
+            // 保留原始颜色代码
+            itemName = meta.getDisplayName();
         } else {
             // 只有在设置为中文语言时才进行原版物品名称的中文翻译
             if (plugin.getConfigManager().isChineseLanguage()) {
-                // 使用与GuiManager相同的逻辑获取中文名称，但不添加颜色代码
+                // 使用与GuiManager相同的逻辑获取中文名称，保留颜色代码
                 String chineseName = plugin.getLanguageManager().getChineseName(original.getType());
                 itemName = (chineseName != null && !chineseName.isEmpty()) ? 
                         chineseName : 
-                        ChatColor.stripColor(ChatUtils.getItemName(original));
+                        ChatUtils.getItemName(original);
             } else {
-                // 非中文语言环境下使用原版物品名称
-                itemName = ChatColor.stripColor(ChatUtils.getItemName(original));
+                // 非中文语言环境下使用原版物品名称，保留颜色代码
+                itemName = ChatUtils.getItemName(original);
             }
         }
         
@@ -707,36 +707,35 @@ public class BroadcastManager {
     
     /**
      * 广播竞价确认事件
-     * @param bidder 出价者名称
+     * @param bidder 竞价者
      * @param item 拍卖物品
      */
     public void broadcastBidConfirmed(String bidder, AuctionItem item) {
-        if (!isEventEnabled(BroadcastEvent.BID_CONFIRMED)) {
-            return;
-        }
+        if (!isEventEnabled(BroadcastEvent.BID_CONFIRMED)) return;
         
-        
-        // 保存要广播的物品信息，用于悬停显示
+        // 保存当前物品信息用于详细信息显示
         this.lastBroadcastItem = item;
         
-        // 获取物品名称
-        String itemName;
+        // 使用与GUI中相同的方法获取物品名称，保持一致性
         ItemStack original = item.getItem();
+        String itemName;
+        
+        // 尝试获取物品的自定义显示名称，保留原始颜色代码
         ItemMeta meta = original.getItemMeta();
         if (meta != null && meta.hasDisplayName()) {
-            // 移除颜色代码，让message.yml中的颜色设置生效
-            itemName = ChatColor.stripColor(meta.getDisplayName());
+            // 保留原始颜色代码
+            itemName = meta.getDisplayName();
         } else {
             // 只有在设置为中文语言时才进行原版物品名称的中文翻译
             if (plugin.getConfigManager().isChineseLanguage()) {
-                // 使用与GuiManager相同的逻辑获取中文名称，但不添加颜色代码
+                // 使用与GuiManager相同的逻辑获取中文名称，保留颜色代码
                 String chineseName = plugin.getLanguageManager().getChineseName(original.getType());
                 itemName = (chineseName != null && !chineseName.isEmpty()) ? 
                         chineseName : 
-                        ChatColor.stripColor(ChatUtils.getItemName(original));
+                        ChatUtils.getItemName(original);
             } else {
-                // 非中文语言环境下使用原版物品名称
-                itemName = ChatColor.stripColor(ChatUtils.getItemName(original));
+                // 非中文语言环境下使用原版物品名称，保留颜色代码
+                itemName = ChatUtils.getItemName(original);
             }
         }
         

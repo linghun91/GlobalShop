@@ -16,10 +16,10 @@ import java.util.UUID;
  * 负责创建和管理文本全息显示
  */
 public class TextDisplayManager {
-    
+
     private final GlobalShop plugin;
     private final HologramDisplayManager displayManager;
-    
+
     /**
      * 构造函数
      * @param plugin 插件实例
@@ -29,7 +29,7 @@ public class TextDisplayManager {
         this.plugin = plugin;
         this.displayManager = displayManager;
     }
-    
+
     /**
      * 创建文本全息显示
      * @param location 位置
@@ -40,11 +40,11 @@ public class TextDisplayManager {
      * @param backgroundColor 背景颜色
      * @return 创建的TextDisplay实体
      */
-    public TextDisplay createTextDisplay(Location location, String text, UUID hologramId, 
+    public TextDisplay createTextDisplay(Location location, String text, UUID hologramId,
                                       float scale, String textColor, String backgroundColor) {
         return createTextDisplay(location, text, hologramId, scale, textColor, backgroundColor, "content");
     }
-    
+
     /**
      * 创建文本全息显示（带类型）
      * @param location 位置
@@ -56,16 +56,16 @@ public class TextDisplayManager {
      * @param type 文本类型（title/content）
      * @return 创建的TextDisplay实体
      */
-    public TextDisplay createTextDisplay(Location location, String text, UUID hologramId, 
+    public TextDisplay createTextDisplay(Location location, String text, UUID hologramId,
                                       float scale, String textColor, String backgroundColor, String type) {
         World world = location.getWorld();
         if (world == null) {
             return null;
         }
-        
+
         // 创建文本显示实体
         TextDisplay textDisplay = (TextDisplay) world.spawnEntity(location, EntityType.TEXT_DISPLAY);
-        
+
         // 设置文本内容（带颜色）
         if (textColor != null && !textColor.isEmpty()) {
             if (textColor.startsWith("#")) {
@@ -88,17 +88,17 @@ public class TextDisplayManager {
                 }
             }
         }
-        
+
         // 设置文本
         textDisplay.setText(text);
-        
+
         // 从配置文件获取TextDisplay设置
-        HologramConfigManager.TextDisplaySettings settings = 
+        HologramConfigManager.TextDisplaySettings settings =
                 plugin.getHologramConfigManager().getDisplaySettings(type);
-        
+
         // 应用设置到TextDisplay实体
         settings.applyToTextDisplay(textDisplay);
-        
+
         // 如果有自定义的背景颜色参数，则覆盖配置中的设置
         if (backgroundColor != null && !backgroundColor.isEmpty() && backgroundColor.startsWith("#")) {
             try {
@@ -111,7 +111,7 @@ public class TextDisplayManager {
                 // 忽略格式错误
             }
         }
-        
+
         // 设置缩放
         Transformation transformation = textDisplay.getTransformation();
         Vector3f scaleVector = new Vector3f(scale, scale, scale);
@@ -122,16 +122,23 @@ public class TextDisplayManager {
                 transformation.getRightRotation()
         );
         textDisplay.setTransformation(transformation);
-        
+
         // 设置基本属性
         displayManager.setDisplayDefaults(textDisplay, settings.getViewRange());
-        
+
+        // 设置持久性为false，确保服务器关闭后不会有残留实体
+        textDisplay.setPersistent(false);
+
+        // 设置自定义名称，便于识别
+        textDisplay.setCustomName("GlobalShop_Text_" + type);
+        textDisplay.setCustomNameVisible(false);
+
         // 添加到全息组
         displayManager.addEntityToHologram(hologramId, textDisplay);
-        
+
         return textDisplay;
     }
-    
+
     /**
      * 更新文本显示内容
      * @param textDisplay 文本显示实体
@@ -161,11 +168,11 @@ public class TextDisplayManager {
                 }
             }
         }
-        
+
         // 设置文本
         textDisplay.setText(text);
     }
-    
+
     /**
      * 设置背景颜色
      * @param textDisplay 文本显示实体
@@ -184,7 +191,7 @@ public class TextDisplayManager {
             }
         }
     }
-    
+
     /**
      * 设置文本缩放比例
      * @param textDisplay 文本显示实体
@@ -201,4 +208,4 @@ public class TextDisplayManager {
         );
         textDisplay.setTransformation(transformation);
     }
-} 
+}

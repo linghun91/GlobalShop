@@ -1,5 +1,7 @@
 package cn.i7mc.globalshop.utils;
 
+import cn.i7mc.globalshop.GlobalShop;
+import cn.i7mc.globalshop.config.MessageManager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import cn.i7mc.globalshop.models.AuctionItem;
@@ -17,8 +19,10 @@ public class ChatUtils {
      * @return 物品名称
      */
     public static String getItemName(ItemStack item) {
+        MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
+        
         if (item == null) {
-            return "未知物品";
+            return messageManager.getUnknownItemText();
         }
         
         ItemMeta meta = item.getItemMeta();
@@ -55,18 +59,23 @@ public class ChatUtils {
      * @return 格式化后的时间字符串
      */
     public static String formatTime(long seconds) {
+        MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
+        
         if (seconds < 60) {
-            return seconds + "秒";
+            return seconds + messageManager.getTimeSecondText();
         } else if (seconds < 3600) {
-            return (seconds / 60) + "分钟" + (seconds % 60 > 0 ? " " + (seconds % 60) + "秒" : "");
+            return (seconds / 60) + messageManager.getTimeMinuteText() + 
+                   (seconds % 60 > 0 ? " " + (seconds % 60) + messageManager.getTimeSecondText() : "");
         } else if (seconds < 86400) {
             long hours = seconds / 3600;
             long minutes = (seconds % 3600) / 60;
-            return hours + "小时" + (minutes > 0 ? " " + minutes + "分钟" : "");
+            return hours + messageManager.getTimeHourText() + 
+                   (minutes > 0 ? " " + minutes + messageManager.getTimeMinuteText() : "");
         } else {
             long days = seconds / 86400;
             long hours = (seconds % 86400) / 3600;
-            return days + "天" + (hours > 0 ? " " + hours + "小时" : "");
+            return days + messageManager.getTimeDayText() + 
+                   (hours > 0 ? " " + hours + messageManager.getTimeHourText() : "");
         }
     }
 

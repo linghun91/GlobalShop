@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group 'cn.i7mc'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT'
+    compileOnly files('libs/Vault.jar')
+    compileOnly files('libs/PlayerPoints.jar')
+    compileOnly 'mysql:mysql-connector-java:8.0.33'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.fork = true
+    // 移除Java可执行文件路径，让Gradle使用org.gradle.java.home设置
+}
+
+// 处理资源文件
+processResources {
+    // 设置重复文件处理策略
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    // 禁用minimize，以确保所有资源文件都被包含
+    // minimize()
+
+    // 设置重复文件处理策略
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // 确保web目录下的文件被包含在JAR中
+    from('src/main/resources') {
+        include 'web/**'
+        include 'config.yml'
+        include 'message.yml'
+        include 'debugmessage.yml'
+        include 'hd_gui.yml'
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

@@ -113,6 +113,18 @@ public class EconomyManager {
         }
     }
 
+    // 新增：格式化Vault金额
+    public String formatVault(double amount) {
+        String symbol = plugin.getConfigManager().getVaultSymbol();
+        return String.format("%s%.2f", symbol, amount);
+    }
+
+    // 新增：格式化PlayerPoints金额
+    public String formatPoints(double amount) {
+        String symbol = plugin.getConfigManager().getPointsSymbol();
+        return String.format("%s%d", symbol, (int) amount);
+    }
+
     // 计算最低加价
     public double calculateMinBid(double currentPrice, String currencyType) {
         double minBidRate = switch (currencyType.toUpperCase()) {
