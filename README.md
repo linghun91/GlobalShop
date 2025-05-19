@@ -249,22 +249,35 @@ src/
     │              │      CheckAllAuctionsTask.java     # 检查所有拍卖任务类
     │              │      CloseAllAuctionsTask.java     # 关闭所有拍卖任务类
     │              │
-    │              └─utils/                             # 工具类模块
-    │                     BroadcastManager.java         # 广播管理器
-    │                     ChatUtils.java                # 聊天和文本工具类
-    │                     MinecraftLanguageManager.java # Minecraft语言管理类
-    │                     SearchHistoryManager.java     # 搜索历史管理类
+    │              ├─utils/                             # 工具类模块
+    │              │      BroadcastManager.java         # 广播管理器
+    │              │      ChatUtils.java                # 聊天和文本工具类
+    │              │      MinecraftLanguageManager.java # Minecraft语言管理类
+    │              │      SearchHistoryManager.java     # 搜索历史管理类
+    │              │
+    │              └─web/                               # Web服务模块
+    │                     WebConfig.java                # Web配置管理类
+    │                     WebController.java            # Web控制器
+    │                     WebDataProvider.java          # Web数据提供者
+    │                     WebServer.java                # Web服务器
     │
     └─resources/                                        # 资源文件目录
         │  config.yml                                   # 插件配置文件
         │  debugmessage.yml                             # 调试信息配置文件
+        │  hd_gui.yml                                   # 全息显示GUI配置文件
         │  message.yml                                  # 中文界面文本和提示消息
         │  minecraft_lang.yml                           # 中英文物品名称对照表
         │  plugin.yml                                   # 插件描述文件
         │
-        └─lang/                                         # 多语言文件目录
-               message_en.yml                           # 英语语言文件
-               message_es.yml                           # 西班牙语语言文件
+        ├─lang/                                         # 多语言文件目录
+        │      message_en.yml                           # 英语语言文件
+        │      message_es.yml                           # 西班牙语语言文件
+        │      message_vi.yml                           # 越南语语言文件
+        │
+        └─web/                                          # Web前端资源目录
+               index.html                               # Web前端首页
+               script.js                                # Web前端JavaScript脚本
+               style.css                                # Web前端CSS样式表
 ```
 
 ## 命令系统
@@ -320,6 +333,14 @@ globalshop.admin.info - 管理员查询玩家信息权限
   - 广播位置设置（聊天框/Boss栏/标题/副标题/动作栏）
   - Boss栏样式和持续时间
   - 标题显示时间
+- Web服务配置
+  - 是否启用Web服务
+  - Web服务端口（默认20088）
+  - 数据刷新间隔
+  - 每页显示物品数量
+  - 是否显示已过期物品
+  - 是否显示已售出物品
+  - 是否允许跨域请求
 
 ## 最近更新
 1. MySQL数据库支持
@@ -486,8 +507,28 @@ globalshop.admin.info - 管理员查询玩家信息权限
     - 在 `AuctionCommand` 中添加了 `info` 子命令的处理逻辑和 Tab 补全。
     - 在 `plugin.yml` 中添加了 `globalshop.admin.info` 权限节点。
 
-## 当前项目进度
-   - [x] 数据库多样化支持（SQLite和MySQL）
-   - [ ] 按价格区间搜索
-   - [ ] 按时间排序
-   - [ ] 按价格排序
+22. Web前端展示功能
+    - 新增内置Web服务器，提供拍卖物品的只读展示功能
+    - 在config.yml中添加web相关配置项：
+        - `web.enabled`: 是否启用Web服务（默认true）
+        - `web.port`: Web服务端口（默认20088）
+        - `web.refresh_interval`: 数据刷新间隔（默认30秒）
+        - `web.items_per_page`: 每页显示物品数量（默认20个）
+        - `web.show_expired`: 是否显示已过期物品（默认false）
+        - `web.show_sold`: 是否显示已售出物品（默认true）
+        - `web.allow_cors`: 是否允许跨域请求（默认false）
+    - 添加了完整的Web模块：
+        - `WebServer.java`: Web服务器，负责启动和管理内嵌的HTTP服务器
+        - `WebConfig.java`: Web配置管理类，负责加载和管理Web相关配置
+        - `WebController.java`: Web控制器，处理HTTP请求和响应
+        - `WebDataProvider.java`: Web数据提供者，从数据库获取拍卖数据并转换为Web可用格式
+    - 提供了RESTful API接口：
+        - `/api/items`: 获取所有活跃的拍卖物品数据（JSON格式）
+        - `/api/status`: 获取服务器状态信息（JSON格式）
+    - 添加了美观的Web前端界面：
+        - 响应式设计，适配PC和移动设备
+        - 自动刷新数据，实时显示拍卖物品信息
+        - 显示物品名称、数量、卖家、价格、剩余时间等信息
+        - 支持自定义样式和脚本
+    - 所有Web资源文件存储在插件的web目录下，支持自定义修改
+    - 支持多语言显示，与插件语言设置保持一致

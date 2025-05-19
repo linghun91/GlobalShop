@@ -13,6 +13,7 @@ import cn.i7mc.globalshop.hologram.HologramUpdateTask;
 import cn.i7mc.globalshop.hologram.ItemDisplayManager;
 import cn.i7mc.globalshop.hologram.TextDisplayManager;
 import cn.i7mc.globalshop.listeners.GuiListener;
+import cn.i7mc.globalshop.metrics.Metrics;
 import cn.i7mc.globalshop.tasks.AuctionTask;
 import cn.i7mc.globalshop.utils.MinecraftLanguageManager;
 import cn.i7mc.globalshop.utils.SearchHistoryManager;
@@ -130,6 +131,27 @@ public class GlobalShop extends JavaPlugin {
         if (webServer.getWebConfig().isEnabled()) {
             webServer.start();
         }
+
+        // 初始化bStats统计
+        int pluginId = 25914; // GlobalShopPlus的bStats插件ID
+        Metrics metrics = new Metrics(this, pluginId);
+
+        // 添加自定义图表
+        metrics.addCustomChart(new Metrics.SimplePie("database_type", () -> {
+            return configManager.getConfig().getString("database.type", "SQLite");
+        }));
+
+        metrics.addCustomChart(new Metrics.SimplePie("web_enabled", () -> {
+            return webServer.getWebConfig().isEnabled() ? "Yes" : "No";
+        }));
+
+        metrics.addCustomChart(new Metrics.SimplePie("hologram_enabled", () -> {
+            return hologramConfigManager != null && hologramConfigManager.isEnabled() ? "Yes" : "No";
+        }));
+
+        metrics.addCustomChart(new Metrics.SimplePie("player_points_available", () -> {
+            return isPlayerPointsAvailable() ? "Yes" : "No";
+        }));
 
         ConsoleCommandSender console = getServer().getConsoleSender();
         console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.AQUA + "如有建议或BUG可联系作者QQ642751482反馈");

@@ -1,5 +1,7 @@
 # 全息拍卖行历史记录配置
 hologram:
+  # 是否启用全息显示功能
+  enabled: true
   # 基础设置
   settings:
     # 显示的历史记录行数
@@ -12,7 +14,7 @@ hologram:
     item-text-spacing: 0.6
     # 物品大小
     item-scale: 0.5
-    
+
   # 文本样式
   text:
     # 物品名称样式
@@ -35,15 +37,15 @@ hologram:
     buyer-name:
       scale: 0.9
       color: "#55FFFF"
-  
+
   # 事件类型显示文本
   events:
     list: "上架"
     bid: "竞价更新"
     buy: "被购买"
     expired: "已到期"
-    cancelled: "已下架" 
-    
+    cancelled: "已下架"
+
   # 全息显示标题和提示信息
   messages:
     # 标题文本
@@ -54,7 +56,7 @@ hologram:
     load-error: "§c拍卖行历史记录加载失败"
     # 表格标题行
     header: "§f物品名称 §7| §f拍卖主人 §7| §f事件类型 §7| §f价格 §7| §f事件触发者 §7| §f日期"
-    
+
   # 价格显示设置
   price-format:
     # 货币名称
@@ -63,7 +65,7 @@ hologram:
       points: "点券"
     # 日期格式
     date-format: "MM-dd HH:mm"
-    
+
   # TextDisplay实体显示设置
   display:
     # 标题显示设置
@@ -98,7 +100,7 @@ hologram:
       shadow-radius: 0.0
       # 阴影强度
       shadow-strength: 0.0
-    
+
     # 内容显示设置
     content:
       # 文本对齐方式 (LEFT, CENTER, RIGHT)
@@ -130,4 +132,4 @@ hologram:
       # 阴影半径
       shadow-radius: 0.0
       # 阴影强度
-      shadow-strength: 0.0 
+      shadow-strength: 0.0
