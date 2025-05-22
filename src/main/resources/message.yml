@@ -152,7 +152,7 @@ messages:
   listing_failed_price_format: "§c上架失败：价格格式错误"
   price_exceeds_max_limit: "§c上架失败：价格超出最大限制(%max_digits%位数)!"
   start_price_greater_than_zero: "§c起拍价必须大于0!"
-  buy_now_greater_than_start: "§c一口价必须大于起拍价!"
+  buy_now_greater_than_start: "§c一口价不能小于起拍价!"
   not_enough_money_for_fee: "§c你没有足够的%currency%支付手续费!"
   item_listed_success: "§a物品上架成功!"
   item_listed_success_with_fee: "§a物品上架成功! §e已收取手续费: §f%fee%"

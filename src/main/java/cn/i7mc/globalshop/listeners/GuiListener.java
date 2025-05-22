@@ -974,7 +974,7 @@ public class GuiListener implements Listener {
                 itemReturned = true;
                 return;
             }
-            if (buyNowPrice > 0 && buyNowPrice <= startPrice) {
+            if (buyNowPrice > 0 && buyNowPrice < startPrice) {
                 player.sendMessage(messageManager.getBuyNowGreaterThanStartMessage());
                 returnItem(player, itemCopy, true);
                 itemReturned = true;

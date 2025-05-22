@@ -556,7 +556,7 @@ public class MessageManager {
      * @return 一口价必须大于起拍价消息
      */
     public String getBuyNowGreaterThanStartMessage() {
-        return messages.getString("messages.buy_now_greater_than_start", "§c一口价必须大于起拍价!");
+        return messages.getString("messages.buy_now_greater_than_start", "§c一口价不能小于起拍价!");
     }
 
     /**
@@ -2304,7 +2304,7 @@ public class MessageManager {
      * @return 一口价必须大于起拍价消息
      */
     public String getCommandSellBuyNowLessThanStartMessage() {
-        return messages.getString("auction_commands.sell.buy_now_less_than_start", "§c一口价必须大于起拍价!");
+        return messages.getString("auction_commands.sell.buy_now_less_than_start", "§c一口价不能小于起拍价!");
     }
 
     /**
