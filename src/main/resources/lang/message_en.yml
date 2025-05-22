@@ -155,7 +155,7 @@ messages:
   listing_failed_price_format: "§cListing failed: Price format error"
   price_exceeds_max_limit: "§cListing failed: Price exceeds maximum limit (%max_digits% digits)!"
   start_price_greater_than_zero: "§cStarting price must be greater than 0!"
-  buy_now_greater_than_start: "§cBuy now price must be greater than the starting price!"
+  buy_now_greater_than_start: "§cBuy now price cannot be less than the starting price!"
   not_enough_money_for_fee: "§cYou do not have enough %currency% to pay the fee!"
   item_listed_success: "§aItem listed successfully!"
   item_listed_success_with_fee: "§aItem listed successfully! §eFee charged: §f%fee%"
