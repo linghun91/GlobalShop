@@ -1,7 +1,10 @@
 package cn.i7mc.globalshop.utils;
 
+<<<<<<< HEAD
 import cn.i7mc.globalshop.GlobalShop;
 import cn.i7mc.globalshop.config.MessageManager;
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import cn.i7mc.globalshop.models.AuctionItem;
@@ -19,10 +22,15 @@ public class ChatUtils {
      * @return 物品名称
      */
     public static String getItemName(ItemStack item) {
+<<<<<<< HEAD
         MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
         
         if (item == null) {
             return messageManager.getUnknownItemText();
+=======
+        if (item == null) {
+            return "未知物品";
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         }
         
         ItemMeta meta = item.getItemMeta();
@@ -59,6 +67,7 @@ public class ChatUtils {
      * @return 格式化后的时间字符串
      */
     public static String formatTime(long seconds) {
+<<<<<<< HEAD
         MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
         
         if (seconds < 60) {
@@ -76,6 +85,20 @@ public class ChatUtils {
             long hours = (seconds % 86400) / 3600;
             return days + messageManager.getTimeDayText() + 
                    (hours > 0 ? " " + hours + messageManager.getTimeHourText() : "");
+=======
+        if (seconds < 60) {
+            return seconds + "秒";
+        } else if (seconds < 3600) {
+            return (seconds / 60) + "分钟" + (seconds % 60 > 0 ? " " + (seconds % 60) + "秒" : "");
+        } else if (seconds < 86400) {
+            long hours = seconds / 3600;
+            long minutes = (seconds % 3600) / 60;
+            return hours + "小时" + (minutes > 0 ? " " + minutes + "分钟" : "");
+        } else {
+            long days = seconds / 86400;
+            long hours = (seconds % 86400) / 3600;
+            return days + "天" + (hours > 0 ? " " + hours + "小时" : "");
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         }
     }
 

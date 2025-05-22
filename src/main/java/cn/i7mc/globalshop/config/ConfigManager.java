@@ -33,6 +33,7 @@ public class ConfigManager {
         config.addDefault("database.type", "sqlite");
         config.addDefault("database.file", "data.db");
         
+<<<<<<< HEAD
         // MySQL默认配置
         config.addDefault("database.mysql.host", "localhost");
         config.addDefault("database.mysql.port", 3306);
@@ -41,6 +42,8 @@ public class ConfigManager {
         config.addDefault("database.mysql.password", "password");
         config.addDefault("database.mysql.useSSL", false);
         
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         config.addDefault("economy.buyer_tax_rate", 0.02);
         config.addDefault("economy.vault.name", "金币");
         config.addDefault("economy.vault.symbol", "§6$");
@@ -84,6 +87,7 @@ public class ConfigManager {
     public String getDatabaseFile() {
         return config.getString("database.file", "data.db");
     }
+<<<<<<< HEAD
     
     // MySQL数据库配置
     public String getMySQLHost() {
@@ -109,6 +113,8 @@ public class ConfigManager {
     public boolean getMySQLUseSSL() {
         return config.getBoolean("database.mysql.useSSL", false);
     }
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 
     // Vault经济配置
     public String getVaultName() {

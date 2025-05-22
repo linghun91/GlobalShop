@@ -1,4 +1,5 @@
 # GlobalShop Message Configuration File
+<<<<<<< HEAD
 # This file contains text configurations for all GUI buttons and tooltips.
 
 # Item Name Color Code
@@ -20,11 +21,34 @@ gui:
     search_history_menu: "Search History"
     confirm_buy_menu: "Confirm Purchase"
     bid_menu: "Bid on Item"
+=======
+# This file contains all text configurations for GUI buttons and prompts
+
+# Item name color code
+item-name-color: "§f"
+
+# Listing menu command tips
+sell_menu:
+  command_tips:
+    header: "§7Hold the item you want to list and enter:"
+    usage: "§7/auction sell <starting price> [buy now price] [currency type]"
+    currency_types: "§7Currency types: §f1=Coins, 2=Points"
+
+gui:
+  titles:
+    # Interface titles
+    sell_menu: "List Item"
+    search_menu: "Search Items"
+    search_result_prefix: "Search Results:"
+    confirm_buy_menu: "Confirm Purchase"
+    bid_menu: "Place Bid"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     my_auctions_menu: "My Auctions"
     my_sold_auctions_menu: "My Sold Auctions"
     mailbox_menu: "§8Item Mailbox"
     my_mailbox_menu_prefix: "§eMy Item Mailbox"
     expired_auctions_menu: "My Expired Auctions (No Bids)"
+<<<<<<< HEAD
 
   buttons:
     # Common buttons
@@ -38,20 +62,45 @@ gui:
     previous_page: "&ePrevious Page"
     previous_page_desc: "§7Click to view the previous page"
 
+=======
+    
+  buttons:
+    # Common buttons
+    return_main_menu: "&cReturn to Main Menu"
+    return_main_menu_desc: "§7Click to return to main menu"
+    return: "§eReturn"
+    cancel: "§cCancel"
+    confirm: "§aConfirm"
+    next_page: "&eNext Page"
+    next_page_desc: "§7Click to view next page"
+    previous_page: "&ePrevious Page"
+    previous_page_desc: "§7Click to view previous page"
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     # Main menu buttons
     search_items: "§aSearch Items"
     sell_item: "§aList Item"
     my_auctions: "§aMy Auctions"
+<<<<<<< HEAD
 
     # Search menu buttons
     search_history: "§aSearch History"
     clear_search_history: "§aClear Search History"
     enter_item_name: "§aEnter Item Name"
     enter_item_name_description: "§eClick here to enter search keywords"
+=======
+    
+    # Search menu buttons
+    search_history: "§aSearch History"
+    clear_search_history: "§aClear Search History"
+    enter_item_name: "Enter Item Name"
+    enter_item_name_description: "Click here to enter search keyword"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     search_prefix: "Search: "
     search_history_item_description: "Click to search using this keyword"
     clear_search_history_description: "Click to clear all search history"
     new_search: "§aNew Search"
+<<<<<<< HEAD
     new_search_desc: "§7Click to perform a new search"
     cancel_search: "Cancel" # Kept as "Cancel" for consistency with other cancel buttons
     search_history_return: "§7Click to return to the search interface"
@@ -62,11 +111,21 @@ gui:
     confirm_buy: "§aConfirm Purchase"
     cancel_buy: "§cCancel"
 
+=======
+    new_search_desc: "§7Click to perform new search"
+    cancel_search: "Cancel"
+    
+    # Confirm purchase menu buttons
+    confirm_buy: "§aConfirm Purchase"
+    cancel_buy: "§cCancel"
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     # Confirm purchase interface text
     confirm_buy_item: "§eItem Name: §f%item_name%"
     confirm_buy_price: "§ePurchase Price: §f%price% (Buy Now)"
     confirm_buy_tip: "§eClick to confirm purchase of this item"
     cancel_buy_tip: "§eClick to cancel purchase"
+<<<<<<< HEAD
 
     # List item menu buttons
     confirm_sell: "§aConfirm Listing"
@@ -74,10 +133,20 @@ gui:
     confirm_sell_description_color: "§7"
 
     # Bid menu buttons
+=======
+    
+    # Listing menu buttons
+    confirm_sell: "§aConfirm Listing"
+    confirm_sell_description: "Click to confirm listing item"
+    confirm_sell_description_color: "§7"
+    
+    # Bidding menu buttons
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     current_bid_amount: "§eCurrent Bid Amount"
     increase_bid: "§aIncrease Bid +%rate%%"
     confirm_bid: "§2Confirm Bid"
     cancel_bid: "§cCancel Bid"
+<<<<<<< HEAD
 
     # Bid interface text
     current_bid_item: "§7Item: §f%item_name%"
@@ -121,11 +190,51 @@ gui:
     mailbox_storage_header: "§7Stored here:"
     mailbox_storage_expired: "§7- Expired unsold items"
     mailbox_storage_won: "§7- Items won from bidding"
+=======
+    
+    # Bidding interface text
+    current_bid_item: "§7Item: §f%item_name%"
+    current_bid_original_price: "§7Original Price: §f%price%"
+    current_bid_current_price: "§7Current Bid: §f%price%"
+    current_bid_pre_amount: "§7Pre-bid Amount: §f%price%"
+    current_bid_rate: "§7Increase Rate: §f+%rate%%"
+    increase_bid_tip: "§7Click to increase your bid amount"
+    increase_bid_min: "§7Minimum Increase: §f%price%"
+    confirm_bid_tip: "§7Click to confirm current bid amount"
+    confirm_bid_pre_amount: "§7Pre-bid Amount: §f%price%"
+    confirm_bid_notice1: "§7Please click the pre-bid button first"
+    confirm_bid_notice2: "§7Then confirm your bid"
+    cancel_bid_tip: "§7Click to cancel bid"
+    cancel_bid_return: "§7And return to main menu"
+    
+    # Auction menu buttons
+    sold_items: "§6Sold Items"
+    mailbox: "§eItem Mailbox"
+    place_item_here: "Place Item Here"
+    
+    # Sold auctions interface text
+    my_sold_auctions_title: "§6My Sold Auctions" 
+    page_info_prefix: "§eCurrent Page: §f"
+    sold_items_count_prefix: "§eSold: §f"
+    total_sold_items_count_prefix: "§eTotal Items Sold: §f"
+    total_coins_earned_prefix: "§eTotal Coins Earned: §f"
+    total_points_earned_prefix: "§eTotal Points Earned: §f"
+    mailbox_description_line1: "§7View your item mailbox"
+    mailbox_description_line2: "§7Contains expired, won auctions and items from full inventory"
+    
+    # Mailbox interface text
+    mailbox_page_info: "§eCurrent Page: §f"
+    mailbox_items_count: "§eItem Count: §f"
+    mailbox_storage_header: "§7This stores:"
+    mailbox_storage_expired: "§7- Expired unsold items"
+    mailbox_storage_won: "§7- Successfully bid items"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     mailbox_storage_full: "§7- Items purchased when inventory was full"
     mailbox_item_status_pending: "§eStatus: §fPending Collection"
     mailbox_item_status_expired: "§eStatus: §fExpired Unsold"
     mailbox_item_status_other: "§eStatus: §f"
     mailbox_item_add_time: "§eAdded Time: §f"
+<<<<<<< HEAD
     mailbox_item_expire_time: "§eExpiration Time: §f"
     mailbox_item_collect_tip: "§7Right-click to collect item"
 
@@ -191,23 +300,90 @@ messages:
   buy_now_points_unavailable: "§cPoints payment feature is unavailable!"
   buy_now_not_enough_money: "§cYou do not have enough %currency% to buy this item! Required: %amount%"
   buy_now_inventory_full: "§cYour inventory is full, cannot buy item!"
+=======
+    mailbox_item_expire_time: "§eExpire Time: §f"
+    mailbox_item_collect_tip: "§7Right-click to collect item"
+
+# Message text configuration
+messages:
+  cancel_bid: "Bid canceled"
+  cancel_search: "§aSearch canceled"
+  enter_search_keyword: "§aPlease enter item name to search in chat, or type §ecancel §ato cancel search"
+  search_history_cleared: "§aSearch history cleared"
+  bid_below_current_price: "§cPrice has been updated, your bid is below the current price, please bid again!"
+  
+  # Listing related messages
+  place_item_first: "§cPlease place the item you want to list first!"
+  drag_item_to_center: "§cPlease drag the item to the center slot, don't use Shift+click"
+  cant_drag_to_inventory: "§cCannot drag items to expired items interface!"
+  listing_failed_no_price: "§cListing failed: Missing price information"
+  listing_failed_incomplete_price: "§cListing failed: Incomplete price information"
+  listing_failed_price_format: "§cListing failed: Invalid price format"
+  price_exceeds_max_limit: "§cListing failed: Price exceeds maximum limit (%max_digits% digits)!"
+  start_price_greater_than_zero: "§cStarting price must be greater than 0!"
+  buy_now_greater_than_start: "§cBuy now price must be greater than starting price!"
+  not_enough_money_for_fee: "§cYou don't have enough %currency% to pay the listing fee!"
+  item_listed_success: "§aItem listed successfully!"
+  item_listed_success_with_fee: "§aItem listed successfully! §eFee charged: §f%fee%"
+  item_listed_fail: "§cFailed to list item!"
+  listing_error: "§cError occurred during listing process"
+  
+  # Item return related messages
+  item_returned: "§eItem has been returned to your inventory"
+  inventory_full_drop_item: "§eInventory full, item has been dropped at your feet"
+  
+  # Listing limit related messages
+  max_listings_reached: "§cYou have reached the maximum listing limit (%max_listings% items)!"
+  wait_for_items_to_sell: "§cPlease wait for your listed items to sell or expire before trying to list new items."
+  
+  # Bidding related messages
+  cancel_bid_operation: "§cBid operation canceled"
+  bid_info_expired: "§cBid information expired, please select the item again"
+  
+  # Bidding command related messages
+  bid_usage: "§cUsage: /bid <ItemID>"
+  bid_id_must_be_number: "§cItem ID must be a number!"
+  bid_invalid_item: "§cCannot find valid auction item, ID: "
+  bid_no_permission: "§cYou don't have permission to bid!"
+  bid_own_item: "§cYou cannot bid on your own item!"
+  bid_already_highest: "§cYou are already the highest bidder!"
+  bid_opening_menu: "§aOpening bid interface..."
+  bid_error: "§cError during bidding process: "
+  
+  # Buy now related messages
+  buy_now_not_available: "§cThis item doesn't support buy now!"
+  buy_now_points_unavailable: "§cPoints payment function is unavailable!"
+  buy_now_not_enough_money: "§cYou don't have enough %currency% to buy this item! Required: %amount%"
+  buy_now_inventory_full: "§cYour inventory is full, cannot purchase item!"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   buy_now_success: "§aPurchase successful!"
   buy_now_item: "§eItem: %item%"
   buy_now_price: "§ePrice: %price%"
   buy_now_balance: "§eBalance: %amount% %currency%"
+<<<<<<< HEAD
   buy_now_inventory_full_mailbox: "§aYour inventory is full, item placed in mailbox!"
   buy_now_mailbox_instructions: "§eUse /auction my to enter the auction system, click \"Item Mailbox\" to collect"
   buy_now_seller_notification: "§aYour item has been purchased via buy now!"
+=======
+  buy_now_inventory_full_mailbox: "§aYour inventory is full, item has been placed in mailbox!"
+  buy_now_mailbox_instructions: "§eUse /auction my to enter the auction system, click \"Item Mailbox\" to collect"
+  buy_now_seller_notification: "§aYour item has been purchased with buy now!"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   buy_now_seller_income: "§eIncome: %amount%"
   buy_now_seller_balance: "§eBalance: %amount% %currency%"
   buy_now_buyer: "§eBuyer: %player%"
 
+<<<<<<< HEAD
 # Broadcast System Message Configuration
+=======
+# Broadcast system message configuration
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 broadcast:
   # Interactive component text
   details_button: " §6[§eDetails§6]"
   no_details_available: "§cNo details available"
 
+<<<<<<< HEAD
   # Item listed broadcast message
   item_listed:
 #    chat: "§6[AuctionHouse] §e%player% §flisted §a%item_name% §fstarting price §e%start_price% §fbuy now price §e%buy_now_price%"
@@ -242,6 +418,41 @@ broadcast:
     actionbar: "§e%bidder% §fbid §a%price% §fon §a%item_name%"
 
 # Auction Item Description
+=======
+  # Item listing broadcast message
+  item_listed:
+    chat: "§a[§6Auction House§a] §e%player% §flisted §b[§d%item_name%§b]§f*§6%amount%§r"
+    bossbar: "§e%player% §flisted §a%item_name% §fstarting at §e%start_price% §fbuy now §e%buy_now_price%"
+    title: "§6Item Listed"
+    subtitle: "§e%player% §flisted §a%item_name%"
+    actionbar: "§e%player% §flisted §a%item_name% §fprice §e%start_price%"
+  
+  # Auction won broadcast message
+  auction_won:
+    chat: "§6[Auction House] §e%buyer% §fwon §a%item_name% §ffrom §e%seller% §ffor §a%price%"
+    bossbar: "§e%buyer% §fwon §a%item_name% §ffrom §e%seller% §ffor §a%price%"
+    title: "§6Auction Won"
+    subtitle: "§e%buyer% §fwon §a%item_name%"
+    actionbar: "§e%buyer% §fwon §a%item_name% §ffor §a%price%"
+  
+  # Buy now broadcast message
+  buy_now:
+    chat: "§6[Auction House] §e%buyer% §fbought §a%item_name% §ffrom §e%seller% §ffor §a%price%"
+    bossbar: "§e%buyer% §fbought §a%item_name% §ffrom §e%seller%"
+    title: "§6Item Sold"
+    subtitle: "§e%buyer% §fbought §a%item_name%"
+    actionbar: "§e%buyer% §fbought §a%item_name% §ffor §a%price%"
+  
+  # Bid confirmed broadcast message
+  bid_confirmed:
+    chat: "§6[Auction House] §e%bidder% §fbid §a%price% §fon §a%item_name%§f, becoming the highest bidder"
+    bossbar: "§e%bidder% §fbid §a%price% §fon §a%item_name%§f, becoming the highest bidder"
+    title: "§6Bid Updated"
+    subtitle: "§e%bidder% §fis now the highest bidder"
+    actionbar: "§e%bidder% §fbid §a%price% §fon §a%item_name%"
+
+# Auction item description
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 auction_item:
   divider: "§8§m--------------------"
   info_header: "§6§lAuction Info:"
@@ -249,6 +460,7 @@ auction_item:
   currency_type: "§eCurrency Type: §f%currency%"
   start_price: "§eStarting Price: §f%price%"
   current_price: "§eCurrent Price: §f%price%"
+<<<<<<< HEAD
   deal_price: "§eSale Price: §f%price%"
   buy_now_price: "§eBuy Now Price: §f%price%"
   list_time: "§eListed Time: §f%time%"
@@ -298,12 +510,63 @@ auction_item:
   duration_button: # This should be nested under sell_menu if it belongs there. Assuming it is from context.
     title: "§aCustom Listing Duration"
     current_setting: "§7Current Setting: §f%hours%h %minutes%m"
+=======
+  deal_price: "§eDeal Price: §f%price%"
+  buy_now_price: "§eBuy Now: §f%price%"
+  list_time: "§eListed Time: §f%time%"
+  remaining_time: "§eRemaining Time: §f%time%"
+  seller: "§eSeller: §f%seller%"
+  current_bidder: "§eCurrent Bidder: §f%bidder%"
+  
+  # Item operation tips
+  owner_tips:
+    header: "§7This is your auction item"
+    cancel: "§7Shift+Right-click: §fQuick Cancel"
+  
+  buyer_tips:
+    bid: "§7Left-click: §fPlace Bid"
+    buy: "§7Right-click: §fQuick Buy"
+  
+  admin_tips:
+    header: "§c§lAdmin Operations:"
+    force_cancel: "§cShift+Left-click: §fForce Cancel Item"
+  
+  # My auction item details
+  my_auction_start_price: "§eStarting Price: §f%price%"
+  my_auction_current_price: "§eCurrent Price: §f%price%"
+  my_auction_buy_now_price: "§eBuy Now: §f%price%"
+  my_auction_remaining_time: "§eRemaining Time: §f%time%"
+  my_auction_current_bidder: "§eCurrent Bidder: §f%bidder%"
+  my_auction_has_bidder_warning1: "§c⚠ Has bidder, cannot cancel auction ⚠"
+  my_auction_has_bidder_warning2: "§cPlease wait for auction to end"
+  my_auction_cancel_tip: "§eRight-click to cancel auction"
+  
+  # Sold item details
+  sold_item_deal_price: "§eDeal Price: §f%price%"
+  sold_item_buyer: "§eBuyer: §f%buyer%"
+  sold_item_sold_time: "§eSold Time: §f%time%"
+  sold_item_notice1: "§cThis item has been sold, view only"
+  sold_item_notice2: "§cCannot retrieve or sell again"
+
+# Listing menu tips
+sell_menu:
+  command_tips:
+    header: "§7Hold the item you want to list and enter:"
+    usage: "§7/auction sell <starting price> [buy now price] [currency type]"
+    currency_types: "§7Currency types: §f1=Coins, 2=Points"
+  
+  # Custom listing duration button
+  duration_button:
+    title: "§aCustom Listing Duration"
+    current_setting: "§7Current setting: §f%hours% hours %minutes% minutes"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     divider: "§8§m--------------------"
     left_click: "§7Left-click: §f+1 minute"
     right_click: "§7Right-click: §f+1 hour"
     shift_left_click: "§7Shift+Left-click: §f+10 minutes"
     shift_right_click: "§7Shift+Right-click: §f+10 hours"
     middle_click: "§7Mouse §bMiddle-click§7 or §bQ§7 key: §fReset to minimum time"
+<<<<<<< HEAD
     min_time: "§7Minimum Time: §f%hours% hours"
     max_time: "§7Maximum Time: §f%hours% hours"
     note1: "§eNote: §fTime setting only effective after confirming listing"
@@ -317,11 +580,27 @@ format:
 bid_increase: "§bPrepare Bid" # "Prepare Bid" or "Set Bid Amount" is more accurate than "Increase Bid" if it's for setting the bid before confirming.
 
 # My Auction Interface Information
+=======
+    min_time: "§7Minimum time: §f%hours% hours"
+    max_time: "§7Maximum time: §f%hours% hours"
+    note1: "§eNote: §fTime setting only applies after confirming listing"
+    note2: "§e      §fInvalid when using command to list"
+
+# Title suffix and separator
+format:
+  page_separator: " §7- Page %page%" 
+
+# Bid button
+bid_increase: "§bPre-increase Bid" 
+
+# My auction interface info
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 my_auction:
   page_info: "§eCurrent Page: §f%page%/%total_pages%"
   sold_count: "§eSold: §f%count%"
   expired_count: "§eExpired: §f%count%"
   listings_count: "§eListings: §f%current%/%max%"
+<<<<<<< HEAD
   limit_warning: "§c⚠ Your listing limit is almost reached!"
 
 mailbox:
@@ -386,18 +665,91 @@ gui_listener:
   failed_transaction: "§cDeduction failed, please try again!"
   partial_item_saved: "§eYour inventory is full, some items saved to pending collection, use /ah collect to retrieve" # Assuming /ah is an alias for /auction
 
+=======
+  limit_warning: "§c⚠ You are about to reach your listing limit!" 
+
+mailbox:
+  # Mailbox item filters
+  mailbox_filter_tags:
+    - "✉"
+    - "§8-----------------" 
+    - "Deal Price"
+    - "Received Time"
+    - "Unlisted Time"
+    - "Purchase Time"
+    - "Successful bid item"
+    - "Current Price"
+  
+  # Mailbox expired item tags
+  expired_auction_tags:
+    - "Expired Unsold"
+    - "AUCTION_EXPIRED" 
+
+error_messages:
+  item_not_exists: "§cItem doesn't exist or has been purchased!" 
+
+# GuiListener messages
+gui_listener:
+  # Item collection related
+  collect_success: "§aItem collected successfully, item has been placed in your inventory."
+  collect_fail_inventory_full: "§eInventory full, cannot collect item. Please clear inventory and try again."
+  
+  # Cancel auction related
+  cancel_auction_has_bid: "§cThis item has bids, cannot cancel auction!"
+  cancel_auction_success: "§aAuction cancelled successfully, item has been returned to your inventory."
+  cancel_auction_success_inventory_full: "§eAuction cancelled successfully, but your inventory is full. Item has been stored in pending collection list, use /auction collect to collect."
+  cancel_auction_fail: "§cFailed to cancel auction, please try again later."
+  
+  # Time setting related
+  reset_duration: "§eListing time reset to minimum value!"
+  max_duration_limit: "§cReached maximum listing time limit!"
+  update_duration: "§aListing time updated to: §f%hours% hours %minutes% minutes"
+  custom_duration_below_min: "§eCustom time below minimum limit, automatically adjusted to minimum limit."
+  custom_duration_above_max: "§eCustom time exceeds maximum limit, automatically adjusted to maximum limit."
+  custom_duration_set: "§aItem listed, duration set to: §f%hours% hours %minutes% minutes"
+  
+  # Item listing related
+  points_unavailable: "§ePoints system unavailable, automatically switched to using coins for listing."
+  max_listings_reached_1: "§cYou have reached the maximum listing limit (%max_listings% items)!"
+  max_listings_reached_2: "§cPlease wait for your listed items to sell or expire before trying to list new items."
+  
+  # Item status related
+  expired_item: "§cThis item's auction has ended!"
+  invalid_item: "§cItem doesn't exist or has been purchased!"
+  
+  # Permission and operation limits
+  no_permission: "§cYou don't have permission to perform this action!"
+  owner_bid: "§cYou cannot bid on your own item!"
+  owner_buy: "§cYou cannot buy your own item!"
+  already_highest_bidder: "§eYou are already the highest bidder, you can continue to increase your bid!"
+  
+  # Purchase related
+  no_buy_now_price: "§cThis item doesn't have a buy now price, cannot purchase directly!"
+  not_enough_money: "§cYou don't have enough %currency% for this operation!"
+  inventory_full: "§cYour inventory is full, please clear inventory before purchasing items!"
+  failed_transaction: "§cPayment failed, please try again!"
+  partial_item_saved: "§eYour inventory is full, some items have been saved to the pending collection list, use /ah collect to collect"
+  
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # Purchase success notification
   purchase_success: "§aPurchase successful!"
   purchase_item: "§eItem: §f%item%"
   purchase_price: "§ePrice: §f%price%"
+<<<<<<< HEAD
   mailbox_full: "§aPurchase successful! §eBut your inventory is full, item stored in item mailbox, please use /ah my to check."
   cancel_purchase: "§cPurchase canceled"
 
+=======
+  mailbox_full: "§aPurchase successful! §eBut your inventory is full, items have been stored in item mailbox, please use /ah my to view."
+  cancel_purchase: "§cPurchase cancelled"
+  
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # Sold notification
   sold_notification: "§aYour item has been purchased!"
   seller_fee: "§eFee: §f%fee%"
   seller_income: "§eActual Income: §f%income%"
   buyer: "§eBuyer: §f%buyer%"
+<<<<<<< HEAD
 
   # Bidding related
   expired_bid_info: "§cBid information has expired, please reselect the item"
@@ -503,10 +855,117 @@ mailbox_details:
   # Auction cancel related messages
   auction_has_bidder: "§cThis item has active bids and cannot be canceled!" # Duplicate of gui_listener.cancel_auction_has_bid
 
+=======
+  
+  # Bidding related
+  bid_info_expired: "§cBid information expired, please select item again"
+  expired_bid_info: "§cBid information expired, please select item again"
+  expired_bid: "§cThis item has expired, cannot place bid!"
+  bid_sold: "§eItem ID: %id% has been bought with buy now\n§eYour bid %price% has been refunded"
+  bid_outbid: "§eYou have been outbid! Item ID: %id%"
+  previous_bid: "§eYour bid %amount% has been refunded"
+  new_bid: "§eNew bid: %amount%"
+  incomplete_bid_info: "§cBid information incomplete, please bid again."
+  bid_below_minimum: "§cBid must be at least %min_bid% higher than current price!"
+  pre_bid: "§aPre-bid increased! §eClick 'Confirm Bid' button to complete bidding, or click 'Cancel Bid' to cancel."
+  bid_amount: "§eEstimated bid amount: §f%amount%"
+  bid_accepted: "§aCurrent bid amount confirmed: §f%amount%"
+  bid_success: "§aBid successful!"
+  bid_item: "§eItem ID: §f%id%"
+  bid_price: "§eYour bid: §f%price%"
+  
+  # Balance information
+  balance: "§aYour %currency% balance: §f%balance%"
+  
+  # Admin operations
+  refund: "§eYour bid on an item has been refunded because the item was forcibly removed by an admin.\n§eRefunded: §f%amount%"
+  removed_item: "§aForcibly removed item #%id% (Seller: %seller%)" 
+
+# Command related messages
+auction_commands:
+  # Regular messages
+  player_only: "§cThis command can only be used by players!"
+  unknown_command: "§cUnknown command! Use /auction help to view help"
+  no_permission: "§cYou don't have permission to use this command!"
+  
+  # Tab completion information
+  tab_completion:
+    sell_price: "<starting price>"
+    sell_buynow: "<buy now price>"
+    sell_currency: "<currency type: 1=coins, 2=points>"
+    search_keyword: "<keyword>"
+  
+  # Help information
+  help:
+    header: "§6===== Auction Help ====="
+    help: "§e/auction help - Display this help information"
+    open: "§e/auction open - Open auction house"
+    sell: "§e/auction sell <starting price> [buy now price] [currency type] - List item (1=coins, 2=points)"
+    search: "§e/auction search <keyword> - Search items"
+    my: "§e/auction my - View my auctions and item mailbox"
+    collect: "§e/auction collect - Collect pending items"
+    admin_header: "§c===== Admin Commands ====="
+    reload: "§e/auction reload - Reload configuration files"
+    close: "§e/auction close - §c[TEST] §eForce close all auction items and mark as expired"
+    checkexpired: "§e/auction checkexpired - Check all expired but unprocessed items"
+  
+  # Collect command related
+  collect:
+    success: "§aItem mailbox opened, you can collect all pending items here."
+  
+  # Listing command related
+  sell:
+    usage: "§cUsage: /auction sell <starting price> <buy now price> [currency type]"
+    currency_types: "§cCurrency types: 1 = Coins, 2 = Points (default is Coins)"
+    points_unavailable: "§cPoints system unavailable, server doesn't have PlayerPoints plugin installed."
+    points_unavailable_solution: "§cPlease use coins to list items, or contact server administrator for help."
+    invalid_currency: "§cInvalid currency type! Use: 1 = Coins, 2 = Points"
+    max_listings_reached: "§cYou have reached the maximum listing limit (%max_listings% items)!"
+    wait_for_items_sold: "§cPlease wait for your listed items to sell or expire before trying to list new items."
+    start_price_zero: "§cStarting price must be greater than 0!"
+    buy_now_less_than_start: "§cBuy now price must be greater than starting price!"
+    invalid_price: "§cPlease enter a valid price!"
+  
+  # Search command related
+  search:
+    usage: "§cUsage: /auction search <keyword>"
+    min_length: "§cSearch keyword must be at least 2 characters!"
+    searching: "§aSearching: §e%keyword%"
+  
+  # Close all auctions command related
+  close:
+    starting: "§eForcing close all auction items..."
+    async_notice: "§eThis operation will be performed asynchronously in the background to avoid server lag, please be patient."
+    force_close: "§cAuction house has been forcibly closed by an admin!"
+    success: "§aAll players' auction house windows have been forcibly closed!"
+  
+  # Check expired items command related
+  checkexpired:
+    player_only: "§cOnly players can execute this command!"
+    checking: "§aChecking all auction items, looking for expired but unprocessed items..."
+    success: "§aSuccessfully processed %count% expired items!"
+    none: "§aNo expired but unprocessed items found."
+  
+  # Reload config command related
+  reload:
+    success: "§aGlobalShop configuration reloaded!"
+    debug_info: "§eDebug info: Check interval set to %interval% seconds"
+
+# Mailbox and details related messages
+mailbox_details:
+  # Mailbox item handling related messages
+  collect_success: "§aItem collected successfully, item has been placed in your inventory."
+  inventory_full: "§eInventory full, cannot collect item. Please clear inventory and try again."
+  
+  # Auction cancel related messages
+  auction_has_bidder: "§cThis item has bids, cannot cancel auction!"
+  
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # Mailbox item filter keywords
   filter_keywords:
     - "Starting Price"
     - "Time"
+<<<<<<< HEAD
     - "Auction Duration"
     - "System Auto Unlist"
     - "✉"
@@ -515,11 +974,22 @@ mailbox_details:
     - "Current Price"
 
 # Item Details View
+=======
+    - "Auction Period"
+    - "System Auto-unlisted"
+    - "✉"
+    - "§8-----------------"
+    - "Successful bid item"
+    - "Current Price"
+
+# Item details view
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 item_details:
   header: "§6===== Auction Item Details ====="
   item_name: "§eItem: §f%item%"
   start_price: "§eStarting Price: §f%price%"
   current_price: "§eCurrent Price: §f%price%"
+<<<<<<< HEAD
   buy_now_price: "§eBuy Now Price: §f%price%"
   current_bidder: "§eCurrent Bidder: §f%bidder%"
   remaining_time: "§eTime Remaining: §f%time%"
@@ -546,6 +1016,34 @@ auction_task:
     collect_guide: "§eUse /auction my to enter the auction system, click \"Item Mailbox\" to collect"
 
   # Auction success message - Seller notification
+=======
+  buy_now_price: "§eBuy Now: §f%price%"
+  current_bidder: "§eCurrent Bidder: §f%bidder%"
+  remaining_time: "§eRemaining Time: §f%time%" 
+
+# Bid menu related configuration
+bid_menu:
+  item_text: "§7Item: §f%item_name%"
+  original_price_text: "§7Original Price: §f%price%"
+  current_price_text: "§7Current Bid: §f%price%"
+  pre_amount_text: "§7Pre-bid Amount: §f%price%"
+  rate_text: "§7Increase Rate: §f+%rate%%"
+  increase_tip: "§7Click to increase your bid amount"
+  min_increase_text: "§7Minimum Increase: §f%price%"
+  confirm_tip: "§7Click to confirm current bid amount"
+  confirm_pre_amount_text: "§7Pre-bid Amount: §f%price%" 
+
+# AuctionTask related configuration
+auction_task:
+  # Auction won message - Buyer notification
+  buyer_win:
+    success: "§aYour won item has been delivered to your item mailbox!"
+    item: "§eItem: %item_name%"
+    price: "§ePrice: %price%"
+    collect_guide: "§eUse /auction my to enter auction system, click \"Item Mailbox\" to collect"
+  
+  # Auction won message - Seller notification
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   seller_win:
     success: "§aYour item has been successfully auctioned!"
     item: "§eItem: %item_name%"
@@ -553,6 +1051,7 @@ auction_task:
     income: "§eIncome: %amount%"
     buyer: "§eBuyer: %buyer%"
     unknown_buyer: "Unknown"
+<<<<<<< HEAD
 
   # Auction failure message - Seller notification
   seller_expired:
@@ -625,3 +1124,11 @@ auction_item_format:
     not_sold: "Not Sold"
   display:
     unknown_item: "Unknown Item"
+=======
+  
+  # Auction failed message - Seller notification
+  seller_expired:
+    notice: "§aYour auction item has expired, item has been placed in item mailbox!"
+    item: "§eItem: %item_name%"
+    collect_guide: "§eUse /auction my to enter auction system, click \"Item Mailbox\" to collect" 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba

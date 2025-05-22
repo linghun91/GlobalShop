@@ -10,6 +10,12 @@ import org.bukkit.entity.TextDisplay;
 
 import java.io.File;
 import java.io.IOException;
+<<<<<<< HEAD
+=======
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,25 +24,43 @@ import java.util.Map;
  * 负责管理全息显示配置文件
  */
 public class HologramConfigManager {
+<<<<<<< HEAD
 
     private final GlobalShop plugin;
     private FileConfiguration config;
     private File configFile;
 
+=======
+    
+    private final GlobalShop plugin;
+    private FileConfiguration config;
+    private File configFile;
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     private int displayRows;
     private int updateInterval;
     private float lineSpacing;
     private float itemTextSpacing;
     private float itemScale;
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     private Map<String, TextStyle> textStyles;
     private Map<String, String> eventTexts;
     private Map<String, String> messages;
     private Map<String, String> currencyNames;
     private String dateFormat;
+<<<<<<< HEAD
 
     private Map<String, TextDisplaySettings> displaySettings;
 
+=======
+    
+    private Map<String, TextDisplaySettings> displaySettings;
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 构造函数
      * @param plugin 插件实例
@@ -49,7 +73,11 @@ public class HologramConfigManager {
         this.currencyNames = new HashMap<>();
         this.displaySettings = new HashMap<>();
         this.configFile = new File(plugin.getDataFolder(), "hd_gui.yml");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 默认配置
         this.displayRows = 10;
         this.updateInterval = 30;
@@ -57,17 +85,26 @@ public class HologramConfigManager {
         this.itemTextSpacing = 0.6f;
         this.itemScale = 0.5f;
         this.dateFormat = "MM-dd HH:mm";
+<<<<<<< HEAD
 
         // 加载配置
         loadConfig();
     }
 
+=======
+        
+        // 加载配置
+        loadConfig();
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 加载配置文件
      */
     public void loadConfig() {
         try {
             initConfig();
+<<<<<<< HEAD
 
             // 重新加载配置
             config = YamlConfiguration.loadConfiguration(configFile);
@@ -90,11 +127,39 @@ public class HologramConfigManager {
             // 加载TextDisplay设置
             loadTextDisplaySettings();
 
+=======
+            
+            // 重新加载配置
+            config = YamlConfiguration.loadConfiguration(configFile);
+            
+            // 加载设置
+            loadSettings();
+            
+            // 加载文本样式
+            loadTextStyles();
+            
+            // 加载事件文本
+            loadEventTexts();
+            
+            // 加载消息
+            loadMessages();
+            
+            // 加载价格格式
+            loadPriceFormat();
+            
+            // 加载TextDisplay设置
+            loadTextDisplaySettings();
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 加载基础设置
      */
@@ -105,45 +170,77 @@ public class HologramConfigManager {
         itemTextSpacing = (float) config.getDouble("hologram.settings.item-text-spacing", 0.6);
         itemScale = (float) config.getDouble("hologram.settings.item-scale", 0.5);
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 加载文本样式
      */
     private void loadTextStyles() {
         textStyles.clear();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载物品名称样式
         float itemNameScale = (float) config.getDouble("hologram.text.item-name.scale", 0.9);
         String itemNameColor = config.getString("hologram.text.item-name.color", "#FFAA00");
         textStyles.put("item-name", new TextStyle(itemNameScale, itemNameColor, ""));
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载卖家名称样式
         float sellerNameScale = (float) config.getDouble("hologram.text.seller-name.scale", 0.9);
         String sellerNameColor = config.getString("hologram.text.seller-name.color", "#55FF55");
         textStyles.put("seller-name", new TextStyle(sellerNameScale, sellerNameColor, ""));
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载事件类型样式
         float eventTypeScale = (float) config.getDouble("hologram.text.event-type.scale", 0.9);
         String eventTypeColor = config.getString("hologram.text.event-type.color", "#FFFFFF");
         textStyles.put("event-type", new TextStyle(eventTypeScale, eventTypeColor, ""));
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载价格样式
         float priceScale = (float) config.getDouble("hologram.text.price.scale", 0.9);
         String priceColor = config.getString("hologram.text.price.color", "#FFFF55");
         textStyles.put("price", new TextStyle(priceScale, priceColor, ""));
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载买家名称样式
         float buyerNameScale = (float) config.getDouble("hologram.text.buyer-name.scale", 0.9);
         String buyerNameColor = config.getString("hologram.text.buyer-name.color", "#55FFFF");
         textStyles.put("buyer-name", new TextStyle(buyerNameScale, buyerNameColor, ""));
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 加载事件文本
      */
     private void loadEventTexts() {
         eventTexts.clear();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载事件文本
         eventTexts.put("list", config.getString("hologram.events.list", "上架"));
         eventTexts.put("bid", config.getString("hologram.events.bid", "竞价更新"));
@@ -151,25 +248,38 @@ public class HologramConfigManager {
         eventTexts.put("expired", config.getString("hologram.events.expired", "已到期"));
         eventTexts.put("cancelled", config.getString("hologram.events.cancelled", "已取消"));
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 加载消息配置
      */
     private void loadMessages() {
         messages.clear();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载消息
         messages.put("title", config.getString("hologram.messages.title", "§6§l拍卖行历史记录"));
         messages.put("no-history", config.getString("hologram.messages.no-history", "§f暂无拍卖历史记录"));
         messages.put("load-error", config.getString("hologram.messages.load-error", "§c拍卖行历史记录加载失败"));
         messages.put("header", config.getString("hologram.messages.header", "§f物品名称 §7| §f拍卖主人 §7| §f事件类型 §7| §f价格 §7| §f事件触发者 §7| §f日期"));
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 加载价格格式配置
      */
     private void loadPriceFormat() {
         currencyNames.clear();
+<<<<<<< HEAD
 
         // 加载货币名称
         currencyNames.put("vault", config.getString("hologram.price-format.currency-names.vault", "金币"));
@@ -179,23 +289,46 @@ public class HologramConfigManager {
         dateFormat = config.getString("hologram.price-format.date-format", "MM-dd HH:mm");
     }
 
+=======
+        
+        // 加载货币名称
+        currencyNames.put("vault", config.getString("hologram.price-format.currency-names.vault", "金币"));
+        currencyNames.put("points", config.getString("hologram.price-format.currency-names.points", "点券"));
+        
+        // 加载日期格式
+        dateFormat = config.getString("hologram.price-format.date-format", "MM-dd HH:mm");
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 加载TextDisplay设置
      */
     private void loadTextDisplaySettings() {
         displaySettings.clear();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载标题显示设置
         TextDisplaySettings titleSettings = new TextDisplaySettings();
         loadDisplaySettings(titleSettings, "hologram.display.title");
         displaySettings.put("title", titleSettings);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载内容显示设置
         TextDisplaySettings contentSettings = new TextDisplaySettings();
         loadDisplaySettings(contentSettings, "hologram.display.content");
         displaySettings.put("content", contentSettings);
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 加载特定类型的TextDisplay设置
      */
@@ -207,6 +340,7 @@ public class HologramConfigManager {
         } catch (IllegalArgumentException e) {
             settings.setAlignment(TextDisplay.TextAlignment.LEFT);
         }
+<<<<<<< HEAD
 
         // 加载行宽度
         settings.setLineWidth(config.getInt(path + ".line-width", 500));
@@ -220,6 +354,21 @@ public class HologramConfigManager {
         // 加载文本不透明度
         settings.setTextOpacity(config.getInt(path + ".text-opacity", 255));
 
+=======
+        
+        // 加载行宽度
+        settings.setLineWidth(config.getInt(path + ".line-width", 500));
+        
+        // 加载是否启用阴影
+        settings.setShadowed(config.getBoolean(path + ".shadowed", false));
+        
+        // 加载是否透视
+        settings.setSeeThrough(config.getBoolean(path + ".see-through", true));
+        
+        // 加载文本不透明度
+        settings.setTextOpacity(config.getInt(path + ".text-opacity", 255));
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载背景颜色
         String bgColor = config.getString(path + ".background-color", "");
         if (bgColor != null && !bgColor.isEmpty()) {
@@ -235,10 +384,17 @@ public class HologramConfigManager {
             } catch (Exception e) {
             }
         }
+<<<<<<< HEAD
 
         // 加载是否使用默认背景
         settings.setDefaultBackground(config.getBoolean(path + ".default-background", false));
 
+=======
+        
+        // 加载是否使用默认背景
+        settings.setDefaultBackground(config.getBoolean(path + ".default-background", false));
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载广告牌样式
         String billboardStr = config.getString(path + ".billboard", "CENTER");
         try {
@@ -246,7 +402,11 @@ public class HologramConfigManager {
         } catch (IllegalArgumentException e) {
             settings.setBillboard(Display.Billboard.CENTER);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 加载亮度设置
         boolean brightnessEnabled = config.getBoolean(path + ".brightness.enabled", false);
         if (brightnessEnabled) {
@@ -254,6 +414,7 @@ public class HologramConfigManager {
             int skyLight = config.getInt(path + ".brightness.sky-light", 15);
             settings.setBrightness(new Display.Brightness(blockLight, skyLight));
         }
+<<<<<<< HEAD
 
         // 加载可见距离
         settings.setViewRange((float) config.getDouble(path + ".view-range", 48.0));
@@ -265,6 +426,19 @@ public class HologramConfigManager {
         settings.setShadowStrength((float) config.getDouble(path + ".shadow-strength", 0.0));
     }
 
+=======
+        
+        // 加载可见距离
+        settings.setViewRange((float) config.getDouble(path + ".view-range", 48.0));
+        
+        // 加载阴影半径
+        settings.setShadowRadius((float) config.getDouble(path + ".shadow-radius", 0.0));
+        
+        // 加载阴影强度
+        settings.setShadowStrength((float) config.getDouble(path + ".shadow-strength", 0.0));
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 初始化配置文件
      */
@@ -273,18 +447,30 @@ public class HologramConfigManager {
         if (!configFile.exists()) {
             plugin.saveResource("hd_gui.yml", false);
         }
+<<<<<<< HEAD
 
         config = YamlConfiguration.loadConfiguration(configFile);
 
         // 如果配置文件刚创建，设置默认值
         if (!config.contains("hologram")) {
             config.set("hologram.enabled", true);
+=======
+        
+        config = YamlConfiguration.loadConfiguration(configFile);
+        
+        // 如果配置文件刚创建，设置默认值
+        if (!config.contains("hologram")) {
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             config.set("hologram.settings.display-rows", 10);
             config.set("hologram.settings.update-interval", 30);
             config.set("hologram.settings.line-spacing", 0.3);
             config.set("hologram.settings.item-text-spacing", 0.6);
             config.set("hologram.settings.item-scale", 0.5);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             config.set("hologram.text.item-name.scale", 0.9);
             config.set("hologram.text.item-name.color", "#FFAA00");
             config.set("hologram.text.seller-name.scale", 0.9);
@@ -295,22 +481,38 @@ public class HologramConfigManager {
             config.set("hologram.text.price.color", "#FFFF55");
             config.set("hologram.text.buyer-name.scale", 0.9);
             config.set("hologram.text.buyer-name.color", "#55FFFF");
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             config.set("hologram.events.list", "上架");
             config.set("hologram.events.bid", "竞价更新");
             config.set("hologram.events.buy", "被购买");
             config.set("hologram.events.expired", "已到期");
             config.set("hologram.events.cancelled", "已取消");
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             config.set("hologram.messages.title", "§6§l拍卖行历史记录");
             config.set("hologram.messages.no-history", "§f暂无拍卖历史记录");
             config.set("hologram.messages.load-error", "§c拍卖行历史记录加载失败");
             config.set("hologram.messages.header", "§f物品名称 §7| §f拍卖主人 §7| §f事件类型 §7| §f价格 §7| §f事件触发者 §7| §f日期");
+<<<<<<< HEAD
 
             config.set("hologram.price-format.currency-names.vault", "金币");
             config.set("hologram.price-format.currency-names.points", "点券");
             config.set("hologram.price-format.date-format", "MM-dd HH:mm");
 
+=======
+            
+            config.set("hologram.price-format.currency-names.vault", "金币");
+            config.set("hologram.price-format.currency-names.points", "点券");
+            config.set("hologram.price-format.date-format", "MM-dd HH:mm");
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             // 默认TextDisplay设置
             config.set("hologram.display.title.alignment", "CENTER");
             config.set("hologram.display.title.line-width", 500);
@@ -326,7 +528,11 @@ public class HologramConfigManager {
             config.set("hologram.display.title.view-range", 48.0);
             config.set("hologram.display.title.shadow-radius", 0.0);
             config.set("hologram.display.title.shadow-strength", 0.0);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             config.set("hologram.display.content.alignment", "LEFT");
             config.set("hologram.display.content.line-width", 500);
             config.set("hologram.display.content.shadowed", false);
@@ -341,14 +547,22 @@ public class HologramConfigManager {
             config.set("hologram.display.content.view-range", 48.0);
             config.set("hologram.display.content.shadow-radius", 0.0);
             config.set("hologram.display.content.shadow-strength", 0.0);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             try {
                 config.save(configFile);
             } catch (IOException e) {
             }
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 重新加载配置
      */
@@ -356,7 +570,11 @@ public class HologramConfigManager {
         // 重新加载配置
         loadConfig();
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 保存配置
      */
@@ -366,6 +584,7 @@ public class HologramConfigManager {
         } catch (IOException e) {
         }
     }
+<<<<<<< HEAD
 
     public int getDisplayRows() {
         return displayRows;
@@ -395,6 +614,29 @@ public class HologramConfigManager {
         return itemScale;
     }
 
+=======
+    
+    public int getDisplayRows() {
+        return displayRows;
+    }
+    
+    public int getUpdateInterval() {
+        return updateInterval;
+    }
+    
+    public float getLineSpacing() {
+        return lineSpacing;
+    }
+    
+    public float getItemTextSpacing() {
+        return itemTextSpacing;
+    }
+    
+    public float getItemScale() {
+        return itemScale;
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取文本样式
      * @param styleKey 样式键
@@ -403,7 +645,11 @@ public class HologramConfigManager {
     public TextStyle getTextStyle(String styleKey) {
         return textStyles.getOrDefault(styleKey, new TextStyle(0.9f, "#FFFFFF", ""));
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取事件文本
      * @param eventKey 事件键
@@ -412,7 +658,11 @@ public class HologramConfigManager {
     public String getEventText(String eventKey) {
         return eventTexts.getOrDefault(eventKey, "未知事件");
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取消息
      * @param messageKey 消息键
@@ -421,7 +671,11 @@ public class HologramConfigManager {
     public String getMessage(String messageKey) {
         return messages.getOrDefault(messageKey, "");
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取货币名称
      * @param currencyKey 货币键(vault/points)
@@ -430,7 +684,11 @@ public class HologramConfigManager {
     public String getCurrencyName(String currencyKey) {
         return currencyNames.getOrDefault(currencyKey.toLowerCase(), "金币");
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取日期格式
      * @return 日期格式
@@ -438,7 +696,11 @@ public class HologramConfigManager {
     public String getDateFormat() {
         return dateFormat;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取TextDisplay设置
      * @param type 设置类型 (title/content)
@@ -447,7 +709,11 @@ public class HologramConfigManager {
     public TextDisplaySettings getDisplaySettings(String type) {
         return displaySettings.getOrDefault(type, new TextDisplaySettings());
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取事件类型文本（带颜色）
      * @param eventKey 事件键
@@ -456,7 +722,11 @@ public class HologramConfigManager {
     public String getEventTypeText(String eventKey) {
         String text = getEventText(eventKey);
         String color = "";
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 根据事件类型设置不同颜色
         switch (eventKey) {
             case "list":
@@ -477,10 +747,17 @@ public class HologramConfigManager {
             default:
                 color = "§f"; // 白色
         }
+<<<<<<< HEAD
 
         return color + text;
     }
 
+=======
+        
+        return color + text;
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取带颜色的事件文本
      * @param eventKey 事件键
@@ -490,7 +767,11 @@ public class HologramConfigManager {
     public String getColoredEventText(String eventKey, ChatColor color) {
         return color + getEventText(eventKey);
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 文本样式类
      */
@@ -498,12 +779,17 @@ public class HologramConfigManager {
         private final float scale;
         private final String color;
         private final String backgroundColor;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         public TextStyle(float scale, String color, String backgroundColor) {
             this.scale = scale;
             this.color = color;
             this.backgroundColor = backgroundColor;
         }
+<<<<<<< HEAD
 
         public float getScale() {
             return scale;
@@ -513,11 +799,26 @@ public class HologramConfigManager {
             return color;
         }
 
+=======
+        
+        public float getScale() {
+            return scale;
+        }
+        
+        public String getColor() {
+            return color;
+        }
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         public String getBackgroundColor() {
             return backgroundColor;
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * TextDisplay设置类
      */
@@ -534,7 +835,11 @@ public class HologramConfigManager {
         private float viewRange;
         private float shadowRadius;
         private float shadowStrength;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         public TextDisplaySettings() {
             this.alignment = TextDisplay.TextAlignment.LEFT;
             this.lineWidth = 500;
@@ -549,6 +854,7 @@ public class HologramConfigManager {
             this.shadowRadius = 0.0f;
             this.shadowStrength = 0.0f;
         }
+<<<<<<< HEAD
 
         public TextDisplay.TextAlignment getAlignment() {
             return alignment;
@@ -646,6 +952,105 @@ public class HologramConfigManager {
             this.shadowStrength = shadowStrength;
         }
 
+=======
+        
+        public TextDisplay.TextAlignment getAlignment() {
+            return alignment;
+        }
+        
+        public void setAlignment(TextDisplay.TextAlignment alignment) {
+            this.alignment = alignment;
+        }
+        
+        public int getLineWidth() {
+            return lineWidth;
+        }
+        
+        public void setLineWidth(int lineWidth) {
+            this.lineWidth = lineWidth;
+        }
+        
+        public boolean isShadowed() {
+            return shadowed;
+        }
+        
+        public void setShadowed(boolean shadowed) {
+            this.shadowed = shadowed;
+        }
+        
+        public boolean isSeeThrough() {
+            return seeThrough;
+        }
+        
+        public void setSeeThrough(boolean seeThrough) {
+            this.seeThrough = seeThrough;
+        }
+        
+        public int getTextOpacity() {
+            return textOpacity;
+        }
+        
+        public void setTextOpacity(int textOpacity) {
+            this.textOpacity = textOpacity;
+        }
+        
+        public Color getBackgroundColor() {
+            return backgroundColor;
+        }
+        
+        public void setBackgroundColor(Color backgroundColor) {
+            this.backgroundColor = backgroundColor;
+        }
+        
+        public boolean isDefaultBackground() {
+            return defaultBackground;
+        }
+        
+        public void setDefaultBackground(boolean defaultBackground) {
+            this.defaultBackground = defaultBackground;
+        }
+        
+        public Display.Billboard getBillboard() {
+            return billboard;
+        }
+        
+        public void setBillboard(Display.Billboard billboard) {
+            this.billboard = billboard;
+        }
+        
+        public Display.Brightness getBrightness() {
+            return brightness;
+        }
+        
+        public void setBrightness(Display.Brightness brightness) {
+            this.brightness = brightness;
+        }
+        
+        public float getViewRange() {
+            return viewRange;
+        }
+        
+        public void setViewRange(float viewRange) {
+            this.viewRange = viewRange;
+        }
+        
+        public float getShadowRadius() {
+            return shadowRadius;
+        }
+        
+        public void setShadowRadius(float shadowRadius) {
+            this.shadowRadius = shadowRadius;
+        }
+        
+        public float getShadowStrength() {
+            return shadowStrength;
+        }
+        
+        public void setShadowStrength(float shadowStrength) {
+            this.shadowStrength = shadowStrength;
+        }
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         /**
          * 应用设置到TextDisplay实体
          * @param textDisplay TextDisplay实体
@@ -653,6 +1058,7 @@ public class HologramConfigManager {
         public void applyToTextDisplay(TextDisplay textDisplay) {
             // 设置文本对齐方式
             textDisplay.setAlignment(alignment);
+<<<<<<< HEAD
 
             // 设置行宽度
             textDisplay.setLineWidth(lineWidth);
@@ -666,10 +1072,26 @@ public class HologramConfigManager {
             // 设置文本不透明度
             textDisplay.setTextOpacity((byte) textOpacity);
 
+=======
+            
+            // 设置行宽度
+            textDisplay.setLineWidth(lineWidth);
+            
+            // 设置是否启用阴影
+            textDisplay.setShadowed(shadowed);
+            
+            // 设置是否透视
+            textDisplay.setSeeThrough(seeThrough);
+            
+            // 设置文本不透明度
+            textDisplay.setTextOpacity((byte) textOpacity);
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             // 设置背景颜色
             if (backgroundColor != null) {
                 textDisplay.setBackgroundColor(backgroundColor);
             }
+<<<<<<< HEAD
 
             // 设置是否使用默认背景
             textDisplay.setDefaultBackground(defaultBackground);
@@ -677,10 +1099,20 @@ public class HologramConfigManager {
             // 设置广告牌样式
             textDisplay.setBillboard(billboard);
 
+=======
+            
+            // 设置是否使用默认背景
+            textDisplay.setDefaultBackground(defaultBackground);
+            
+            // 设置广告牌样式
+            textDisplay.setBillboard(billboard);
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             // 设置亮度
             if (brightness != null) {
                 textDisplay.setBrightness(brightness);
             }
+<<<<<<< HEAD
 
             // 设置可见距离
             textDisplay.setViewRange(viewRange);
@@ -688,8 +1120,21 @@ public class HologramConfigManager {
             // 设置阴影半径
             textDisplay.setShadowRadius(shadowRadius);
 
+=======
+            
+            // 设置可见距离
+            textDisplay.setViewRange(viewRange);
+            
+            // 设置阴影半径
+            textDisplay.setShadowRadius(shadowRadius);
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             // 设置阴影强度
             textDisplay.setShadowStrength(shadowStrength);
         }
     }
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba

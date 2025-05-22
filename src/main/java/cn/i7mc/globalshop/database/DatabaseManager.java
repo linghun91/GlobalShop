@@ -38,6 +38,7 @@ public class DatabaseManager {
                 return;
             }
             
+<<<<<<< HEAD
             // 获取数据库类型
             String databaseType = plugin.getConfigManager().getDatabaseType();
             
@@ -113,6 +114,12 @@ public class DatabaseManager {
                 plugin.getLogger().warning("MySQL连接失败: " + e.getMessage());
                 e.printStackTrace();
             }
+=======
+            Class.forName("org.sqlite.JDBC");
+            String url = "jdbc:sqlite:" + new File(plugin.getDataFolder(), plugin.getConfigManager().getDatabaseFile()).getAbsolutePath();
+            connection = DriverManager.getConnection(url);
+        } catch (SQLException | ClassNotFoundException e) {
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         }
     }
 
@@ -143,6 +150,7 @@ public class DatabaseManager {
     }
 
     private void createTables() {
+<<<<<<< HEAD
         String sql = "CREATE TABLE IF NOT EXISTS auction_items (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "seller_uuid TEXT NOT NULL," +
@@ -212,6 +220,44 @@ public class DatabaseManager {
                 plugin.getLogger().warning("创建表失败: " + e.getMessage());
                 e.printStackTrace();
             }
+=======
+        String sql = """
+            CREATE TABLE IF NOT EXISTS auction_items (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                seller_uuid TEXT NOT NULL,
+                seller_name TEXT NOT NULL,
+                item_data TEXT NOT NULL,
+                start_price REAL NOT NULL,
+                buy_now_price REAL,
+                current_price REAL NOT NULL,
+                current_bidder TEXT,
+                current_bidder_name TEXT,
+                currency_type TEXT NOT NULL,
+                list_time INTEGER NOT NULL,
+                start_time INTEGER NOT NULL,
+                end_time INTEGER NOT NULL,
+                sold_time INTEGER,
+                status TEXT NOT NULL
+            )
+        """;
+        
+        String pendingItemsTable = """
+            CREATE TABLE IF NOT EXISTS pending_items (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                player_uuid TEXT NOT NULL,
+                item_data TEXT NOT NULL,
+                reason TEXT NOT NULL,
+                created_time INTEGER NOT NULL
+            )
+        """;
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+            stmt.execute(pendingItemsTable);
+            // 检查并添加新字段
+            checkAndAddColumns();
+        } catch (SQLException e) {
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         }
     }
     
@@ -233,9 +279,12 @@ public class DatabaseManager {
                 executeUpdate("ALTER TABLE auction_items ADD COLUMN sold_time INTEGER");
             }
         } catch (SQLException e) {
+<<<<<<< HEAD
             if (plugin.getConfigManager().isDebug()) {
                 plugin.getLogger().warning("添加字段失败: " + e.getMessage());
             }
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         }
     }
     
@@ -261,9 +310,12 @@ public class DatabaseManager {
                 connection = null;
             }
         } catch (SQLException e) {
+<<<<<<< HEAD
             if (plugin.getConfigManager().isDebug()) {
                 plugin.getLogger().warning("关闭数据库连接失败: " + e.getMessage());
             }
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         }
     }
 
@@ -311,6 +363,7 @@ public class DatabaseManager {
         }
     }
 
+<<<<<<< HEAD
     // Helper method to parse AuctionItem from ResultSet
     private AuctionItem parseAuctionItemFromResultSet(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -345,6 +398,8 @@ public class DatabaseManager {
         return auctionItem;
     }
 
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     // 创建拍卖物品
     public int createAuctionItem(AuctionItem item) {
         // 检查连接
@@ -575,10 +630,19 @@ public class DatabaseManager {
         }
         
         List<AuctionItem> items = new ArrayList<>();
+<<<<<<< HEAD
         String sql = "SELECT * FROM auction_items " +
             "WHERE status = 'ACTIVE' AND end_time > ? " +
             "ORDER BY end_time ASC " +
             "LIMIT ? OFFSET ?";
+=======
+        String sql = """
+            SELECT * FROM auction_items
+            WHERE status = 'ACTIVE' AND end_time > ?
+            ORDER BY end_time ASC
+            LIMIT ? OFFSET ?
+        """;
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 
         try {
             // 确保数据库连接没有关闭
@@ -638,11 +702,65 @@ public class DatabaseManager {
         return items;
     }
 
+<<<<<<< HEAD
     // 获取过期的拍卖物品
     public List<AuctionItem> getExpiredAuctionItems() {
         List<AuctionItem> items = new ArrayList<>();
         String sql = "SELECT * FROM auction_items " +
             "WHERE status = 'ACTIVE' AND end_time < ?";
+=======
+    // 获取玩家的拍卖物品
+    public List<AuctionItem> getPlayerAuctionItems(UUID playerUuid) {
+        List<AuctionItem> items = new ArrayList<>();
+        String sql = "SELECT * FROM auction_items WHERE seller_uuid = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, playerUuid.toString());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    // 获取新字段的值，如果不存在则使用默认值
+                    long listTime = getColumnLong(rs, "list_time", System.currentTimeMillis());
+                    long soldTime = getColumnLong(rs, "sold_time", 0);
+                    String bidderName = getColumnString(rs, "current_bidder_name", null);
+                    
+                    // 使用完整构造函数创建AuctionItem对象
+                    AuctionItem item = new AuctionItem(
+                        rs.getInt("id"),
+                        UUID.fromString(rs.getString("seller_uuid")),
+                        rs.getString("seller_name"),
+                        deserializeItem(rs.getString("item_data")),
+                        rs.getDouble("start_price"),
+                        rs.getDouble("buy_now_price"),
+                        rs.getDouble("current_price"),
+                        rs.getString("currency_type"),
+                        listTime,
+                        rs.getLong("start_time"),
+                        rs.getLong("end_time"),
+                        soldTime,
+                        rs.getString("status")
+                    );
+                    
+                    // 设置当前出价者UUID和名称
+                    if (rs.getString("current_bidder") != null && !rs.getString("current_bidder").isEmpty()) {
+                        item.setCurrentBidder(UUID.fromString(rs.getString("current_bidder")));
+                    }
+                    
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+        }
+        return items;
+    }
+
+    // 获取过期的拍卖物品
+    public List<AuctionItem> getExpiredAuctionItems() {
+        List<AuctionItem> items = new ArrayList<>();
+        String sql = """
+            SELECT * FROM auction_items
+            WHERE status = 'ACTIVE' AND end_time < ?
+        """;
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, System.currentTimeMillis());
@@ -681,6 +799,167 @@ public class DatabaseManager {
         }
         return items;
     }
+<<<<<<< HEAD
+=======
+    
+    // 重载的存储待领取物品方法，不需要reason参数
+    public boolean storePendingItem(UUID playerUuid, ItemStack item) {
+        return storePendingItem(playerUuid, item, "MAILBOX_ITEM");
+    }
+    
+    // 存储待领取物品
+    public boolean storePendingItem(UUID playerUuid, ItemStack item, String reason) {
+        // 检查物品是否已经存在于pending_items表中
+        // 通过比较序列化后的物品数据来防止完全相同的物品被添加多次
+        String serializedItem = serializeItem(item);
+        String checkSql = "SELECT COUNT(*) FROM pending_items WHERE player_uuid = ? AND item_data = ?";
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkSql)) {
+            checkStmt.setString(1, playerUuid.toString());
+            checkStmt.setString(2, serializedItem);
+            
+            try (ResultSet rs = checkStmt.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    // 物品已存在，记录日志并返回true以避免上层处理逻辑出错
+                    String itemName = item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? 
+                            item.getItemMeta().getDisplayName() : item.getType().toString();
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            // 继续处理，不要因为检查出错而阻止添加物品
+        }
+        
+        // 物品不存在，执行插入操作
+        String sql = "INSERT INTO pending_items (player_uuid, item_data, reason, created_time) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, playerUuid.toString());
+            pstmt.setString(2, serializedItem);
+            pstmt.setString(3, reason);
+            pstmt.setLong(4, System.currentTimeMillis());
+            
+            int result = pstmt.executeUpdate();
+            boolean success = result > 0;
+            
+            // 只记录严重错误
+            if (!success) {
+            }
+            
+            return success;
+        } catch (SQLException e) {
+        }
+        return false;
+    }
+    
+    // 获取玩家的待领取物品
+    public List<ItemStack> getPendingItems(UUID playerUuid) {
+        List<ItemStack> items = new ArrayList<>();
+        String sql = "SELECT item_data FROM pending_items WHERE player_uuid = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, playerUuid.toString());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    ItemStack item = deserializeItem(rs.getString("item_data"));
+                    if (item != null) {
+                        items.add(item);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+        }
+        return items;
+    }
+    
+    // 获取玩家待领取物品的详细信息，并转换为AuctionItem格式方便统一处理
+    public List<AuctionItem> getPendingItemsAsAuctionItems(UUID playerUuid) {
+        List<AuctionItem> auctionItems = new ArrayList<>();
+        String sql = "SELECT id, player_uuid, item_data, reason, created_time FROM pending_items WHERE player_uuid = ?";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, playerUuid.toString());
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String itemData = rs.getString("item_data");
+                    String reason = rs.getString("reason");
+                    long createdTime = rs.getLong("created_time");
+                    
+                    ItemStack itemStack = deserializeItem(itemData);
+                    if (itemStack != null) {
+                        // 创建AuctionItem对象表示邮箱物品
+                        // 使用现有构造函数，对于不需要的字段使用默认值
+                        AuctionItem item = new AuctionItem(
+                            id, // 使用pending_items表的id
+                            playerUuid, // 玩家UUID
+                            Bukkit.getOfflinePlayer(playerUuid).getName(), // 尝试获取玩家名称
+                            itemStack, // 物品本身
+                            0.0, // 起始价格(不重要)
+                            0.0, // 一口价(不重要)
+                            0.0, // 当前价格(不重要)
+                            "MONEY", // 货币类型(不重要)
+                            createdTime, // 开始时间
+                            createdTime + 86400000, // 结束时间，设为创建时间+1天
+                            "MAILBOX_PENDING" // 特殊状态标记为待领取物品
+                        );
+                        
+                        // 添加到列表
+                        auctionItems.add(item);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return auctionItems;
+    }
+    
+    /**
+     * 获取玩家的所有邮箱物品（包括待领取物品）
+     * @param playerUuid 玩家UUID
+     * @return 邮箱物品列表（以AuctionItem形式表示）
+     */
+    public List<AuctionItem> getAllMailboxItems(UUID playerUuid) {
+        // 直接调用现有方法获取待领取物品
+        return getPendingItemsAsAuctionItems(playerUuid);
+    }
+    
+    // 根据ID删除待领取物品
+    public boolean deletePendingItemById(int id) {
+        String sql = "DELETE FROM pending_items WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            int result = pstmt.executeUpdate();
+            boolean success = result > 0;
+            
+            if (success) {
+            } else {
+            }
+            
+            return success;
+        } catch (SQLException e) {
+        }
+        return false;
+    }
+    
+    // 删除玩家的所有待领取物品
+    public boolean deletePendingItems(UUID playerUuid) {
+        String sql = "DELETE FROM pending_items WHERE player_uuid = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, playerUuid.toString());
+            int result = pstmt.executeUpdate();
+            boolean success = result > 0;
+            
+            if (success) {
+            } else {
+            }
+            
+            return success;
+        } catch (SQLException e) {
+        }
+        return false;
+    }
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 
     // 搜索拍卖物品
     public List<AuctionItem> searchAuctionItems(String keyword, int page, int size) {
@@ -688,9 +967,17 @@ public class DatabaseManager {
         List<AuctionItem> allItems = new ArrayList<>();
         
         // 先获取所有活跃的物品
+<<<<<<< HEAD
         String sql = "SELECT * FROM auction_items " +
             "WHERE status = 'ACTIVE' " +
             "ORDER BY end_time ASC";
+=======
+        String sql = """
+            SELECT * FROM auction_items
+            WHERE status = 'ACTIVE'
+            ORDER BY end_time ASC
+        """;
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -1094,6 +1381,7 @@ public class DatabaseManager {
         
         return processedCount;
     }
+<<<<<<< HEAD
 
     // 获取指定玩家已售出的物品列表（分页）
     public List<AuctionItem> getPlayerSoldItems(UUID playerUuid, int page, int size) {
@@ -1459,4 +1747,6 @@ public class DatabaseManager {
         }
         return false;
     }
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 } 

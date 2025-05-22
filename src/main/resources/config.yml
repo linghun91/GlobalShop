@@ -5,7 +5,10 @@
 language:
   # 选择消息文件的语言版本，可选值：
   # zh_CN - 简体中文（默认）
+<<<<<<< HEAD
   # vi - Tiếng Việt (Vietnamese)
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # en - English (English)
   # es - Español (Spanish)
   # de - Deutsch (German)
@@ -19,6 +22,7 @@ language:
 
 # 数据库配置
 database:
+<<<<<<< HEAD
   # 数据库类型，支持 sqlite 和 mysql
   type: sqlite
   # SQLite数据库文件名，存储在plugins/GlobalShop/目录下
@@ -31,17 +35,31 @@ database:
     username: root
     password: password
     useSSL: false
+=======
+  # 数据库类型，目前仅支持sqlite
+  type: sqlite
+  # 数据库文件名，存储在plugins/GlobalShop/目录下
+  file: data.db
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 
 # 经济系统配置
 economy:
   # 买家税率（购买物品时需支付的额外费用百分比）
   # 范围: 0.0-1.0，0表示不收税，0.02表示收取2%的税
   buyer_tax_rate: 0.02
+<<<<<<< HEAD
 
   # 价格最大位数限制
   # 例如: 9表示最大价格为999,999,999
   max_price_digits: 9
 
+=======
+  
+  # 价格最大位数限制
+  # 例如: 9表示最大价格为999,999,999
+  max_price_digits: 9
+  
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # Vault经济系统配置（金币）
   vault:
     # 货币名称，显示在GUI界面和消息中
@@ -58,7 +76,11 @@ economy:
     min_bid_rate: 0.05
     # 最低加价金额，竞价时最少需要加价的金额
     min_bid_amount: 1.0
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # PlayerPoints点券系统配置（点券）
   points:
     # 点券名称，显示在GUI界面和消息中
@@ -98,13 +120,21 @@ gui:
   # 拍卖行GUI标题，支持颜色代码
   title: "§8[§6拍卖行§8]"
   # GUI大小，必须是9的倍数，最大值为54（6行*9列）
+<<<<<<< HEAD
   size: 54
+=======
+  size: 54 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 
 # 广播系统配置
 broadcast:
   # 广播系统总开关，设置为false将关闭所有广播
   enabled: true
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # 广播事件配置
   events:
     # 物品上架广播
@@ -117,7 +147,11 @@ broadcast:
         title: false         # 屏幕标题广播
         actionbar: false     # 动作栏广播
         subtitle: false      # 副标题广播
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     # 竞拍成功广播
     auction_won:
       enabled: true
@@ -128,7 +162,11 @@ broadcast:
         title: false
         actionbar: false
         subtitle: false
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     # 一口价购买广播
     buy_now:
       enabled: true
@@ -139,7 +177,11 @@ broadcast:
         title: false
         actionbar: true
         subtitle: false
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     # 竞价确认广播（新增）
     bid_confirmed:
       enabled: true
@@ -150,7 +192,11 @@ broadcast:
         title: false
         actionbar: true
         subtitle: false
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # 广播样式配置
   styles:
     # Boss栏设置
@@ -158,11 +204,16 @@ broadcast:
       color: PURPLE         # 颜色: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
       style: SOLID          # 样式: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
       duration: 5           # 持续时间（秒）
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     # 标题设置
     title:
       fade_in: 10           # 淡入时间（tick）
       stay: 40              # 停留时间（tick）
+<<<<<<< HEAD
       fade_out: 10          # 淡出时间（tick）
 
 # Web服务配置
@@ -184,3 +235,9 @@ web:
 
 # 调试模式 - 设置为true时会在控制台输出调试信息
 debug: false
+=======
+      fade_out: 10          # 淡出时间（tick） 
+
+# 调试模式 - 设置为true时会在控制台输出调试信息
+debug: false 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba

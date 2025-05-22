@@ -13,14 +13,20 @@ import cn.i7mc.globalshop.hologram.HologramUpdateTask;
 import cn.i7mc.globalshop.hologram.ItemDisplayManager;
 import cn.i7mc.globalshop.hologram.TextDisplayManager;
 import cn.i7mc.globalshop.listeners.GuiListener;
+<<<<<<< HEAD
 import cn.i7mc.globalshop.metrics.Metrics;
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 import cn.i7mc.globalshop.tasks.AuctionTask;
 import cn.i7mc.globalshop.utils.MinecraftLanguageManager;
 import cn.i7mc.globalshop.utils.SearchHistoryManager;
 import cn.i7mc.globalshop.utils.BroadcastManager;
 import cn.i7mc.globalshop.config.MessageManager;
 import cn.i7mc.globalshop.config.DebugMessageManager;
+<<<<<<< HEAD
 import cn.i7mc.globalshop.web.WebServer;
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 import net.milkbowl.vault.economy.Economy;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.ChatColor;
@@ -42,7 +48,11 @@ public class GlobalShop extends JavaPlugin {
     private MessageManager messageManager;
     private DebugMessageManager debugMessageManager;
     private BroadcastManager broadcastManager;
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     // 全息相关组件
     private HologramDisplayManager hologramDisplayManager;
     private ItemDisplayManager itemDisplayManager;
@@ -51,16 +61,21 @@ public class GlobalShop extends JavaPlugin {
     private HologramConfigManager hologramConfigManager;
     private HologramCommandManager hologramCommandManager;
     private HologramUpdateTask hologramUpdateTask;
+<<<<<<< HEAD
 
     // Web服务相关组件
     private WebServer webServer;
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     // 用于存储拍卖检查任务的引用，以便能够取消
     private BukkitTask auctionTask;
 
     @Override
     public void onEnable() {
         instance = this;
+<<<<<<< HEAD
 
         // 加载配置文件
         configManager = new ConfigManager(this);
@@ -77,6 +92,21 @@ public class GlobalShop extends JavaPlugin {
         // 初始化数据库
         this.databaseManager = new DatabaseManager(this);
 
+=======
+        
+        // 加载配置文件
+        configManager = new ConfigManager(this);
+        messageManager = new MessageManager(this);
+        
+        // 安装所有语言文件
+        messageManager.installLanguageFiles();
+        
+        this.debugMessageManager = new DebugMessageManager(this);
+        
+        // 初始化数据库
+        this.databaseManager = new DatabaseManager(this);
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 初始化经济系统
         if (!setupEconomy()) {
             ConsoleCommandSender console = getServer().getConsoleSender();
@@ -84,12 +114,17 @@ public class GlobalShop extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 初始化点券系统
         if (!setupPlayerPoints()) {
             ConsoleCommandSender console = getServer().getConsoleSender();
             console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.DARK_RED + "未找到" + ChatColor.GOLD + "PlayerPoints" + ChatColor.DARK_RED + "插件，点券功能将不可用！");
         }
+<<<<<<< HEAD
 
         // 初始化经济管理器
         this.economyManager = new EconomyManager(this, vaultEconomy, playerPoints);
@@ -109,10 +144,32 @@ public class GlobalShop extends JavaPlugin {
         // 初始化全息相关组件
         initHologramComponents();
 
+=======
+        
+        // 初始化经济管理器
+        this.economyManager = new EconomyManager(this, vaultEconomy, playerPoints);
+        
+        // 初始化Minecraft语言管理器
+        this.languageManager = new MinecraftLanguageManager(this);
+        
+        // 初始化搜索历史管理器，最多保存10条历史记录
+        this.searchHistoryManager = new SearchHistoryManager(10);
+        
+        // 初始化GUI管理器
+        this.guiManager = new GuiManager(this);
+        
+        // 初始化广播管理器
+        this.broadcastManager = new BroadcastManager(this);
+        
+        // 初始化全息相关组件
+        initHologramComponents();
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 注册命令和监听器
         AuctionCommand auctionCommand = new AuctionCommand(this);
         getCommand("auction").setExecutor(auctionCommand);
         getCommand("auction").setTabCompleter(auctionCommand);
+<<<<<<< HEAD
 
 
 
@@ -121,10 +178,21 @@ public class GlobalShop extends JavaPlugin {
         // 启动定时任务，使用配置中设置的间隔时间来检查过期拍卖
         startAuctionTasks();
 
+=======
+        
+
+        
+        getServer().getPluginManager().registerEvents(new GuiListener(this), this);
+        
+        // 启动定时任务，使用配置中设置的间隔时间来检查过期拍卖
+        startAuctionTasks();
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 在插件启动时强制清空并初始化所有全息显示
         if (hologramCommandManager != null) {
             hologramCommandManager.forceUpdateAll();
         }
+<<<<<<< HEAD
 
         // 初始化并启动Web服务
         this.webServer = new WebServer(this);
@@ -153,6 +221,9 @@ public class GlobalShop extends JavaPlugin {
             return isPlayerPointsAvailable() ? "Yes" : "No";
         }));
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         ConsoleCommandSender console = getServer().getConsoleSender();
         console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.AQUA + "如有建议或BUG可联系作者QQ642751482反馈");
         console.sendMessage(ChatColor.DARK_AQUA + "[GlobalShop] " + ChatColor.AQUA + "插件已成功启动!");
@@ -162,11 +233,16 @@ public class GlobalShop extends JavaPlugin {
     public void onDisable() {
         // 取消所有任务
         cancelAuctionTasks();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 关闭全息系统
         if (hologramUpdateTask != null) {
             hologramUpdateTask.cancel();
         }
+<<<<<<< HEAD
 
         // 移除所有全息实体
         if (hologramDisplayManager != null) {
@@ -189,16 +265,32 @@ public class GlobalShop extends JavaPlugin {
             databaseManager.close();
         }
 
+=======
+        
+        // 移除所有全息实体
+        if (hologramDisplayManager != null) {
+            hologramDisplayManager.removeAllHolograms();
+        }
+        
+        if (databaseManager != null) {
+            databaseManager.close();
+        }
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 关闭广播管理器
         if (this.broadcastManager != null) {
             this.broadcastManager.shutdown();
         }
+<<<<<<< HEAD
 
         // 关闭Web服务
         if (this.webServer != null) {
             this.webServer.stop();
         }
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         ConsoleCommandSender console = getServer().getConsoleSender();
         console.sendMessage(ChatColor.AQUA + "[GlobalShop] 插件已关闭!");
     }
@@ -262,7 +354,11 @@ public class GlobalShop extends JavaPlugin {
     public GuiManager getGuiManager() {
         return guiManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     public SearchHistoryManager getSearchHistoryManager() {
         return searchHistoryManager;
     }
@@ -277,7 +373,11 @@ public class GlobalShop extends JavaPlugin {
 
     /**
      * 获取Minecraft语言管理器
+<<<<<<< HEAD
      *
+=======
+     * 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
      * @return Minecraft语言管理器
      */
     public MinecraftLanguageManager getLanguageManager() {
@@ -307,7 +407,11 @@ public class GlobalShop extends JavaPlugin {
     public BroadcastManager getBroadcastManager() {
         return broadcastManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取全息显示管理器
      * @return 全息显示管理器
@@ -315,7 +419,11 @@ public class GlobalShop extends JavaPlugin {
     public HologramDisplayManager getHologramDisplayManager() {
         return hologramDisplayManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取物品显示管理器
      * @return 物品显示管理器
@@ -323,7 +431,11 @@ public class GlobalShop extends JavaPlugin {
     public ItemDisplayManager getItemDisplayManager() {
         return itemDisplayManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取文本显示管理器
      * @return 文本显示管理器
@@ -331,7 +443,11 @@ public class GlobalShop extends JavaPlugin {
     public TextDisplayManager getTextDisplayManager() {
         return textDisplayManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取拍卖历史记录管理器
      * @return 拍卖历史记录管理器
@@ -339,7 +455,11 @@ public class GlobalShop extends JavaPlugin {
     public AuctionHistoryManager getAuctionHistoryManager() {
         return auctionHistoryManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取全息配置管理器
      * @return 全息配置管理器
@@ -347,7 +467,11 @@ public class GlobalShop extends JavaPlugin {
     public HologramConfigManager getHologramConfigManager() {
         return hologramConfigManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取全息命令管理器
      * @return 全息命令管理器
@@ -355,7 +479,11 @@ public class GlobalShop extends JavaPlugin {
     public HologramCommandManager getHologramCommandManager() {
         return hologramCommandManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取全息更新任务
      * @return 全息更新任务
@@ -365,6 +493,7 @@ public class GlobalShop extends JavaPlugin {
     }
 
     /**
+<<<<<<< HEAD
      * 获取Web服务
      * @return Web服务
      */
@@ -373,6 +502,8 @@ public class GlobalShop extends JavaPlugin {
     }
 
     /**
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
      * 取消所有拍卖相关任务
      */
     public void cancelAuctionTasks() {
@@ -381,13 +512,18 @@ public class GlobalShop extends JavaPlugin {
             auctionTask = null;
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 启动拍卖相关任务
      */
     public void startAuctionTasks() {
         // 取消现有任务，如果有的话
         cancelAuctionTasks();
+<<<<<<< HEAD
 
         // 从配置中获取检查间隔（秒）
         int checkIntervalSeconds = configManager.getConfig().getInt("auction.check-interval", 60);
@@ -398,6 +534,18 @@ public class GlobalShop extends JavaPlugin {
         // 将秒转换为tick（1秒 = 20 tick）
         long checkIntervalTicks = checkIntervalSeconds * 20L;
 
+=======
+        
+        // 从配置中获取检查间隔（秒）
+        int checkIntervalSeconds = configManager.getConfig().getInt("auction.check-interval", 60);
+        
+        // 确保间隔时间至少为30秒，避免过于频繁的检查
+        checkIntervalSeconds = Math.max(checkIntervalSeconds, 30);
+        
+        // 将秒转换为tick（1秒 = 20 tick）
+        long checkIntervalTicks = checkIntervalSeconds * 20L;
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 创建并启动拍卖检查任务
         auctionTask = new AuctionTask(this).runTaskTimer(this, checkIntervalTicks, checkIntervalTicks);
     }
@@ -417,16 +565,26 @@ public class GlobalShop extends JavaPlugin {
     public void rescheduleHologramTask(int intervalSeconds) {
         try {
             // 创建新的全息更新任务实例
+<<<<<<< HEAD
             this.hologramUpdateTask = new HologramUpdateTask(this, hologramDisplayManager,
                 itemDisplayManager, textDisplayManager, auctionHistoryManager, hologramConfigManager);
 
             // 以新的间隔启动任务（使用同步任务，而非异步）
             hologramUpdateTask.runTaskTimer(this, 20L, intervalSeconds * 20L);
 
+=======
+            this.hologramUpdateTask = new HologramUpdateTask(this, hologramDisplayManager, 
+                itemDisplayManager, textDisplayManager, auctionHistoryManager, hologramConfigManager);
+            
+            // 以新的间隔启动任务（使用同步任务，而非异步）
+            hologramUpdateTask.runTaskTimer(this, 20L, intervalSeconds * 20L);
+            
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
 
     /**
      * 清理所有世界中可能残留的全息实体
@@ -457,4 +615,6 @@ public class GlobalShop extends JavaPlugin {
             e.printStackTrace();
         }
     }
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 }

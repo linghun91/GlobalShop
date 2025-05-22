@@ -18,10 +18,17 @@ import java.util.UUID;
  * 负责创建和管理全息展示系统
  */
 public class HologramDisplayManager {
+<<<<<<< HEAD
 
     private final GlobalShop plugin;
     private final Map<UUID, List<Entity>> hologramEntities;
 
+=======
+    
+    private final GlobalShop plugin;
+    private final Map<UUID, List<Entity>> hologramEntities;
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 构造函数
      * @param plugin 插件实例
@@ -30,7 +37,11 @@ public class HologramDisplayManager {
         this.plugin = plugin;
         this.hologramEntities = new HashMap<>();
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 创建新的全息展示组
      * @param location 展示位置
@@ -39,22 +50,34 @@ public class HologramDisplayManager {
     public UUID createHologram(Location location) {
         UUID hologramId = UUID.randomUUID();
         hologramEntities.put(hologramId, new ArrayList<>());
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 创建一个初始的文本显示实体，显示加载中提示
         try {
             if (location.getWorld() != null) {
                 // 使用官方API创建文本显示实体
                 TextDisplay textDisplay = (TextDisplay) location.getWorld().spawnEntity(
                     location, EntityType.TEXT_DISPLAY);
+<<<<<<< HEAD
 
                 // 设置文本内容
                 textDisplay.setText("§a正在加载拍卖行历史记录...");
 
+=======
+                
+                // 设置文本内容
+                textDisplay.setText("§a正在加载拍卖行历史记录...");
+                
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
                 // 设置显示属性
                 textDisplay.setBillboard(Display.Billboard.CENTER);
                 textDisplay.setViewRange(48.0f);
                 textDisplay.setSeeThrough(true);
                 textDisplay.setAlignment(TextDisplay.TextAlignment.CENTER);
+<<<<<<< HEAD
 
                 // 设置持久性为false，确保服务器关闭后不会有残留实体
                 textDisplay.setPersistent(false);
@@ -66,15 +89,28 @@ public class HologramDisplayManager {
                 // 添加到实体列表
                 hologramEntities.get(hologramId).add(textDisplay);
 
+=======
+                
+                // 添加到实体列表
+                hologramEntities.get(hologramId).add(textDisplay);
+                
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             } else {
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
 
         return hologramId;
     }
 
+=======
+        
+        return hologramId;
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 移除全息展示组
      * @param hologramId 展示组UUID
@@ -86,7 +122,11 @@ public class HologramDisplayManager {
             hologramEntities.remove(hologramId);
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 获取展示组中的实体列表
      * @param hologramId 展示组UUID
@@ -95,7 +135,11 @@ public class HologramDisplayManager {
     public List<Entity> getHologramEntities(UUID hologramId) {
         return hologramEntities.getOrDefault(hologramId, new ArrayList<>());
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 添加实体到展示组
      * @param hologramId 展示组UUID
@@ -107,7 +151,11 @@ public class HologramDisplayManager {
             entities.add(entity);
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 移除展示组中的所有实体
      * @param hologramId 展示组UUID
@@ -119,7 +167,11 @@ public class HologramDisplayManager {
             entities.clear();
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 设置实体的基本显示属性
      * @param display 显示实体
@@ -129,20 +181,30 @@ public class HologramDisplayManager {
         display.setViewRange(viewRange);
         display.setShadowRadius(0);
         display.setShadowStrength(0);
+<<<<<<< HEAD
 
         // 确保实体不是持久化的
         display.setPersistent(false);
     }
 
+=======
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 移除所有全息展示
      */
     public void removeAllHolograms() {
+<<<<<<< HEAD
         hologramEntities.values().forEach(entities ->
+=======
+        hologramEntities.values().forEach(entities -> 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
             entities.forEach(Entity::remove)
         );
         hologramEntities.clear();
     }
+<<<<<<< HEAD
 
     /**
      * 验证全息实体的有效性
@@ -175,3 +237,6 @@ public class HologramDisplayManager {
         }
     }
 }
+=======
+} 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # GlobalShop Message Configuration File
 # Archivo de Configuración de Mensajes de GlobalShop
 # This file contains text configurations for all GUI buttons and tooltips.
@@ -25,10 +26,34 @@ gui:
     search_history_menu: "Historial de Búsqueda"
     confirm_buy_menu: "Confirmar Compra"
     bid_menu: "Pujar por Objeto"
+=======
+# Archivo de Configuración de Mensajes GlobalShop
+# Este archivo contiene todas las configuraciones de texto para botones y mensajes GUI
+
+# Código de color para nombres de objetos
+item-name-color: "§f"
+
+# Consejos para comandos del menú de venta
+sell_menu:
+  command_tips:
+    header: "§7Sostén el objeto que quieres vender e ingresa:"
+    usage: "§7/auction sell <precio inicial> [precio de compra inmediata] [tipo de moneda]"
+    currency_types: "§7Tipos de moneda: §f1=Monedas, 2=Puntos"
+
+gui:
+  titles:
+    # Títulos de interfaces
+    sell_menu: "Listar Objeto"
+    search_menu: "Buscar Objetos"
+    search_result_prefix: "Resultados de Búsqueda:"
+    confirm_buy_menu: "Confirmar Compra"
+    bid_menu: "Hacer Oferta"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     my_auctions_menu: "Mis Subastas"
     my_sold_auctions_menu: "Mis Subastas Vendidas"
     mailbox_menu: "§8Buzón de Objetos"
     my_mailbox_menu_prefix: "§eMi Buzón de Objetos"
+<<<<<<< HEAD
     expired_auctions_menu: "Mis Subastas Expiradas (Sin Pujas)"
 
   buttons:
@@ -217,17 +242,172 @@ messages:
   buy_now_points_unavailable: "§c¡La función de pago con puntos no está disponible!"
   buy_now_not_enough_money: "§c¡No tienes suficiente %currency% para comprar este objeto! Requerido: %amount%"
   buy_now_inventory_full: "§c¡Tu inventario está lleno, no puedes comprar el objeto!"
+=======
+    expired_auctions_menu: "Mis Subastas Expiradas (Sin Ofertas)"
+    
+  buttons:
+    # Botones comunes
+    return_main_menu: "&cVolver al Menú Principal"
+    return_main_menu_desc: "§7Clic para volver al menú principal"
+    return: "§eVolver"
+    cancel: "§cCancelar"
+    confirm: "§aConfirmar"
+    next_page: "&eSiguiente Página"
+    next_page_desc: "§7Clic para ver la siguiente página"
+    previous_page: "&ePágina Anterior"
+    previous_page_desc: "§7Clic para ver la página anterior"
+    
+    # Botones del menú principal
+    search_items: "§aBuscar Objetos"
+    sell_item: "§aVender Objeto"
+    my_auctions: "§aMis Subastas"
+    
+    # Botones del menú de búsqueda
+    search_history: "§aHistorial de Búsqueda"
+    clear_search_history: "§aBorrar Historial de Búsqueda"
+    enter_item_name: "Ingresar Nombre del Objeto"
+    enter_item_name_description: "Clic aquí para ingresar palabra clave"
+    search_prefix: "Buscar: "
+    search_history_item_description: "Clic para buscar usando esta palabra clave"
+    clear_search_history_description: "Clic para borrar todo el historial de búsqueda"
+    new_search: "§aNueva Búsqueda"
+    new_search_desc: "§7Clic para realizar nueva búsqueda"
+    cancel_search: "Cancelar"
+    
+    # Botones del menú de confirmación de compra
+    confirm_buy: "§aConfirmar Compra"
+    cancel_buy: "§cCancelar"
+    
+    # Texto de interfaz de confirmación de compra
+    confirm_buy_item: "§eNombre del Objeto: §f%item_name%"
+    confirm_buy_price: "§ePrecio de Compra: §f%price% (Compra Inmediata)"
+    confirm_buy_tip: "§eClic para confirmar la compra de este objeto"
+    cancel_buy_tip: "§eClic para cancelar la compra"
+    
+    # Botones del menú de venta
+    confirm_sell: "§aConfirmar Venta"
+    confirm_sell_description: "Clic para confirmar la venta del objeto"
+    confirm_sell_description_color: "§7"
+    
+    # Botones del menú de ofertas
+    current_bid_amount: "§eCantidad de Oferta Actual"
+    increase_bid: "§aAumentar Oferta +%rate%%"
+    confirm_bid: "§2Confirmar Oferta"
+    cancel_bid: "§cCancelar Oferta"
+    
+    # Texto de interfaz de ofertas
+    current_bid_item: "§7Objeto: §f%item_name%"
+    current_bid_original_price: "§7Precio Original: §f%price%"
+    current_bid_current_price: "§7Oferta Actual: §f%price%"
+    current_bid_pre_amount: "§7Cantidad Pre-oferta: §f%price%"
+    current_bid_rate: "§7Tasa de Aumento: §f+%rate%%"
+    increase_bid_tip: "§7Clic para aumentar tu cantidad de oferta"
+    increase_bid_min: "§7Aumento Mínimo: §f%price%"
+    confirm_bid_tip: "§7Clic para confirmar la cantidad de oferta actual"
+    confirm_bid_pre_amount: "§7Cantidad Pre-oferta: §f%price%"
+    confirm_bid_notice1: "§7Por favor, haz clic en el botón de pre-oferta primero"
+    confirm_bid_notice2: "§7Luego confirma tu oferta"
+    cancel_bid_tip: "§7Clic para cancelar oferta"
+    cancel_bid_return: "§7Y volver al menú principal"
+    
+    # Botones del menú de subastas
+    sold_items: "§6Objetos Vendidos"
+    mailbox: "§eBuzón de Objetos"
+    place_item_here: "Coloca Objeto Aquí"
+    
+    # Texto de interfaz de subastas vendidas
+    my_sold_auctions_title: "§6Mis Subastas Vendidas" 
+    page_info_prefix: "§ePágina Actual: §f"
+    sold_items_count_prefix: "§eVendidos: §f"
+    total_sold_items_count_prefix: "§eTotal Objetos Vendidos: §f"
+    total_coins_earned_prefix: "§eTotal Monedas Ganadas: §f"
+    total_points_earned_prefix: "§eTotal Puntos Ganados: §f"
+    mailbox_description_line1: "§7Ver tu buzón de objetos"
+    mailbox_description_line2: "§7Contiene objetos expirados, ganados y de inventario lleno"
+    
+    # Texto de interfaz del buzón
+    mailbox_page_info: "§ePágina Actual: §f"
+    mailbox_items_count: "§eCantidad de Objetos: §f"
+    mailbox_storage_header: "§7Aquí se almacenan:"
+    mailbox_storage_expired: "§7- Objetos no vendidos expirados"
+    mailbox_storage_won: "§7- Objetos ganados en subasta"
+    mailbox_storage_full: "§7- Objetos comprados cuando el inventario estaba lleno"
+    mailbox_item_status_pending: "§eEstado: §fPendiente de Recolección"
+    mailbox_item_status_expired: "§eEstado: §fExpirado Sin Vender"
+    mailbox_item_status_other: "§eEstado: §f"
+    mailbox_item_add_time: "§eFecha de Añadido: §f"
+    mailbox_item_expire_time: "§eFecha de Expiración: §f"
+    mailbox_item_collect_tip: "§7Clic derecho para recoger objeto"
+
+# Configuración de texto de mensajes
+messages:
+  cancel_bid: "Oferta cancelada"
+  cancel_search: "§aBúsqueda cancelada"
+  enter_search_keyword: "§aPor favor, ingresa el nombre del objeto en el chat, o escribe §ecancelar §apara cancelar la búsqueda"
+  search_history_cleared: "§aHistorial de búsqueda borrado"
+  
+  # Mensajes relacionados con venta
+  place_item_first: "§c¡Por favor, coloca primero el objeto que quieres vender!"
+  drag_item_to_center: "§cPor favor, arrastra el objeto al slot central, no uses Shift+clic"
+  cant_drag_to_inventory: "§c¡No se pueden arrastrar objetos a la interfaz de objetos expirados!"
+  listing_failed_no_price: "§cVenta fallida: Falta información de precio"
+  listing_failed_incomplete_price: "§cVenta fallida: Información de precio incompleta"
+  listing_failed_price_format: "§cVenta fallida: Formato de precio inválido"
+  price_exceeds_max_limit: "§cVenta fallida: El precio excede el límite máximo (¡%max_digits% dígitos!)"
+  start_price_greater_than_zero: "§c¡El precio inicial debe ser mayor que 0!"
+  buy_now_greater_than_start: "§c¡El precio de compra inmediata debe ser mayor que el precio inicial!"
+  not_enough_money_for_fee: "§c¡No tienes suficiente %currency% para pagar la comisión!"
+  item_listed_success: "§a¡Objeto listado con éxito!"
+  item_listed_success_with_fee: "§a¡Objeto listado con éxito! §eComisión cobrada: §f%fee%"
+  item_listed_fail: "§c¡Fallo al listar objeto!"
+  listing_error: "§cError ocurrido durante el proceso de venta"
+  
+  # Mensajes relacionados con devolución de objetos
+  item_returned: "§eEl objeto ha sido devuelto a tu inventario"
+  inventory_full_drop_item: "§eInventario lleno, el objeto ha sido soltado a tus pies"
+  
+  # Mensajes relacionados con límites de venta
+  max_listings_reached: "§c¡Has alcanzado el límite máximo de ventas (%max_listings% objetos)!"
+  wait_for_items_to_sell: "§cPor favor, espera a que tus objetos en venta se vendan o expiren antes de intentar listar nuevos objetos."
+  
+  # Mensajes relacionados con ofertas
+  cancel_bid_operation: "§cOperación de oferta cancelada"
+  bid_info_expired: "§cInformación de oferta expirada, por favor selecciona el objeto de nuevo"
+  
+  # Mensajes relacionados con comandos de oferta
+  bid_usage: "§cUso: /bid <ID del Objeto>"
+  bid_id_must_be_number: "§c¡El ID del objeto debe ser un número!"
+  bid_invalid_item: "§cNo se puede encontrar objeto de subasta válido, ID: "
+  bid_no_permission: "§c¡No tienes permiso para hacer ofertas!"
+  bid_own_item: "§c¡No puedes hacer ofertas en tu propio objeto!"
+  bid_already_highest: "§c¡Ya eres el mejor postor!"
+  bid_opening_menu: "§aAbriendo interfaz de ofertas..."
+  bid_error: "§cError durante el proceso de oferta: "
+  
+  # Mensajes relacionados con compra inmediata
+  buy_now_not_available: "§c¡Este objeto no admite compra inmediata!"
+  buy_now_points_unavailable: "§c¡La función de pago con puntos no está disponible!"
+  buy_now_not_enough_money: "§c¡No tienes suficiente %currency% para comprar este objeto! Requerido: %amount%"
+  buy_now_inventory_full: "§c¡Tu inventario está lleno, no se puede comprar el objeto!"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   buy_now_success: "§a¡Compra exitosa!"
   buy_now_item: "§eObjeto: %item%"
   buy_now_price: "§ePrecio: %price%"
   buy_now_balance: "§eSaldo: %amount% %currency%"
+<<<<<<< HEAD
   buy_now_inventory_full_mailbox: "§a¡Tu inventario está lleno, objeto colocado en el buzón!"
   buy_now_mailbox_instructions: "§eUsa /auction my para entrar al sistema de subastas, haz clic en \"Buzón de Objetos\" para recoger"
   buy_now_seller_notification: "§a¡Tu objeto ha sido comprado mediante compra ahora!"
+=======
+  buy_now_inventory_full_mailbox: "§a¡Tu inventario está lleno, el objeto ha sido colocado en el buzón!"
+  buy_now_mailbox_instructions: "§eUsa /auction my para entrar al sistema de subastas, haz clic en \"Buzón de Objetos\" para recogerlo"
+  buy_now_seller_notification: "§a¡Tu objeto ha sido comprado con compra inmediata!"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   buy_now_seller_income: "§eIngresos: %amount%"
   buy_now_seller_balance: "§eSaldo: %amount% %currency%"
   buy_now_buyer: "§eComprador: %player%"
 
+<<<<<<< HEAD
 # Broadcast System Message Configuration
 # Configuración de Mensajes del Sistema de Difusión
 broadcast:
@@ -280,10 +460,48 @@ auction_item:
   divider: "§8§m--------------------"
   info_header: "§6§lInfo de Subasta:"
   item_id: "§eID de Objeto: §f%id%"
+=======
+# Configuración de mensajes del sistema de difusión
+broadcast:
+  # Texto de componentes interactivos
+  details_button: " §6[§eDetalles§6]"
+  no_details_available: "§cNo hay detalles disponibles"
+
+  # Mensaje de difusión de objeto listado
+  item_listed:
+    chat: "§a[§6Casa de Subastas§a] §e%player% §fha listado §b[§d%item_name%§b]§f*§6%amount%§r"
+    bossbar: "§e%player% §fha listado §a%item_name% §fprecio inicial §e%start_price% §fcompra directa §e%buy_now_price%"
+    title: "§6Artículo Listado"
+    subtitle: "§e%player% §fha listado §a%item_name%"
+    actionbar: "§e%player% §fha listado §a%item_name% §fprecio §e%start_price%"
+  
+  # Mensaje de difusión de subasta ganada
+  auction_won:
+    chat: "§6[Casa de Subastas] §e%buyer% §fganó §a%item_name% §fde §e%seller% §fpor §a%price%"
+    bossbar: "§e%buyer% §fganó §a%item_name% §fde §e%seller% §fpor §a%price%"
+    title: "§6Subasta Ganada"
+    subtitle: "§e%buyer% §fganó §a%item_name%"
+    actionbar: "§e%buyer% §fganó §a%item_name% §fpor §a%price%"
+  
+  # Mensaje de difusión de compra inmediata
+  buy_now:
+    chat: "§6[Casa de Subastas] §e%buyer% §fcompró §a%item_name% §fde §e%seller% §fpor §a%price%"
+    bossbar: "§e%buyer% §fcompró §a%item_name% §fde §e%seller%"
+    title: "§6Artículo Vendido"
+    subtitle: "§e%buyer% §fcompró §a%item_name%"
+    actionbar: "§e%buyer% §fcompró §a%item_name% §fpor §a%price%"
+
+# Descripción de objeto de subasta
+auction_item:
+  divider: "§8§m--------------------"
+  info_header: "§6§lInfo de Subasta:"
+  item_id: "§eID del Objeto: §f%id%"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   currency_type: "§eTipo de Moneda: §f%currency%"
   start_price: "§ePrecio Inicial: §f%price%"
   current_price: "§ePrecio Actual: §f%price%"
   deal_price: "§ePrecio de Venta: §f%price%"
+<<<<<<< HEAD
   buy_now_price: "§ePrecio Compra Ahora: §f%price%"
   list_time: "§eHora de Listado: §f%time%"
   remaining_time: "§eTiempo Restante: §f%time%"
@@ -340,11 +558,61 @@ auction_item:
   duration_button: # This should be nested under sell_menu if it belongs there. Assuming it is from context. -> Esto debería estar anidado bajo sell_menu si pertenece allí. Asumiendo que es por contexto.
     title: "§aDuración de Listado Personalizada"
     current_setting: "§7Ajuste Actual: §f%hours%h %minutes%m"
+=======
+  buy_now_price: "§eCompra Inmediata: §f%price%"
+  list_time: "§eFecha de Listado: §f%time%"
+  remaining_time: "§eTiempo Restante: §f%time%"
+  seller: "§eVendedor: §f%seller%"
+  current_bidder: "§ePostor Actual: §f%bidder%"
+  
+  # Consejos de operación de objeto
+  owner_tips:
+    header: "§7Este es tu objeto de subasta"
+    cancel: "§7Shift+Clic derecho: §fCancelación Rápida"
+  
+  buyer_tips:
+    bid: "§7Clic izquierdo: §fHacer Oferta"
+    buy: "§7Clic derecho: §fCompra Rápida"
+  
+  admin_tips:
+    header: "§c§lOperaciones de Admin:"
+    force_cancel: "§cShift+Clic izquierdo: §fCancelar Objeto Forzosamente"
+  
+  # Detalles de mi objeto de subasta
+  my_auction_start_price: "§ePrecio Inicial: §f%price%"
+  my_auction_current_price: "§ePrecio Actual: §f%price%"
+  my_auction_buy_now_price: "§eCompra Inmediata: §f%price%"
+  my_auction_remaining_time: "§eTiempo Restante: §f%time%"
+  my_auction_current_bidder: "§ePostor Actual: §f%bidder%"
+  my_auction_has_bidder_warning1: "§c⚠ Tiene postor, no se puede cancelar la subasta ⚠"
+  my_auction_has_bidder_warning2: "§cPor favor espera a que termine la subasta"
+  my_auction_cancel_tip: "§eClic derecho para cancelar subasta"
+  
+  # Detalles de objeto vendido
+  sold_item_deal_price: "§ePrecio de Venta: §f%price%"
+  sold_item_buyer: "§eComprador: §f%buyer%"
+  sold_item_sold_time: "§eFecha de Venta: §f%time%"
+  sold_item_notice1: "§cEste objeto ha sido vendido, solo vista"
+  sold_item_notice2: "§cNo se puede recuperar o vender de nuevo"
+
+# Consejos del menú de venta
+sell_menu:
+  command_tips:
+    header: "§7Sostén el objeto que quieres vender e ingresa:"
+    usage: "§7/auction sell <precio inicial> [precio de compra inmediata] [tipo de moneda]"
+    currency_types: "§7Tipos de moneda: §f1=Monedas, 2=Puntos"
+  
+  # Botón de duración personalizada de venta
+  duration_button:
+    title: "§aDuración Personalizada de Venta"
+    current_setting: "§7Configuración actual: §f%hours% horas %minutes% minutos"
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     divider: "§8§m--------------------"
     left_click: "§7Clic izquierdo: §f+1 minuto"
     right_click: "§7Clic derecho: §f+1 hora"
     shift_left_click: "§7Shift+Clic izquierdo: §f+10 minutos"
     shift_right_click: "§7Shift+Clic derecho: §f+10 horas"
+<<<<<<< HEAD
     middle_click: "§7Clic §bcentral§7 del ratón o tecla §bQ§7: §fRestablecer a tiempo mínimo"
     min_time: "§7Tiempo Mínimo: §f%hours% horas"
     max_time: "§7Tiempo Máximo: §f%hours% horas"
@@ -362,11 +630,28 @@ bid_increase: "§bPreparar Puja" # "Prepare Bid" or "Set Bid Amount" is more acc
 
 # My Auction Interface Information
 # Información de la Interfaz de Mis Subastas
+=======
+    middle_click: "§7Ratón §bClic central§7 o tecla §bQ§7: §fReiniciar al tiempo mínimo"
+    min_time: "§7Tiempo mínimo: §f%hours% horas"
+    max_time: "§7Tiempo máximo: §f%hours% horas"
+    note1: "§eNota: §fLa configuración de tiempo solo se aplica después de confirmar la venta"
+    note2: "§e      §fNo válido cuando se usa comando para vender"
+
+# Sufijo de título y separador
+format:
+  page_separator: " §7- Página %page%" 
+
+# Botón de oferta
+bid_increase: "§bPre-aumentar Oferta" 
+
+# Información de interfaz de mis subastas
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 my_auction:
   page_info: "§ePágina Actual: §f%page%/%total_pages%"
   sold_count: "§eVendidos: §f%count%"
   expired_count: "§eExpirados: §f%count%"
   listings_count: "§eListados: §f%current%/%max%"
+<<<<<<< HEAD
   limit_warning: "§c⚠ ¡Tu límite de listados está casi alcanzado!"
 
 mailbox:
@@ -442,10 +727,75 @@ gui_listener:
   partial_item_saved: "§eTu inventario está lleno, algunos objetos guardados en colección pendiente, usa /ah collect para recuperarlos" # Assuming /ah is an alias for /auction -> Asumiendo que /ah es un alias para /auction
 
   # Purchase success notification
+=======
+  limit_warning: "§c⚠ ¡Estás a punto de alcanzar tu límite de listados!" 
+
+mailbox:
+  # Filtros de objetos del buzón
+  mailbox_filter_tags:
+    - "✉"
+    - "§8-----------------" 
+    - "Precio de Venta"
+    - "Fecha de Recepción"
+    - "Fecha de Retirada"
+    - "Fecha de Compra"
+  
+  # Etiquetas de objetos expirados del buzón
+  expired_auction_tags:
+    - "Expirado Sin Vender"
+    - "AUCTION_EXPIRED" 
+
+error_messages:
+  item_not_exists: "§c¡El objeto no existe o ha sido comprado!" 
+
+# Mensajes de GuiListener
+gui_listener:
+  # Relacionados con recolección de objetos
+  collect_success: "§aObjeto recogido con éxito, el objeto ha sido colocado en tu inventario."
+  collect_fail_inventory_full: "§eInventario lleno, no se puede recoger el objeto. Por favor, vacía el inventario e inténtalo de nuevo."
+  
+  # Relacionados con cancelación de subasta
+  cancel_auction_has_bid: "§c¡Este objeto tiene ofertas, no se puede cancelar la subasta!"
+  cancel_auction_success: "§aSubasta cancelada con éxito, el objeto ha sido devuelto a tu inventario."
+  cancel_auction_success_inventory_full: "§eSubasta cancelada con éxito, pero tu inventario está lleno. El objeto ha sido almacenado en la lista de recolección pendiente, usa /auction collect para recogerlo."
+  cancel_auction_fail: "§cFallo al cancelar la subasta, por favor inténtalo más tarde."
+  
+  # Relacionados con configuración de tiempo
+  reset_duration: "§e¡Tiempo de venta reiniciado al valor mínimo!"
+  max_duration_limit: "§c¡Se ha alcanzado el límite máximo de tiempo de venta!"
+  update_duration: "§aTiempo de venta actualizado a: §f%hours% horas %minutes% minutos"
+  custom_duration_below_min: "§eTiempo personalizado por debajo del límite mínimo, ajustado automáticamente al límite mínimo."
+  custom_duration_above_max: "§eTiempo personalizado excede el límite máximo, ajustado automáticamente al límite máximo."
+  custom_duration_set: "§aObjeto listado, duración establecida a: §f%hours% horas %minutes% minutos"
+  
+  # Relacionados con venta de objetos
+  points_unavailable: "§eSistema de puntos no disponible, cambiado automáticamente a usar monedas para la venta."
+  max_listings_reached_1: "§c¡Has alcanzado el límite máximo de ventas (%max_listings% objetos)!"
+  max_listings_reached_2: "§cPor favor, espera a que tus objetos en venta se vendan o expiren antes de intentar listar nuevos objetos."
+  
+  # Relacionados con estado de objetos
+  expired_item: "§c¡La subasta de este objeto ha terminado!"
+  invalid_item: "§c¡El objeto no existe o ha sido comprado!"
+  
+  # Límites de permisos y operaciones
+  no_permission: "§c¡No tienes permiso para realizar esta acción!"
+  owner_bid: "§c¡No puedes hacer ofertas en tu propio objeto!"
+  owner_buy: "§c¡No puedes comprar tu propio objeto!"
+  already_highest_bidder: "§e¡Ya eres el mejor postor, puedes continuar aumentando tu oferta!"
+  
+  # Relacionados con compra
+  no_buy_now_price: "§c¡Este objeto no tiene precio de compra inmediata, no se puede comprar directamente!"
+  not_enough_money: "§c¡No tienes suficiente %currency% para esta operación!"
+  inventory_full: "§c¡Tu inventario está lleno, por favor vacía el inventario antes de comprar objetos!"
+  failed_transaction: "§c¡Pago fallido, por favor inténtalo de nuevo!"
+  partial_item_saved: "§eTu inventario está lleno, algunos objetos se han guardado en la lista de recolección pendiente, usa /ah collect para recogerlos"
+  
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   # Notificación de compra exitosa
   purchase_success: "§a¡Compra exitosa!"
   purchase_item: "§eObjeto: §f%item%"
   purchase_price: "§ePrecio: §f%price%"
+<<<<<<< HEAD
   mailbox_full: "§a¡Compra exitosa! §ePero tu inventario está lleno, objeto almacenado en el buzón de objetos, por favor usa /ah my para revisar."
   cancel_purchase: "§cCompra cancelada"
 
@@ -625,6 +975,157 @@ auction_task:
 
   # Auction success message - Seller notification
   # Mensaje de éxito de subasta - Notificación al vendedor
+=======
+  mailbox_full: "§a¡Compra exitosa! §ePero tu inventario está lleno, los objetos se han almacenado en el buzón de objetos, por favor usa /ah my para verlos."
+  cancel_purchase: "§cCompra cancelada"
+  
+  # Notificación de venta
+  sold_notification: "§a¡Tu objeto ha sido comprado!"
+  seller_fee: "§eComisión: §f%fee%"
+  seller_income: "§eIngresos Reales: §f%income%"
+  buyer: "§eComprador: §f%buyer%"
+  
+  # Relacionados con ofertas
+  bid_info_expired: "§cInformación de oferta expirada, por favor selecciona el objeto de nuevo"
+  expired_bid_info: "§cInformación de oferta expirada, por favor selecciona el objeto de nuevo"
+  expired_bid: "§c¡Este objeto ha expirado, no se puede hacer oferta!"
+  bid_sold: "§eID del Objeto: %id% ha sido comprado con compra inmediata\n§eTu oferta %price% ha sido reembolsada"
+  bid_outbid: "§e¡Tu oferta ha sido superada! ID del Objeto: %id%"
+  previous_bid: "§eTu oferta %amount% ha sido reembolsada"
+  new_bid: "§eNueva oferta: %amount%"
+  incomplete_bid_info: "§cInformación de oferta incompleta, por favor haz una oferta de nuevo."
+  bid_below_minimum: "§c¡La oferta debe ser al menos %min_bid% mayor que el precio actual!"
+  pre_bid: "§a¡Pre-oferta aumentada! §eHaz clic en el botón 'Confirmar Oferta' para completar la oferta, o haz clic en 'Cancelar Oferta' para cancelar."
+  bid_amount: "§eCantidad estimada de oferta: §f%amount%"
+  bid_accepted: "§aCantidad de oferta actual confirmada: §f%amount%"
+  bid_success: "§a¡Oferta exitosa!"
+  bid_item: "§eID del Objeto: §f%id%"
+  bid_price: "§eTu oferta: §f%price%"
+  
+  # Información de saldo
+  balance: "§aTu saldo de %currency%: §f%balance%"
+  
+  # Operaciones de administrador
+  refund: "§eTu oferta en un objeto ha sido reembolsada porque el objeto fue eliminado forzosamente por un administrador.\n§eReembolsado: §f%amount%"
+  removed_item: "§aObjeto #%id% eliminado forzosamente (Vendedor: %seller%)" 
+
+# Mensajes relacionados con comandos
+auction_commands:
+  # Mensajes regulares
+  player_only: "§c¡Este comando solo puede ser usado por jugadores!"
+  unknown_command: "§c¡Comando desconocido! Usa /auction help para ver la ayuda"
+  no_permission: "§c¡No tienes permiso para usar este comando!"
+  
+  # Información de autocompletado de tabulación
+  tab_completion:
+    sell_price: "<precio inicial>"
+    sell_buynow: "<precio de compra inmediata>"
+    sell_currency: "<tipo de moneda: 1=monedas, 2=puntos>"
+    search_keyword: "<palabra clave>"
+  
+  # Información de ayuda
+  help:
+    header: "§6===== Ayuda de Subasta ====="
+    help: "§e/auction help - Muestra esta información de ayuda"
+    open: "§e/auction open - Abre la casa de subastas"
+    sell: "§e/auction sell <precio inicial> [precio de compra inmediata] [tipo de moneda] - Vender objeto (1=monedas, 2=puntos)"
+    search: "§e/auction search <palabra clave> - Buscar objetos"
+    my: "§e/auction my - Ver mis subastas y buzón de objetos"
+    collect: "§e/auction collect - Recoger objetos pendientes"
+    admin_header: "§c===== Comandos de Administrador ====="
+    reload: "§e/auction reload - Recargar archivos de configuración"
+    close: "§e/auction close - §c[PRUEBA] §eCerrar forzosamente todas las subastas y marcarlas como expiradas"
+    checkexpired: "§e/auction checkexpired - Comprobar todos los objetos expirados pero no procesados"
+  
+  # Relacionado con comando de recolección
+  collect:
+    success: "§aBuzón de objetos abierto, puedes recoger todos los objetos pendientes aquí."
+  
+  # Relacionado con comando de venta
+  sell:
+    usage: "§cUso: /auction sell <precio inicial> <precio de compra inmediata> [tipo de moneda]"
+    currency_types: "§cTipos de moneda: 1 = Monedas, 2 = Puntos (predeterminado es Monedas)"
+    points_unavailable: "§cSistema de puntos no disponible, el servidor no tiene el plugin PlayerPoints instalado."
+    points_unavailable_solution: "§cPor favor, usa monedas para vender objetos, o contacta al administrador del servidor para obtener ayuda."
+    invalid_currency: "§c¡Tipo de moneda inválido! Usa: 1 = Monedas, 2 = Puntos"
+    max_listings_reached: "§c¡Has alcanzado el límite máximo de ventas (%max_listings% objetos)!"
+    wait_for_items_sold: "§cPor favor, espera a que tus objetos en venta se vendan o expiren antes de intentar listar nuevos objetos."
+    start_price_zero: "§c¡El precio inicial debe ser mayor que 0!"
+    buy_now_less_than_start: "§c¡El precio de compra inmediata debe ser mayor que el precio inicial!"
+    invalid_price: "§c¡Por favor, ingresa un precio válido!"
+  
+  # Relacionado con comando de búsqueda
+  search:
+    usage: "§cUso: /auction search <palabra clave>"
+    min_length: "§c¡La palabra clave de búsqueda debe tener al menos 2 caracteres!"
+    searching: "§aBuscando: §e%keyword%"
+  
+  # Relacionado con comando de cierre de todas las subastas
+  close:
+    starting: "§eCerrando forzosamente todos los objetos de subasta..."
+    async_notice: "§eEsta operación se realizará de forma asíncrona en segundo plano para evitar lag en el servidor, por favor ten paciencia."
+  
+  # Relacionado con comando de verificación de objetos expirados
+  checkexpired:
+    player_only: "§c¡Solo los jugadores pueden ejecutar este comando!"
+    checking: "§aComprobando todos los objetos de subasta, buscando objetos expirados pero no procesados..."
+  
+  # Relacionado con comando de recarga de configuración
+  reload:
+    success: "§a¡Configuración de GlobalShop recargada!"
+    debug_info: "§eInfo de depuración: Intervalo de verificación establecido en %interval% segundos"
+
+# Mensajes relacionados con buzón y detalles
+mailbox_details:
+  # Mensajes relacionados con manejo de objetos de buzón
+  collect_success: "§aObjeto recogido con éxito, el objeto ha sido colocado en tu inventario."
+  inventory_full: "§eInventario lleno, no se puede recoger el objeto. Por favor, vacía el inventario e inténtalo de nuevo."
+  
+  # Mensajes relacionados con cancelación de subasta
+  auction_has_bidder: "§c¡Este objeto tiene ofertas, no se puede cancelar la subasta!"
+  
+  # Palabras clave de filtro de objetos de buzón
+  filter_keywords:
+    - "Precio Inicial"
+    - "Tiempo"
+    - "Período de Subasta"
+    - "Sistema Auto-retirado"
+    - "✉"
+    - "§8-----------------"
+
+# Vista de detalles de objeto
+item_details:
+  header: "§6===== Detalles de Objeto de Subasta ====="
+  item_name: "§eObjeto: §f%item%"
+  start_price: "§ePrecio Inicial: §f%price%"
+  current_price: "§ePrecio Actual: §f%price%"
+  buy_now_price: "§eCompra Inmediata: §f%price%"
+  current_bidder: "§ePostor Actual: §f%bidder%"
+  remaining_time: "§eTiempo Restante: §f%time%" 
+
+# Configuración relacionada con menú de ofertas
+bid_menu:
+  item_text: "§7Objeto: §f%item_name%"
+  original_price_text: "§7Precio Original: §f%price%"
+  current_price_text: "§7Oferta Actual: §f%price%"
+  pre_amount_text: "§7Cantidad Pre-oferta: §f%price%"
+  rate_text: "§7Tasa de Aumento: §f+%rate%%"
+  increase_tip: "§7Clic para aumentar tu cantidad de oferta"
+  min_increase_text: "§7Aumento Mínimo: §f%price%"
+  confirm_tip: "§7Clic para confirmar la cantidad de oferta actual"
+  confirm_pre_amount_text: "§7Cantidad Pre-oferta: §f%price%" 
+
+# Configuración relacionada con AuctionTask
+auction_task:
+  # Mensaje de subasta ganada - Notificación al comprador
+  buyer_win:
+    success: "§a¡Tu objeto ganado ha sido entregado en tu buzón de objetos!"
+    item: "§eObjeto: %item_name%"
+    price: "§ePrecio: %price%"
+    collect_guide: "§eUsa /auction my para entrar al sistema de subastas, haz clic en \"Buzón de Objetos\" para recogerlo"
+  
+  # Mensaje de subasta ganada - Notificación al vendedor
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
   seller_win:
     success: "§a¡Tu objeto ha sido subastado con éxito!"
     item: "§eObjeto: %item_name%"
@@ -632,6 +1133,7 @@ auction_task:
     income: "§eIngresos: %amount%"
     buyer: "§eComprador: %buyer%"
     unknown_buyer: "Desconocido"
+<<<<<<< HEAD
 
   # Auction failure message - Seller notification
   # Mensaje de fallo de subasta - Notificación al vendedor
@@ -718,3 +1220,49 @@ auction_item_format:
     not_sold: "No Vendido"
   display:
     unknown_item: "Objeto Desconocido"
+=======
+  
+  # Mensaje de subasta fallida - Notificación al vendedor
+  seller_expired:
+    notice: "§a¡Tu objeto de subasta ha expirado, el objeto ha sido colocado en el buzón de objetos!"
+    item: "§eObjeto: %item_name%"
+    collect_guide: "§eUsa /auction my para entrar al sistema de subastas, haz clic en \"Buzón de Objetos\" para recogerlo"
+
+# Mensajes de transmisión
+broadcast:
+  # Textos de componentes interactivos
+  details_button: " §6[§eDetalles§6]"
+  no_details_available: "§cNo hay detalles disponibles"
+
+  # Mensaje de transmisión de artículo listado
+  item_listed:
+    chat: "§a[§6Casa de Subastas§a] §e%player% §fha listado §b[§d%item_name%§b]§f*§6%amount%§r"
+    bossbar: "§e%player% §fha listado §a%item_name% §fprecio inicial §e%start_price% §fcompra directa §e%buy_now_price%"
+    title: "§6Artículo Listado"
+    subtitle: "§e%player% §fha listado §a%item_name%"
+    actionbar: "§e%player% §fha listado §a%item_name% §fprecio §e%start_price%"
+  
+  # Mensaje de transmisión de subasta ganada
+  auction_won:
+    chat: "§6[Casa de Subastas] §e%buyer% §fganó §a%item_name% §fde §e%seller% §fpor §a%price%"
+    bossbar: "§e%buyer% §fganó §a%item_name% §fde §e%seller% §fpor §a%price%"
+    title: "§6Subasta Ganada"
+    subtitle: "§e%buyer% §fganó §a%item_name%"
+    actionbar: "§e%buyer% §fganó §a%item_name% §fpor §a%price%"
+  
+  # Mensaje de transmisión de compra directa
+  buy_now:
+    chat: "§6[Casa de Subastas] §e%buyer% §fcompró §a%item_name% §fde §e%seller% §fpor §a%price%"
+    bossbar: "§e%buyer% §fcompró §a%item_name% §fde §e%seller%"
+    title: "§6Artículo Vendido"
+    subtitle: "§e%buyer% §fcompró §a%item_name%"
+    actionbar: "§e%buyer% §fcompró §a%item_name% §fpor §a%price%"
+    
+  # Mensaje de transmisión de oferta confirmada
+  bid_confirmed:
+    chat: "§6[Casa de Subastas] §e%bidder% §fofertó §a%price% §fpor §a%item_name%§f, convirtiéndose en el mejor postor"
+    bossbar: "§e%bidder% §fofertó §a%price% §fpor §a%item_name%§f, convirtiéndose en el mejor postor"
+    title: "§6Oferta Actualizada"
+    subtitle: "§e%bidder% §fes ahora el mejor postor"
+    actionbar: "§e%bidder% §fofertó §a%price% §fpor §a%item_name%" 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba

@@ -16,10 +16,17 @@ import java.util.UUID;
  * 负责创建和管理文本全息显示
  */
 public class TextDisplayManager {
+<<<<<<< HEAD
 
     private final GlobalShop plugin;
     private final HologramDisplayManager displayManager;
 
+=======
+    
+    private final GlobalShop plugin;
+    private final HologramDisplayManager displayManager;
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 构造函数
      * @param plugin 插件实例
@@ -29,7 +36,11 @@ public class TextDisplayManager {
         this.plugin = plugin;
         this.displayManager = displayManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 创建文本全息显示
      * @param location 位置
@@ -40,11 +51,19 @@ public class TextDisplayManager {
      * @param backgroundColor 背景颜色
      * @return 创建的TextDisplay实体
      */
+<<<<<<< HEAD
     public TextDisplay createTextDisplay(Location location, String text, UUID hologramId,
                                       float scale, String textColor, String backgroundColor) {
         return createTextDisplay(location, text, hologramId, scale, textColor, backgroundColor, "content");
     }
 
+=======
+    public TextDisplay createTextDisplay(Location location, String text, UUID hologramId, 
+                                      float scale, String textColor, String backgroundColor) {
+        return createTextDisplay(location, text, hologramId, scale, textColor, backgroundColor, "content");
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 创建文本全息显示（带类型）
      * @param location 位置
@@ -56,16 +75,27 @@ public class TextDisplayManager {
      * @param type 文本类型（title/content）
      * @return 创建的TextDisplay实体
      */
+<<<<<<< HEAD
     public TextDisplay createTextDisplay(Location location, String text, UUID hologramId,
+=======
+    public TextDisplay createTextDisplay(Location location, String text, UUID hologramId, 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
                                       float scale, String textColor, String backgroundColor, String type) {
         World world = location.getWorld();
         if (world == null) {
             return null;
         }
+<<<<<<< HEAD
 
         // 创建文本显示实体
         TextDisplay textDisplay = (TextDisplay) world.spawnEntity(location, EntityType.TEXT_DISPLAY);
 
+=======
+        
+        // 创建文本显示实体
+        TextDisplay textDisplay = (TextDisplay) world.spawnEntity(location, EntityType.TEXT_DISPLAY);
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 设置文本内容（带颜色）
         if (textColor != null && !textColor.isEmpty()) {
             if (textColor.startsWith("#")) {
@@ -88,6 +118,7 @@ public class TextDisplayManager {
                 }
             }
         }
+<<<<<<< HEAD
 
         // 设置文本
         textDisplay.setText(text);
@@ -99,6 +130,19 @@ public class TextDisplayManager {
         // 应用设置到TextDisplay实体
         settings.applyToTextDisplay(textDisplay);
 
+=======
+        
+        // 设置文本
+        textDisplay.setText(text);
+        
+        // 从配置文件获取TextDisplay设置
+        HologramConfigManager.TextDisplaySettings settings = 
+                plugin.getHologramConfigManager().getDisplaySettings(type);
+        
+        // 应用设置到TextDisplay实体
+        settings.applyToTextDisplay(textDisplay);
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 如果有自定义的背景颜色参数，则覆盖配置中的设置
         if (backgroundColor != null && !backgroundColor.isEmpty() && backgroundColor.startsWith("#")) {
             try {
@@ -111,7 +155,11 @@ public class TextDisplayManager {
                 // 忽略格式错误
             }
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 设置缩放
         Transformation transformation = textDisplay.getTransformation();
         Vector3f scaleVector = new Vector3f(scale, scale, scale);
@@ -122,6 +170,7 @@ public class TextDisplayManager {
                 transformation.getRightRotation()
         );
         textDisplay.setTransformation(transformation);
+<<<<<<< HEAD
 
         // 设置基本属性
         displayManager.setDisplayDefaults(textDisplay, settings.getViewRange());
@@ -139,6 +188,18 @@ public class TextDisplayManager {
         return textDisplay;
     }
 
+=======
+        
+        // 设置基本属性
+        displayManager.setDisplayDefaults(textDisplay, settings.getViewRange());
+        
+        // 添加到全息组
+        displayManager.addEntityToHologram(hologramId, textDisplay);
+        
+        return textDisplay;
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 更新文本显示内容
      * @param textDisplay 文本显示实体
@@ -168,11 +229,19 @@ public class TextDisplayManager {
                 }
             }
         }
+<<<<<<< HEAD
 
         // 设置文本
         textDisplay.setText(text);
     }
 
+=======
+        
+        // 设置文本
+        textDisplay.setText(text);
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 设置背景颜色
      * @param textDisplay 文本显示实体
@@ -191,7 +260,11 @@ public class TextDisplayManager {
             }
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 设置文本缩放比例
      * @param textDisplay 文本显示实体
@@ -208,4 +281,8 @@ public class TextDisplayManager {
         );
         textDisplay.setTransformation(transformation);
     }
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba

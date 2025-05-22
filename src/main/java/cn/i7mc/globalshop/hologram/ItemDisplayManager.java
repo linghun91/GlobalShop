@@ -14,10 +14,17 @@ import org.joml.Vector3f;
  * 负责创建和管理物品全息显示
  */
 public class ItemDisplayManager {
+<<<<<<< HEAD
 
     private final GlobalShop plugin;
     private final HologramDisplayManager displayManager;
 
+=======
+    
+    private final GlobalShop plugin;
+    private final HologramDisplayManager displayManager;
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 构造函数
      * @param plugin 插件实例
@@ -27,7 +34,11 @@ public class ItemDisplayManager {
         this.plugin = plugin;
         this.displayManager = displayManager;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 创建物品全息显示
      * @param location 位置
@@ -41,6 +52,7 @@ public class ItemDisplayManager {
         if (world == null) {
             return null;
         }
+<<<<<<< HEAD
 
         // 创建物品显示实体
         ItemDisplay itemDisplay = (ItemDisplay) world.spawnEntity(location, EntityType.ITEM_DISPLAY);
@@ -49,6 +61,16 @@ public class ItemDisplayManager {
         itemDisplay.setItemStack(itemStack);
         itemDisplay.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.GUI);
 
+=======
+        
+        // 创建物品显示实体
+        ItemDisplay itemDisplay = (ItemDisplay) world.spawnEntity(location, EntityType.ITEM_DISPLAY);
+        
+        // 设置物品及变换模式
+        itemDisplay.setItemStack(itemStack);
+        itemDisplay.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.GUI);
+        
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         // 设置缩放
         Transformation transformation = itemDisplay.getTransformation();
         Vector3f scaleVector = new Vector3f(scale, scale, scale);
@@ -59,6 +81,7 @@ public class ItemDisplayManager {
                 transformation.getRightRotation()
         );
         itemDisplay.setTransformation(transformation);
+<<<<<<< HEAD
 
         // 设置基本属性
         displayManager.setDisplayDefaults(itemDisplay, 48.0f);
@@ -76,6 +99,18 @@ public class ItemDisplayManager {
         return itemDisplay;
     }
 
+=======
+        
+        // 设置基本属性
+        displayManager.setDisplayDefaults(itemDisplay, 48.0f);
+        
+        // 添加到全息组
+        displayManager.addEntityToHologram(hologramId, itemDisplay);
+        
+        return itemDisplay;
+    }
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 更新物品显示
      * @param itemDisplay 物品显示实体
@@ -84,7 +119,11 @@ public class ItemDisplayManager {
     public void updateItemDisplay(ItemDisplay itemDisplay, ItemStack itemStack) {
         itemDisplay.setItemStack(itemStack);
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     /**
      * 调整物品显示大小
      * @param itemDisplay 物品显示实体
@@ -101,4 +140,8 @@ public class ItemDisplayManager {
         );
         itemDisplay.setTransformation(transformation);
     }
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba

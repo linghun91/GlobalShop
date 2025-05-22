@@ -113,6 +113,7 @@ public class EconomyManager {
         }
     }
 
+<<<<<<< HEAD
     // 新增：格式化Vault金额
     public String formatVault(double amount) {
         String symbol = plugin.getConfigManager().getVaultSymbol();
@@ -125,6 +126,8 @@ public class EconomyManager {
         return String.format("%s%d", symbol, (int) amount);
     }
 
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
     // 计算最低加价
     public double calculateMinBid(double currentPrice, String currencyType) {
         double minBidRate = switch (currencyType.toUpperCase()) {

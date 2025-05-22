@@ -1,7 +1,10 @@
 package cn.i7mc.globalshop.models;
 
+<<<<<<< HEAD
 import cn.i7mc.globalshop.GlobalShop;
 import cn.i7mc.globalshop.config.MessageManager;
+=======
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
@@ -148,10 +151,15 @@ public class AuctionItem {
     }
 
     public String getFormattedRemainingTime() {
+<<<<<<< HEAD
         MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
         
         long remainingMillis = endTime - System.currentTimeMillis();
         if (remainingMillis <= 0) return messageManager.getTimeExpiredText();
+=======
+        long remainingMillis = endTime - System.currentTimeMillis();
+        if (remainingMillis <= 0) return "已过期";
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         
         long seconds = remainingMillis / 1000;
         long minutes = seconds / 60;
@@ -163,10 +171,17 @@ public class AuctionItem {
         hours %= 24;
         
         StringBuilder sb = new StringBuilder();
+<<<<<<< HEAD
         if (days > 0) sb.append(days).append(messageManager.getTimeDayText());
         if (hours > 0) sb.append(hours).append(messageManager.getTimeHourText());
         if (minutes > 0) sb.append(minutes).append(messageManager.getTimeMinuteText());
         if (seconds > 0) sb.append(seconds).append(messageManager.getTimeSecondText());
+=======
+        if (days > 0) sb.append(days).append("天");
+        if (hours > 0) sb.append(hours).append("小时");
+        if (minutes > 0) sb.append(minutes).append("分钟");
+        if (seconds > 0) sb.append(seconds).append("秒");
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         
         return sb.toString();
     }
@@ -198,8 +213,12 @@ public class AuctionItem {
     
     // 获取格式化的售出时间
     public String getFormattedSoldTime() {
+<<<<<<< HEAD
         MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
         if (soldTime <= 0) return messageManager.getTimeNotSoldText();
+=======
+        if (soldTime <= 0) return "未售出";
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(soldTime));
     }
     
@@ -208,9 +227,14 @@ public class AuctionItem {
      * @return 物品显示名称，如果没有则返回物品类型名称
      */
     public String getDisplayName() {
+<<<<<<< HEAD
         MessageManager messageManager = GlobalShop.getInstance().getMessageManager();
         if (item == null) {
             return messageManager.getUnknownItemText();
+=======
+        if (item == null) {
+            return "未知物品";
+>>>>>>> 15f107e82b75f924ce81fb7e47d6dc0a10e3c8ba
         }
         
         if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
