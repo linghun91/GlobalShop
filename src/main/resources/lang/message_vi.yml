@@ -1,0 +1,629 @@
+# Tệp Cấu hình Tin nhắn GlobalShop
+# Tệp này chứa cấu hình văn bản cho tất cả các nút GUI và chú giải công cụ.
+
+# Mã Màu Tên Vật phẩm
+item-name-color: "§f"
+
+# Mẹo Lệnh Menu Bán
+sell_menu:
+  command_tips:
+    header: "§7Giữ vật phẩm bạn muốn đăng bán và gõ:"
+    usage: "§7/auction sell <giá_khởi_điểm> [giá_mua_ngay] [loại_tiền_tệ]"
+    currency_types: "§7Loại Tiền Tệ: §f1=Xu, 2=Điểm"
+
+gui:
+  titles:
+    # Tiêu đề cho các giao diện khác nhau
+    sell_menu: "Đăng bán Vật phẩm"
+    search_menu: "Tìm kiếm Vật phẩm"
+    search_result_prefix: "Kết quả Tìm kiếm:"
+    search_history_menu: "Lịch sử Tìm kiếm"
+    confirm_buy_menu: "Xác nhận Mua hàng"
+    bid_menu: "Đấu giá Vật phẩm"
+    my_auctions_menu: "Đấu giá của tôi"
+    my_sold_auctions_menu: "Vật phẩm Đã bán của tôi"
+    mailbox_menu: "§8Hộp thư Vật phẩm"
+    my_mailbox_menu_prefix: "§eHộp thư Vật phẩm của tôi"
+    expired_auctions_menu: "Vật phẩm Hết hạn của tôi (Không có ai đấu giá)"
+
+  buttons:
+    # Các nút chung
+    return_main_menu: "&cTrở về Menu Chính"
+    return_main_menu_desc: "§7Nhấn để trở về menu chính"
+    return: "§eQuay lại"
+    cancel: "§cHủy bỏ"
+    confirm: "§aXác nhận"
+    next_page: "&eTrang Tiếp theo"
+    next_page_desc: "§7Nhấn để xem trang tiếp theo"
+    previous_page: "&eTrang Trước"
+    previous_page_desc: "§7Nhấn để xem trang trước"
+
+    # Các nút menu chính
+    search_items: "§aTìm kiếm Vật phẩm"
+    sell_item: "§aĐăng bán Vật phẩm"
+    my_auctions: "§aĐấu giá của tôi"
+
+    # Các nút menu tìm kiếm
+    search_history: "§aLịch sử Tìm kiếm"
+    clear_search_history: "§aXóa Lịch sử Tìm kiếm"
+    enter_item_name: "§aNhập Tên Vật phẩm"
+    enter_item_name_description: "§eNhấn vào đây để nhập từ khóa tìm kiếm"
+    search_prefix: "Tìm kiếm: "
+    search_history_item_description: "Nhấn để tìm kiếm bằng từ khóa này"
+    clear_search_history_description: "Nhấn để xóa tất cả lịch sử tìm kiếm"
+    new_search: "§aTìm kiếm Mới"
+    new_search_desc: "§7Nhấn để thực hiện tìm kiếm mới"
+    cancel_search: "Hủy bỏ" # Giữ nguyên "Hủy bỏ" để nhất quán với các nút hủy khác (Ban đầu là "Cancel")
+    search_history_return: "§7Nhấn để quay lại giao diện tìm kiếm"
+    seller_search: "§aTìm kiếm Người bán"
+    seller_search_desc: "§7Nhấn để tìm kiếm vật phẩm từ một người bán cụ thể"
+
+    # Các nút menu xác nhận mua hàng
+    confirm_buy: "§aXác nhận Mua hàng"
+    cancel_buy: "§cHủy bỏ"
+
+    # Văn bản giao diện xác nhận mua hàng
+    confirm_buy_item: "§eTên Vật phẩm: §f%item_name%"
+    confirm_buy_price: "§eGiá Mua: §f%price% (Mua Ngay)"
+    confirm_buy_tip: "§eNhấn để xác nhận mua vật phẩm này"
+    cancel_buy_tip: "§eNhấn để hủy mua hàng"
+
+    # Các nút menu đăng bán vật phẩm
+    confirm_sell: "§aXác nhận Đăng bán"
+    confirm_sell_description: "Nhấn để xác nhận đăng bán vật phẩm"
+    confirm_sell_description_color: "§7"
+
+    # Các nút menu đấu giá
+    current_bid_amount: "§eSố tiền Đấu giá Hiện tại"
+    increase_bid: "§aTăng Giá +%rate%%"
+    confirm_bid: "§2Xác nhận Đấu giá"
+    cancel_bid: "§cHủy Đấu giá"
+
+    # Văn bản giao diện đấu giá
+    current_bid_item: "§7Vật phẩm: §f%item_name%"
+    current_bid_original_price: "§7Giá Gốc: §f%price%"
+    current_bid_current_price: "§7Giá Hiện tại: §f%price%"
+    current_bid_pre_amount: "§7Số tiền Đấu giá Chuẩn bị: §f%price%"
+    current_bid_rate: "§7Tỷ lệ Tăng giá: §f+%rate%%"
+    increase_bid_tip: "§7Nhấn để tăng số tiền đấu giá của bạn"
+    increase_bid_min: "§7Mức Tăng giá Tối thiểu: §f%price%"
+    confirm_bid_tip: "§7Nhấn để xác nhận số tiền đấu giá hiện tại"
+    confirm_bid_pre_amount: "§7Số tiền Đấu giá Chuẩn bị: §f%price%"
+    confirm_bid_notice1: "§7Vui lòng nhấn nút 'Chuẩn bị Đấu giá' trước"
+    confirm_bid_notice2: "§7Sau đó xác nhận giá thầu của bạn"
+    cancel_bid_tip: "§7Nhấn để hủy đấu giá"
+    cancel_bid_return: "§7Và trở về menu chính"
+
+    # Các nút menu đấu giá (trong giao diện "My Auctions")
+    sold_items: "§6Vật phẩm Đã bán"
+    purchased_items: "§bVật phẩm Đã mua"
+    mailbox: "§eHộp thư Vật phẩm"
+    place_item_here: "Đặt vật phẩm vào đây"
+
+    # Văn bản giao diện vật phẩm đã bán
+    my_sold_auctions_title: "§6Vật phẩm Đã bán của tôi"
+    my_purchased_auctions_title: "§bVật phẩm Đã mua của tôi"
+    page_info_prefix: "§eTrang Hiện tại: §f"
+    sold_items_count_prefix: "§eĐã bán: §f"
+    purchased_items_count_prefix: "§eĐã mua: §f"
+    total_sold_items_count_prefix: "§eTổng Vật phẩm Đã bán: §f"
+    total_purchased_items_count_prefix: "§eTổng Vật phẩm Đã mua: §f"
+    total_coins_earned_prefix: "§eTổng Xu Kiếm được: §f"
+    total_coins_spent_prefix: "§eTổng Xu Đã tiêu: §f"
+    total_points_earned_prefix: "§eTổng Điểm Kiếm được: §f"
+    total_points_spent_prefix: "§eTổng Điểm Đã tiêu: §f"
+    mailbox_description_line1: "§7Kiểm tra hộp thư vật phẩm của bạn"
+    mailbox_description_line2: "§7Chứa các vật phẩm hết hạn, thắng đấu giá, và mua khi đầy kho"
+
+    # Văn bản giao diện hộp thư
+    mailbox_page_info: "§eTrang Hiện tại: §f"
+    mailbox_items_count: "§eSố lượng Vật phẩm: §f"
+    mailbox_storage_header: "§7Lưu trữ tại đây:"
+    mailbox_storage_expired: "§7- Vật phẩm hết hạn chưa bán được"
+    mailbox_storage_won: "§7- Vật phẩm thắng từ đấu giá"
+    mailbox_storage_full: "§7- Vật phẩm đã mua khi kho đồ đầy"
+    mailbox_item_status_pending: "§eTrạng thái: §fChờ Nhận"
+    mailbox_item_status_expired: "§eTrạng thái: §fHết hạn Chưa bán"
+    mailbox_item_status_other: "§eTrạng thái: §f"
+    mailbox_item_add_time: "§eThời gian Thêm: §f"
+    mailbox_item_expire_time: "§eThời gian Hết hạn: §f"
+    mailbox_item_collect_tip: "§7Nhấn chuột phải để nhận vật phẩm"
+
+# Cấu hình Văn bản Tin nhắn
+messages:
+  cancel_bid: "Đấu giá đã hủy"
+  cancel_search: "§aTìm kiếm đã hủy"
+  enter_search_keyword: "§aVui lòng nhập tên vật phẩm để tìm kiếm trong chat, hoặc gõ §ecancel §ađể hủy tìm kiếm"
+  enter_seller_search: "§aVui lòng nhập tên người bán để tìm kiếm trong chat, hoặc gõ §ecancel §ađể hủy tìm kiếm"
+  search_history_cleared: "§aLịch sử tìm kiếm đã được xóa"
+  seller_search_prefix: "Người bán:"
+
+  # Tin nhắn liên quan đến lệnh
+  command:
+    info:
+      usage: "§cSử dụng: /gs info <tên_người_chơi>"
+    # --- Tin nhắn lệnh admin mới --- BẮT ĐẦU ---
+    player_not_found: "§cKhông tìm thấy người chơi: %player_name%"
+    # --- Tin nhắn lệnh admin mới --- KẾT THÚC ---
+
+  # Tin nhắn liên quan đến đăng bán
+  place_item_first: "§cVui lòng đặt vật phẩm cần đăng bán vào trước!"
+  drag_item_to_center: "§cVui lòng kéo vật phẩm trực tiếp vào ô giữa, không sử dụng Shift+click"
+  cant_drag_to_inventory: "§cKhông thể kéo vật phẩm vào giao diện vật phẩm hết hạn!"
+  listing_failed_no_price: "§cĐăng bán thất bại: Thiếu thông tin giá"
+  listing_failed_incomplete_price: "§cĐăng bán thất bại: Thông tin giá không đầy đủ"
+  listing_failed_price_format: "§cĐăng bán thất bại: Lỗi định dạng giá"
+  price_exceeds_max_limit: "§cĐăng bán thất bại: Giá vượt quá giới hạn tối đa (%max_digits% chữ số)!"
+  start_price_greater_than_zero: "§cGiá khởi điểm phải lớn hơn 0!"
+  buy_now_greater_than_start: "§cGiá mua ngay phải lớn hơn giá khởi điểm!"
+  not_enough_money_for_fee: "§cBạn không có đủ %currency% để trả phí!"
+  item_listed_success: "§aVật phẩm đã được đăng bán thành công!"
+  item_listed_success_with_fee: "§aVật phẩm đã được đăng bán thành công! §ePhí đã trừ: §f%fee%"
+  item_listed_fail: "§cĐăng bán vật phẩm thất bại!"
+  listing_error: "§cĐã xảy ra lỗi trong quá trình đăng bán"
+
+  # Tin nhắn liên quan đến trả lại vật phẩm
+  item_returned: "§eVật phẩm đã được trả về kho đồ của bạn"
+  inventory_full_drop_item: "§eKho đồ đầy, vật phẩm đã rơi dưới chân bạn"
+
+  # Tin nhắn liên quan đến giới hạn đăng bán
+  max_listings_reached: "§cBạn đã đạt đến giới hạn đăng bán tối đa (%max_listings% vật phẩm)!"
+  wait_for_items_to_sell: "§cVui lòng đợi các vật phẩm đã đăng bán được bán hoặc hết hạn trước khi thử đăng bán vật phẩm mới."
+
+  # Tin nhắn liên quan đến đấu giá
+  cancel_bid_operation: "§cHành động đấu giá đã bị hủy"
+  bid_info_expired: "§cThông tin đấu giá đã hết hạn, vui lòng chọn lại vật phẩm"
+  bid_invalid_amount: "§cSố tiền không hợp lệ, vui lòng nhập một số."
+
+  # Tin nhắn liên quan đến lệnh đấu giá
+  bid_usage: "§cSử dụng: /bid <id_vật_phẩm>"
+  bid_id_must_be_number: "§cID vật phẩm phải là một số!"
+  bid_invalid_item: "§cKhông tìm thấy vật phẩm đấu giá hợp lệ, ID: "
+  bid_no_permission: "§cBạn không có quyền tham gia đấu giá!"
+  bid_own_item: "§cBạn không thể đấu giá vật phẩm của chính mình!"
+  bid_already_highest: "§cBạn đã là người trả giá cao nhất hiện tại!"
+  bid_opening_menu: "§aĐang mở giao diện đấu giá..."
+  bid_error: "§cĐã xảy ra lỗi trong quá trình đấu giá: "
+  bid_below_current_price: "§cGiá đã được cập nhật, giá thầu của bạn thấp hơn giá mới nhất hiện tại, vui lòng đặt giá lại!"
+
+  # Tin nhắn liên quan đến mua ngay
+  buy_now_not_available: "§cVật phẩm này không hỗ trợ mua ngay!"
+  buy_now_points_unavailable: "§cTính năng thanh toán bằng điểm không khả dụng!"
+  buy_now_not_enough_money: "§cBạn không có đủ %currency% để mua vật phẩm này! Cần: %amount%"
+  buy_now_inventory_full: "§cKho đồ của bạn đã đầy, không thể mua vật phẩm!"
+  buy_now_success: "§aMua hàng thành công!"
+  buy_now_item: "§eVật phẩm: %item%"
+  buy_now_price: "§eGiá: %price%"
+  buy_now_balance: "§eSố dư: %amount% %currency%"
+  buy_now_inventory_full_mailbox: "§aKho đồ của bạn đã đầy, vật phẩm được đặt vào hộp thư!"
+  buy_now_mailbox_instructions: "§eSử dụng /auction my để vào hệ thống đấu giá, nhấn \"Hộp thư Vật phẩm\" để nhận"
+  buy_now_seller_notification: "§aVật phẩm của bạn đã được mua qua mua ngay!"
+  buy_now_seller_income: "§eThu nhập: %amount%"
+  buy_now_seller_balance: "§eSố dư: %amount% %currency%"
+  buy_now_buyer: "§eNgười mua: %player%"
+
+# Cấu hình Tin nhắn Hệ thống Thông báo
+broadcast:
+  # Văn bản thành phần tương tác
+  details_button: " §6[§eChi tiết§6]"
+  no_details_available: "§cKhông có chi tiết nào"
+
+  # Tin nhắn thông báo vật phẩm được đăng bán
+  item_listed:
+#    chat: "§6[Nhà Đấu Giá] §e%player% §fđã đăng bán §a%item_name% §fgiá khởi điểm §e%start_price% §fgiá mua ngay §e%buy_now_price%"
+    chat: "§a[§6Nhà Đấu Giá§a] §e%player% §fđã đăng bán §b[§d%item_name%§b]§f*§6%amount%§r"
+    bossbar: "§e%player% §fđã đăng bán §a%item_name% §fgiá khởi điểm §e%start_price% §fgiá mua ngay §e%buy_now_price%"
+    title: "§6Vật phẩm được Đăng bán"
+    subtitle: "§e%player% §fđã đăng bán §a%item_name%"
+    actionbar: "§e%player% §fđã đăng bán §a%item_name% §fgiá §e%start_price%"
+
+  # Tin nhắn thông báo thắng đấu giá
+  auction_won:
+    chat: "§6[Nhà Đấu Giá] §e%buyer% §fđã thắng §e%seller%§f's §a%item_name% §fvới giá §a%price%"
+    bossbar: "§e%buyer% §fđã thắng §e%seller%§f's §a%item_name% §fvới giá §a%price%"
+    title: "§6Đã thắng Đấu giá"
+    subtitle: "§e%buyer% §fđã thắng §a%item_name%"
+    actionbar: "§e%buyer% §fđã thắng §a%item_name% §fvới giá §a%price%"
+
+  # Tin nhắn thông báo mua ngay
+  buy_now:
+    chat: "§6[Nhà Đấu Giá] §e%buyer% §fđã mua §e%seller%§f's §a%item_name% §fvới giá §a%price% (Mua Ngay)"
+    bossbar: "§e%buyer% §fđã mua §e%seller%§f's §a%item_name% §fqua Mua Ngay"
+    title: "§6Vật phẩm Đã bán"
+    subtitle: "§e%buyer% §fđã mua §a%item_name%"
+    actionbar: "§e%buyer% §fđã mua §a%item_name% §fvới giá §a%price%"
+
+  # Tin nhắn thông báo xác nhận đấu giá
+  bid_confirmed:
+    chat: "§6[Nhà Đấu Giá] §e%bidder% §fđã đấu giá §a%price% §fcho §a%item_name%§f, trở thành người trả giá cao nhất hiện tại"
+    bossbar: "§e%bidder% §fđã đấu giá §a%price% §fcho §a%item_name%§f, trở thành người trả giá cao nhất hiện tại"
+    title: "§6Đấu giá được Cập nhật"
+    subtitle: "§e%bidder% §fđã trở thành người trả giá cao nhất"
+    actionbar: "§e%bidder% §fđã đấu giá §a%price% §fcho §a%item_name%"
+
+# Mô tả Vật phẩm Đấu giá
+auction_item:
+  divider: "§8§m--------------------"
+  info_header: "§6§lThông tin Đấu giá:"
+  item_id: "§eID Vật phẩm: §f%id%"
+  currency_type: "§eLoại Tiền tệ: §f%currency%"
+  start_price: "§eGiá Khởi điểm: §f%price%"
+  current_price: "§eGiá Hiện tại: §f%price%"
+  deal_price: "§eGiá Bán: §f%price%"
+  buy_now_price: "§eGiá Mua Ngay: §f%price%"
+  list_time: "§eThời gian Đăng: §f%time%"
+  remaining_time: "§eThời gian Còn lại: §f%time%"
+  seller: "§eNgười bán: §f%seller%"
+  current_bidder: "§eNgười Đấu giá Hiện tại: §f%bidder%"
+
+  # Mẹo thao tác vật phẩm
+  owner_tips:
+    header: "§7Đây là vật phẩm đấu giá của bạn"
+    cancel: "§7Shift+Chuột phải: §fHủy đăng bán nhanh"
+
+  # Mẹo cho người mua
+  buyer_tips:
+    bid: "§7Chuột trái: §fĐặt giá thầu"
+    buy: "§7Chuột phải: §fMua Nhanh"
+
+  # Mẹo cho quản trị viên
+  admin_tips:
+    header: "§c§lHành động Admin:"
+    force_cancel: "§cShift+Chuột trái: §fBuộc hủy đăng bán vật phẩm này"
+
+  # Chi tiết vật phẩm đấu giá của tôi
+  my_auction_start_price: "§eGiá Khởi điểm: §f%price%"
+  my_auction_current_price: "§eGiá Hiện tại: §f%price%"
+  my_auction_buy_now_price: "§eGiá Mua Ngay: §f%price%"
+  my_auction_remaining_time: "§eThời gian Còn lại: §f%time%"
+  my_auction_current_bidder: "§eNgười Đấu giá Hiện tại: §f%bidder%"
+  my_auction_has_bidder_warning1: "§c⚠ Đã có người đấu giá, không thể hủy đấu giá ⚠"
+  my_auction_has_bidder_warning2: "§cVui lòng đợi phiên đấu giá kết thúc"
+  my_auction_cancel_tip: "§eNhấn chuột phải để hủy đấu giá"
+
+  # Chi tiết vật phẩm đã bán
+  sold_item_deal_price: "§eGiá Bán: §f%price%"
+  sold_item_buyer: "§eNgười mua: §f%buyer%"
+  sold_item_seller: "§eNgười bán: §f%seller%"
+  sold_item_sold_time: "§eThời gian Bán: §f%time%"
+  sold_item_notice1: "§cVật phẩm này đã được bán, chỉ để xem"
+  sold_item_notice2: "§cKhông thể lấy lại hoặc bán lại"
+
+# Mẹo Menu Bán (Trùng lặp với sell_menu ở trên, đảm bảo tính nhất quán hoặc loại bỏ sự dư thừa nếu đây thực sự là một phần trùng lặp trong logic plugin của bạn)
+# sell_menu:
+#   command_tips:
+#     header: "§7Giữ vật phẩm bạn muốn đăng bán và gõ:"
+#     usage: "§7/auction sell <giá_khởi_điểm> [giá_mua_ngay] [loại_tiền_tệ]"
+#     currency_types: "§7Loại Tiền Tệ: §f1=Xu, 2=Điểm"
+
+  # Nút thời gian đăng bán tùy chỉnh
+  duration_button: # Phần này nên được lồng trong sell_menu nếu thuộc về nó. Giả sử là vậy từ ngữ cảnh.
+    title: "§aThời gian Đăng bán Tùy chỉnh"
+    current_setting: "§7Cài đặt Hiện tại: §f%hours% giờ %minutes% phút"
+    divider: "§8§m--------------------"
+    left_click: "§7Chuột trái: §f+1 phút"
+    right_click: "§7Chuột phải: §f+1 giờ"
+    shift_left_click: "§7Shift+Chuột trái: §f+10 phút"
+    shift_right_click: "§7Shift+Chuột phải: §f+10 giờ"
+    middle_click: "§7Chuột §bGiữa§7 hoặc phím §bQ§7: §fĐặt lại về thời gian tối thiểu"
+    min_time: "§7Thời gian Tối thiểu: §f%hours% giờ"
+    max_time: "§7Thời gian Tối đa: §f%hours% giờ"
+    note1: "§eLưu ý: §fCài đặt thời gian chỉ có hiệu lực sau khi xác nhận đăng bán"
+    note2: "§e       §fKhông có hiệu lực khi đăng bán qua lệnh"
+
+# Hậu tố Tiêu đề và Dấu phân cách
+format:
+  page_separator: " §7- Trang %page%"
+
+# Nút Đấu giá
+bid_increase: "§bChuẩn bị Đấu giá" # "Chuẩn bị Đấu giá" hoặc "Đặt Số tiền Đấu giá" chính xác hơn "Tăng Giá" nếu dùng để đặt giá thầu trước khi xác nhận.
+
+# Thông tin Giao diện Đấu giá của tôi
+my_auction:
+  page_info: "§eTrang Hiện tại: §f%page%/%total_pages%"
+  sold_count: "§eĐã bán: §f%count%"
+  expired_count: "§eHết hạn: §f%count%"
+  listings_count: "§eĐang đăng: §f%current%/%max%"
+  limit_warning: "§c⚠ Giới hạn đăng bán của bạn sắp đạt mức tối đa!"
+
+mailbox:
+  # Thẻ lọc vật phẩm hộp thư
+  mailbox_filter_tags:
+    - "✉"
+    - "§8-----------------"
+    - "Giá Bán"
+    - "Thời gian Nhận"
+    - "Thời gian Hủy đăng"
+    - "Thời gian Mua"
+    - "Vật phẩm thắng từ đấu giá"
+    - "Giá Hiện tại"
+
+  # Thẻ vật phẩm hết hạn trong hộp thư
+  expired_auction_tags:
+    - "Hết hạn Chưa bán"
+    - "AUCTION_EXPIRED" # Có thể là thẻ nội bộ, giữ nguyên
+
+error_messages:
+  item_not_exists: "§cVật phẩm không tồn tại hoặc đã được mua!"
+
+# Tin nhắn GuiListener
+gui_listener:
+  # Liên quan đến nhận vật phẩm
+  collect_success: "§aĐã nhận vật phẩm thành công. Nó đã được thêm vào kho đồ của bạn."
+  collect_fail_inventory_full: "§eKho đồ đầy, không thể nhận vật phẩm. Vui lòng dọn kho đồ và thử lại."
+
+  # Liên quan đến hủy đấu giá
+  cancel_auction_has_bid: "§cVật phẩm này có người đang đấu giá và không thể hủy!"
+  cancel_auction_success: "§aHủy đấu giá thành công. Vật phẩm đã được trả về kho đồ của bạn."
+  cancel_auction_success_inventory_full: "§eHủy đấu giá thành công, nhưng kho đồ của bạn đã đầy. Vật phẩm được lưu trữ trong mục chờ nhận, sử dụng /auction collect để lấy."
+  cancel_auction_fail: "§cHủy đấu giá thất bại, vui lòng thử lại sau."
+
+  # Liên quan đến cài đặt thời gian
+  reset_duration: "§eThời gian đăng bán đã được đặt lại về mức tối thiểu!"
+  max_duration_limit: "§cĐã đạt đến giới hạn thời gian đăng bán tối đa!"
+  update_duration: "§aThời gian đăng bán được cập nhật thành: §f%hours% giờ %minutes% phút"
+  custom_duration_below_min: "§eThời gian tùy chỉnh dưới giới hạn tối thiểu, tự động điều chỉnh về mức tối thiểu."
+  custom_duration_above_max: "§eThời gian tùy chỉnh trên giới hạn tối đa, tự động điều chỉnh về mức tối đa."
+  custom_duration_set: "§aVật phẩm đã đăng bán, thời gian được đặt thành: §f%hours% giờ %minutes% phút"
+
+  # Liên quan đến đăng bán vật phẩm
+  points_unavailable: "§eHệ thống điểm không khả dụng, tự động chuyển sang sử dụng xu để đăng bán."
+  max_listings_reached_1: "§cBạn đã đạt đến giới hạn đăng bán tối đa (%max_listings% vật phẩm)!" # Trùng lặp với messages.max_listings_reached
+  max_listings_reached_2: "§cVui lòng đợi các vật phẩm đã đăng bán được bán hoặc hết hạn trước khi thử đăng bán vật phẩm mới." # Trùng lặp với messages.wait_for_items_to_sell
+
+  # Liên quan đến trạng thái vật phẩm
+  expired_item: "§cPhiên đấu giá vật phẩm này đã kết thúc!"
+  invalid_item: "§cVật phẩm không tồn tại hoặc đã được mua!"
+
+  # Giới hạn quyền và thao tác
+  no_permission: "§cBạn không có quyền thực hiện hành động này!"
+  owner_bid: "§cBạn không thể đấu giá vật phẩm của chính mình!"
+  owner_buy: "§cBạn không thể mua vật phẩm của chính mình!"
+  already_highest_bidder: "§eBạn đã là người trả giá cao nhất hiện tại, bạn có thể tăng giá thầu của mình!"
+
+  # Liên quan đến mua hàng
+  no_buy_now_price: "§cVật phẩm này không có giá mua ngay, không thể mua trực tiếp!"
+  not_enough_money: "§cBạn không có đủ %currency% cho thao tác này!"
+  inventory_full: "§cKho đồ của bạn đã đầy, vui lòng dọn dẹp trước khi mua!"
+  failed_transaction: "§cTrừ tiền thất bại, vui lòng thử lại!"
+  partial_item_saved: "§eKho đồ của bạn đã đầy, một số vật phẩm đã được lưu vào mục chờ nhận, sử dụng /ah collect để lấy" # Giả sử /ah là bí danh cho /auction
+
+  # Thông báo mua hàng thành công
+  purchase_success: "§aMua hàng thành công!"
+  purchase_item: "§eVật phẩm: §f%item%"
+  purchase_price: "§eGiá: §f%price%"
+  mailbox_full: "§aMua hàng thành công! §eNhưng kho đồ của bạn đã đầy, vật phẩm được lưu trữ trong hộp thư vật phẩm, vui lòng sử dụng /ah my để kiểm tra."
+  cancel_purchase: "§cHủy mua hàng"
+
+  # Thông báo đã bán
+  sold_notification: "§aVật phẩm của bạn đã được mua!"
+  seller_fee: "§ePhí: §f%fee%"
+  seller_income: "§eThu nhập Thực tế: §f%income%"
+  buyer: "§eNgười mua: §f%buyer%"
+
+  # Liên quan đến đấu giá
+  expired_bid_info: "§cThông tin đấu giá đã hết hạn, vui lòng chọn lại vật phẩm"
+  expired_bid: "§cVật phẩm này đã hết hạn, không thể đấu giá!"
+  bid_sold: "§eID Vật phẩm: %id% đã được mua qua Mua Ngay\n§eGiá thầu %price% của bạn đã được hoàn lại"
+  bid_outbid: "§eGiá thầu của bạn đã bị trả cao hơn! ID Vật phẩm: %id%"
+  previous_bid: "§eGiá thầu %amount% của bạn đã được hoàn lại"
+  new_bid: "§eGiá thầu mới: %amount%"
+  incomplete_bid_info: "§cThông tin đấu giá không đầy đủ, vui lòng đặt giá lại."
+  bid_below_minimum: "§cGiá thầu phải cao hơn ít nhất %min_bid% so với giá hiện tại!"
+  pre_bid: "§aĐã chuẩn bị giá thầu! §eNhấn 'Xác nhận Đấu giá' để hoàn tất, hoặc 'Hủy Đấu giá' để hủy."
+  bid_amount: "§eSố tiền Đấu giá Ước tính: §f%amount%"
+  bid_accepted: "§aSố tiền đấu giá hiện tại đã được xác nhận: §f%amount%"
+  bid_success: "§aĐấu giá thành công!"
+  bid_item: "§eID Vật phẩm: §f%id%"
+  bid_price: "§eGiá thầu của bạn: §f%price%"
+
+  # Thông tin số dư
+  balance: "§aSố dư %currency% của bạn: §f%balance%"
+
+  # Thao tác quản trị viên
+  refund: "§eGiá thầu của bạn cho một vật phẩm đã được hoàn lại vì nó bị quản trị viên buộc hủy đăng.\n§eĐã hoàn: §f%amount%"
+  removed_item: "§aĐã buộc hủy đăng vật phẩm #%id% (Người bán: %seller%)"
+
+# Tin nhắn liên quan đến lệnh đã thêm
+auction_commands:
+  # Tin nhắn chung
+  player_only: "§cLệnh này chỉ có thể được sử dụng bởi người chơi!"
+  unknown_command: "§cLệnh không xác định! Sử dụng /auction help để được trợ giúp"
+  no_permission: "§cBạn không có quyền sử dụng lệnh này!"
+
+  # Mẹo hoàn thành tab
+  tab_completion:
+    sell_price: "<giá_khởi_điểm>"
+    sell_buynow: "<giá_mua_ngay>"
+    sell_currency: "<loại_tiền_tệ: 1=Xu, 2=Điểm>"
+    search_keyword: "<từ_khóa>"
+
+  # Thông tin trợ giúp
+  help:
+    header: "§6===== Trợ giúp Nhà Đấu Giá ====="
+    help: "§e/auction help - Hiển thị tin nhắn trợ giúp này"
+    open: "§e/auction open - Mở Nhà Đấu Giá"
+    sell: "§e/auction sell <giá_khởi_điểm> [giá_mua_ngay] [loại_tiền_tệ] - Đăng bán một vật phẩm (1=Xu, 2=Điểm)"
+    search: "§e/auction search <từ_khóa> - Tìm kiếm vật phẩm"
+    my: "§e/auction my - Xem các phiên đấu giá và hộp thư vật phẩm của tôi"
+    collect: "§e/auction collect - Nhận các vật phẩm đang chờ"
+    web: "§eDịch vụ Web Nhà Đấu Giá: §fTruy cập §bhttp://địa_chỉ_ip_máy_chủ:%port% §fđể xem các vật phẩm đấu giá"
+    admin_header: "§c===== Lệnh Admin ====="
+    reload: "§e/auction reload - Tải lại cấu hình và dịch vụ Web"
+    close: "§e/auction close - §c[Thử nghiệm] §eBuộc đóng tất cả các vật phẩm đấu giá và đánh dấu là đã hết hạn"
+    checkexpired: "§e/auction checkexpired - Kiểm tra tất cả các vật phẩm đã hết hạn nhưng chưa được xử lý"
+    info: "§e/auction info <tên_người_chơi> - Truy vấn thông tin nhà đấu giá của người chơi"
+
+  # Liên quan đến lệnh nhận vật phẩm
+  collect:
+    success: "§aHộp thư vật phẩm đã mở. Bạn có thể nhận tất cả các vật phẩm đang chờ ở đây."
+
+  # Liên quan đến lệnh bán
+  sell:
+    usage: "§cSử dụng: /auction sell <giá_khởi_điểm> <giá_mua_ngay> [loại_tiền_tệ]"
+    currency_types: "§cLoại Tiền tệ: 1 = Xu, 2 = Điểm (Mặc định là Xu)"
+    points_unavailable: "§cHệ thống điểm không khả dụng, plugin PlayerPoints chưa được cài đặt trên máy chủ."
+    points_unavailable_solution: "§cVui lòng đăng bán vật phẩm bằng xu, hoặc liên hệ quản trị viên máy chủ để được giúp đỡ."
+    invalid_currency: "§cLoại tiền tệ không hợp lệ! Sử dụng: 1 = Xu, 2 = Điểm"
+    max_listings_reached: "§cBạn đã đạt đến giới hạn đăng bán tối đa (%max_listings% vật phẩm)!" # Trùng lặp
+    wait_for_items_sold: "§cVui lòng đợi các vật phẩm đã đăng bán được bán hoặc hết hạn trước khi thử đăng bán vật phẩm mới." # Trùng lặp
+    start_price_zero: "§cGiá khởi điểm phải lớn hơn 0!"
+    buy_now_less_than_start: "§cGiá mua ngay phải lớn hơn giá khởi điểm!"
+    invalid_price: "§cVui lòng nhập một mức giá hợp lệ!"
+
+  # Liên quan đến lệnh tìm kiếm
+  search:
+    usage: "§cSử dụng: /auction search <từ_khóa>"
+    min_length: "§cTừ khóa tìm kiếm phải có ít nhất 2 ký tự!"
+    searching: "§aĐang tìm kiếm: §e%keyword%"
+
+  # Liên quan đến lệnh đóng tất cả các phiên đấu giá
+  close:
+    starting: "§eĐang buộc đóng tất cả các vật phẩm đấu giá..."
+    async_notice: "§eThao tác này sẽ được thực hiện bất đồng bộ trong nền để tránh lag máy chủ, vui lòng kiên nhẫn chờ đợi."
+    force_close: "§cNhà Đấu Giá đã bị quản trị viên buộc đóng!"
+    success: "§aTất cả các đăng bán trong nhà đấu giá của người chơi đã bị buộc đóng!"
+
+  # Liên quan đến lệnh kiểm tra vật phẩm hết hạn
+  checkexpired:
+    player_only: "§cChỉ người chơi mới có thể thực hiện lệnh này!" # Thông thường các lệnh admin cũng có thể được thực thi từ console, hãy xác minh xem đây có phải là ý định không.
+    checking: "§aĐang kiểm tra tất cả các vật phẩm đấu giá đã hết hạn nhưng chưa được xử lý..."
+    success: "§aĐã xử lý thành công %count% vật phẩm hết hạn!"
+    none: "§aKhông tìm thấy vật phẩm nào đã hết hạn nhưng chưa được xử lý."
+
+  # Liên quan đến lệnh tải lại cấu hình
+  reload:
+    success: "§aCấu hình GlobalShop đã được tải lại!"
+    debug_info: "§eThông tin Gỡ lỗi: Khoảng thời gian kiểm tra được đặt thành %interval% giây"
+
+# Tin nhắn mới liên quan đến Hộp thư và Chi tiết
+mailbox_details:
+  # Tin nhắn liên quan đến xử lý vật phẩm trong hộp thư
+  collect_success: "§aĐã nhận vật phẩm thành công. Nó đã được thêm vào kho đồ của bạn." # Trùng lặp với gui_listener.collect_success
+  inventory_full: "§eKho đồ đầy, không thể nhận vật phẩm. Vui lòng dọn kho đồ và thử lại." # Trùng lặp với gui_listener.collect_fail_inventory_full
+
+  # Tin nhắn liên quan đến hủy đấu giá
+  auction_has_bidder: "§cVật phẩm này có người đang đấu giá và không thể hủy!" # Trùng lặp với gui_listener.cancel_auction_has_bid
+
+  # Từ khóa lọc vật phẩm hộp thư
+  filter_keywords:
+    - "Giá Khởi điểm"
+    - "Thời gian"
+    - "Thời gian Đấu giá"
+    - "Hệ thống Tự động Hủy đăng"
+    - "✉"
+    - "§8-----------------"
+    - "Vật phẩm thắng từ đấu giá"
+    - "Giá Hiện tại"
+
+# Xem Chi tiết Vật phẩm
+item_details:
+  header: "§6===== Chi tiết Vật phẩm Đấu giá ====="
+  item_name: "§eVật phẩm: §f%item%"
+  start_price: "§eGiá Khởi điểm: §f%price%"
+  current_price: "§eGiá Hiện tại: §f%price%"
+  buy_now_price: "§eGiá Mua Ngay: §f%price%"
+  current_bidder: "§eNgười Đấu giá Hiện tại: §f%bidder%"
+  remaining_time: "§eThời gian Còn lại: §f%time%"
+
+# Cấu hình Liên quan đến Menu Đấu giá
+bid_menu: # Phần này có vẻ trùng lặp với gui.buttons.bid_menu và gui.buttons.current_bid_...
+  item_text: "§7Vật phẩm: §f%item_name%"
+  original_price_text: "§7Giá Gốc: §f%price%"
+  current_price_text: "§7Giá Hiện tại: §f%price%"
+  pre_amount_text: "§7Số tiền Đấu giá Chuẩn bị: §f%price%"
+  rate_text: "§7Tỷ lệ Tăng giá: §f+%rate%%"
+  increase_tip: "§7Nhấn để tăng số tiền đấu giá của bạn"
+  min_increase_text: "§7Mức Tăng giá Tối thiểu: §f%price%"
+  confirm_tip: "§7Nhấn để xác nhận số tiền đấu giá hiện tại"
+  confirm_pre_amount_text: "§7Số tiền Đấu giá Chuẩn bị: §f%price%"
+
+# Cấu hình Liên quan đến AuctionTask
+auction_task:
+  # Tin nhắn thành công đấu giá - Thông báo cho người mua
+  buyer_win:
+    success: "§aVật phẩm bạn đã đấu giá đã được chuyển đến hộp thư vật phẩm của bạn!"
+    item: "§eVật phẩm: %item_name%"
+    price: "§eGiá: %price%"
+    collect_guide: "§eSử dụng /auction my để vào hệ thống đấu giá, nhấn \"Hộp thư Vật phẩm\" để nhận"
+
+  # Tin nhắn thành công đấu giá - Thông báo cho người bán
+  seller_win:
+    success: "§aVật phẩm của bạn đã được đấu giá thành công!"
+    item: "§eVật phẩm: %item_name%"
+    price: "§eGiá: %price%"
+    income: "§eThu nhập: %amount%"
+    buyer: "§eNgười mua: %buyer%"
+    unknown_buyer: "Không rõ"
+
+  # Tin nhắn thất bại đấu giá - Thông báo cho người bán
+  seller_expired:
+    notice: "§aVật phẩm đấu giá của bạn đã hết hạn, vật phẩm được đặt trong hộp thư!"
+    item: "§eVật phẩm: %item_name%"
+    collect_guide: "§eSử dụng /auction my để vào hệ thống đấu giá, nhấn \"Hộp thư Vật phẩm\" để nhận"
+
+# --- Tin nhắn Chức năng Truy vấn Admin Mới --- BẮT ĐẦU ---
+admin_info_gui:
+  title: "Thông tin Người chơi: %player_name%"
+  item_name: "§eNgười chơi: §f%player_name%" # Khóa này có vẻ dư thừa nếu tiêu đề đã có tên người chơi. Có lẽ dùng cho lore vật phẩm?
+  sold_count: "§eTổng Vật phẩm Đã bán: §f%count%"
+  purchased_count: "§eTổng Vật phẩm Đã mua: §f%count%"
+  earnings_header: "§6Tổng Thu nhập:"
+  earnings_vault: "§7 - Xu: §f%amount%"
+  earnings_points: "§7 - Điểm: §f%amount%"
+  spending_header: "§cTổng Chi tiêu:"
+  spending_vault: "§7 - Xu: §f%amount%"
+  spending_points: "§7 - Điểm: §f%amount%"
+  sales_history_button: "§6Xem Lịch sử Bán hàng"
+  purchase_history_button: "§bXem Lịch sử Mua hàng"
+  sales_history_title: "§6Lịch sử Bán hàng: %player_name% - Trang %page%"
+  purchase_history_title: "§bLịch sử Mua hàng: %player_name% - Trang %page%"
+  back_button_to_player_info: "§eQuay lại Thông tin Người chơi"
+  active_auctions: "§eĐấu giá Đang hoạt động: §f%count%"
+
+history_item:
+  info_header: "§6§lBản ghi Giao dịch:"
+  sold_time: "§eThời gian Giao dịch: §f%time%" # "Thời gian Bán" hoặc "Thời gian Giao dịch"
+  buyer: "§eNgười mua: §f%buyer%"
+# --- Tin nhắn Chức năng Truy vấn Admin Mới --- KẾT THÚC ---
+
+# Cấu hình Văn bản Tin nhắn (Khối `messages:` này là bản sao của khối ở đầu. Hợp nhất hoặc đảm bảo sử dụng riêng biệt.)
+# messages:
+# ... mã hiện có ...
+  # --- Tin nhắn Lệnh Admin Mới --- BẮT ĐẦU --- (Đã được bao gồm trong khối `messages.command` đầu tiên)
+  # command:
+  #   info:
+  #     usage: "§cSử dụng: /gs info <tên_người_chơi>"
+  #   player_not_found: "§cKhông tìm thấy người chơi: %player_name%"
+  # --- Tin nhắn Lệnh Admin Mới --- KẾT THÚC ---
+
+# Tin nhắn liên quan đến đăng bán (Đã được bao gồm trong khối `messages` đầu tiên)
+# place_item_first: "§cVui lòng đặt vật phẩm cần đăng bán vào trước!"
+# ... mã hiện có ...
+
+# Tin nhắn Liên quan đến Dịch vụ Web
+web:
+  server:
+    started: "§aDịch vụ Web Nhà Đấu Giá đã khởi động trên cổng: %port%"
+    stopped: "§aDịch vụ Web Nhà Đấu Giá đã dừng"
+    error: "§cDịch vụ Web Nhà Đấu Giá khởi động thất bại: %error%"
+    already_running: "§eDịch vụ Web Nhà Đấu Giá đã đang chạy trên cổng: %port%"
+  page:
+    title: "Nhà Đấu Giá Toàn Cầu - Trưng bày Vật phẩm"
+    header: "Trưng bày Vật phẩm Nhà Đấu Giá"
+    no_items: "Hiện không có vật phẩm nào đang được đấu giá"
+    refresh_time: "Thời gian Làm mới Dữ liệu: %time%"
+    next_refresh: "Làm mới Tiếp theo: %time%"
+    footer: "Được cung cấp bởi Plugin GlobalShop"
+
+# Cấu hình Liên quan đến AuctionItem
+auction_item_format:
+  time:
+    expired: "Đã hết hạn"
+    day: "ngày" # Sử dụng 'ng' cho ngắn gọn, 'ngày' cho đầy đủ
+    hour: "giờ" # Sử dụng 'g' cho ngắn gọn, 'giờ' cho đầy đủ
+    minute: "phút" # Sử dụng 'ph' cho ngắn gọn, 'phút' cho đầy đủ
+    second: "giây" # Sử dụng 's' cho ngắn gọn, 'giây' cho đầy đủ
+    not_sold: "Chưa bán"
+  display:
+    unknown_item: "Vật phẩm không xác định"
