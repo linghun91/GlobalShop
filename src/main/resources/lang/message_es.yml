@@ -176,7 +176,7 @@ messages:
   listing_failed_price_format: "§cFallo al listar: Error en el formato del precio"
   price_exceeds_max_limit: "§cFallo al listar: ¡El precio excede el límite máximo (%max_digits% dígitos)!"
   start_price_greater_than_zero: "§c¡El precio inicial debe ser mayor que 0!"
-  buy_now_greater_than_start: "§c¡El precio de compra ahora debe ser mayor que el precio inicial!"
+  buy_now_greater_than_start: "§c¡El precio de compra ahora no puede ser menor que el precio inicial!"
   not_enough_money_for_fee: "§c¡No tienes suficiente %currency% para pagar la tarifa!"
   item_listed_success: "§a¡Objeto listado con éxito!"
   item_listed_success_with_fee: "§a¡Objeto listado con éxito! §eTarifa cobrada: §f%fee%"

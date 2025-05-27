@@ -6,7 +6,6 @@ import cn.i7mc.globalshop.utils.ChatUtils;
 import cn.i7mc.globalshop.config.ConfigManager;
 import cn.i7mc.globalshop.config.MessageManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -347,9 +346,9 @@ public class GuiManager {
         // 按卖家名搜索按钮 (Player Head)
         ItemStack sellerSearchButton = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta sellerMeta = (SkullMeta) sellerSearchButton.getItemMeta();
-        sellerMeta.setDisplayName(ChatColor.GREEN + "按卖家名搜索");
+        sellerMeta.setDisplayName(messageManager.getSellerSearchText());
         List<String> sellerLore = new ArrayList<>();
-        sellerLore.add(ChatColor.YELLOW + "输入玩家名称搜索该玩家的所有上架物品");
+        sellerLore.add(messageManager.getSellerSearchDescText());
         sellerMeta.setLore(sellerLore);
         sellerSearchButton.setItemMeta(sellerMeta);
         inventory.setItem(31, sellerSearchButton); // 放在物品搜索下方
@@ -359,7 +358,7 @@ public class GuiManager {
         ItemMeta historyMeta = historyButton.getItemMeta();
         historyMeta.setDisplayName(messageManager.getSearchHistoryText());
         List<String> historyLore = new ArrayList<>();
-        historyLore.add(ChatColor.YELLOW + "点击查看你的搜索历史"); // 修改提示
+        historyLore.add(messageManager.getSearchHistoryItemDescription()); // 修改提示
         historyMeta.setLore(historyLore);
         historyButton.setItemMeta(historyMeta);
         inventory.setItem(47, historyButton); // 放在右下角
@@ -369,7 +368,7 @@ public class GuiManager {
         ItemMeta clearMeta = clearButton.getItemMeta();
         clearMeta.setDisplayName(messageManager.getClearSearchHistoryText());
         List<String> clearLore = new ArrayList<>();
-        clearLore.add(ChatColor.YELLOW + messageManager.getClearSearchHistoryDescription());
+        clearLore.add(messageManager.getClearSearchHistoryDescription());
         clearMeta.setLore(clearLore);
         clearButton.setItemMeta(clearMeta);
         inventory.setItem(51, clearButton); // 放在历史按钮旁边
@@ -413,7 +412,7 @@ public class GuiManager {
         // 设置页码信息在标题栏中间
         ItemStack pageInfo = new ItemStack(Material.PAPER);
         ItemMeta infoMeta = pageInfo.getItemMeta();
-        infoMeta.setDisplayName(ChatColor.GOLD + messageManager.getSearchResultTitlePrefix() + " " + keyword);
+        infoMeta.setDisplayName(messageManager.getSearchResultTitlePrefix() + " " + keyword);
         List<String> infoLore = new ArrayList<>();
         String pageInfoText = messageManager.getPageInfoPrefix() + page + "/" + (totalPages > 0 ? totalPages : 1);
         infoLore.add(pageInfoText);
@@ -654,19 +653,19 @@ public class GuiManager {
         // 获取拍卖物品信息
         AuctionItem auctionItem = plugin.getDatabaseManager().getAuctionItem(auctionId);
         if (auctionItem == null) {
-            player.sendMessage(ChatColor.RED + "该物品不存在或已售出!");
+            player.sendMessage(messageManager.getInvalidItemMessage());
             return;
         }
 
         // 如果物品不是活跃状态或已过期
         if (!auctionItem.isActive() || auctionItem.isExpired()) {
-            player.sendMessage(ChatColor.RED + "该物品已过期或已售出!");
+            player.sendMessage(messageManager.getExpiredItemMessage());
             return;
         }
 
         // 如果是卖家自己
         if (auctionItem.getSellerUuid().equals(player.getUniqueId())) {
-            player.sendMessage(ChatColor.RED + "你不能对自己的物品出价!");
+            player.sendMessage(messageManager.getOwnerBidMessage());
             return;
         }
 
@@ -901,7 +900,7 @@ public class GuiManager {
         // 设置页码信息
         ItemStack pageInfo = new ItemStack(Material.PAPER);
         ItemMeta infoMeta = pageInfo.getItemMeta();
-        infoMeta.setDisplayName(ChatColor.GOLD + messageManager.getMyAuctionsText());
+        infoMeta.setDisplayName(messageManager.getMyAuctionsText());
 
         List<String> infoLore = new ArrayList<>();
         String pageInfoText = messageManager.getMyAuctionPageInfoText()
@@ -1061,7 +1060,7 @@ public class GuiManager {
                 lore.add(dealPriceText);
 
                 // 显示买家信息，优先使用存储的买家名称
-                String buyerName = "未知";
+                String buyerName = messageManager.getUnknownBuyerText();
                 if (item.getCurrentBidderName() != null && !item.getCurrentBidderName().isEmpty()) {
                     buyerName = item.getCurrentBidderName();
                 } else if (item.getCurrentBidder() != null) {
@@ -1380,7 +1379,7 @@ public class GuiManager {
         // 设置页码信息
         ItemStack pageInfo = new ItemStack(Material.PAPER);
         ItemMeta infoMeta = pageInfo.getItemMeta();
-        infoMeta.setDisplayName(ChatColor.GOLD + messageManager.getMailboxText());
+        infoMeta.setDisplayName(messageManager.getMailboxText());
 
         List<String> infoLore = new ArrayList<>();
         infoLore.add(messageManager.getMailboxPageInfo() + page + "/" + totalPages);
@@ -1914,7 +1913,7 @@ public class GuiManager {
     // 打开卖家搜索结果界面
     public void openSellerSearchResultMenu(Player player, String sellerName, int page) {
         // 添加到搜索历史
-        plugin.getSearchHistoryManager().addSearchHistory(player, "卖家:" + sellerName);
+        plugin.getSearchHistoryManager().addSearchHistory(player, messageManager.getSellerSearchPrefixText() + sellerName);
 
         // 计算每页显示物品数量（9-44槽位，共36个物品）
         int itemsPerPage = 36;
@@ -1926,7 +1925,7 @@ public class GuiManager {
         int totalItems = plugin.getDatabaseManager().getSellerSearchResultCount(sellerName);
         int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 
-        Inventory inventory = Bukkit.createInventory(null, 54, messageManager.getSearchResultTitlePrefix() + " 卖家:" + sellerName);
+        Inventory inventory = Bukkit.createInventory(null, 54, messageManager.getSearchResultTitlePrefix() + " " + messageManager.getSellerSearchPrefixText() + sellerName);
 
         // 设置标题栏（第一行）
         for (int i = 0; i < 9; i++) {
@@ -1940,7 +1939,7 @@ public class GuiManager {
         // 设置页码信息在标题栏中间
         ItemStack pageInfo = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta infoMeta = (SkullMeta) pageInfo.getItemMeta();
-        infoMeta.setDisplayName(ChatColor.GOLD + "卖家: " + sellerName + " 的物品");
+        infoMeta.setDisplayName(messageManager.getSellerSearchPrefixText() + " " + sellerName + " " + messageManager.getSellerItemsSuffixText());
         List<String> infoLore = new ArrayList<>();
         String pageInfoText = messageManager.getPageInfoPrefix() + page + "/" + (totalPages > 0 ? totalPages : 1);
         infoLore.add(pageInfoText);

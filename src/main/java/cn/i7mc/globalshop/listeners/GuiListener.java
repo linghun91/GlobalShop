@@ -26,7 +26,6 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.ArrayList;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.InventoryHolder; // 确保导入
 import org.bukkit.OfflinePlayer; // 确保导入
 import cn.i7mc.globalshop.gui.GuiManager.PlayerInfoHolder; // 导入新的 Holder
 import cn.i7mc.globalshop.gui.GuiManager.PlayerSalesHistoryHolder; // 导入新的 Holder
@@ -974,7 +973,7 @@ public class GuiListener implements Listener {
                 itemReturned = true;
                 return;
             }
-            if (buyNowPrice > 0 && buyNowPrice <= startPrice) {
+            if (buyNowPrice > 0 && buyNowPrice < startPrice) {
                 player.sendMessage(messageManager.getBuyNowGreaterThanStartMessage());
                 returnItem(player, itemCopy, true);
                 itemReturned = true;

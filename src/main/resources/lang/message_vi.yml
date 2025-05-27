@@ -155,7 +155,7 @@ messages:
   listing_failed_price_format: "§cĐăng bán thất bại: Lỗi định dạng giá"
   price_exceeds_max_limit: "§cĐăng bán thất bại: Giá vượt quá giới hạn tối đa (%max_digits% chữ số)!"
   start_price_greater_than_zero: "§cGiá khởi điểm phải lớn hơn 0!"
-  buy_now_greater_than_start: "§cGiá mua ngay phải lớn hơn giá khởi điểm!"
+  buy_now_greater_than_start: "§cGiá mua ngay không được nhỏ hơn giá khởi điểm!"
   not_enough_money_for_fee: "§cBạn không có đủ %currency% để trả phí!"
   item_listed_success: "§aVật phẩm đã được đăng bán thành công!"
   item_listed_success_with_fee: "§aVật phẩm đã được đăng bán thành công! §ePhí đã trừ: §f%fee%"

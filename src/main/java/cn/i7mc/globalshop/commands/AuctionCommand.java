@@ -288,7 +288,7 @@ public class AuctionCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            if (buyNowPrice > 0 && buyNowPrice <= startPrice) {
+            if (buyNowPrice > 0 && buyNowPrice < startPrice) {
                 player.sendMessage(plugin.getMessageManager().getCommandSellBuyNowLessThanStartMessage());
                 return true;
             }

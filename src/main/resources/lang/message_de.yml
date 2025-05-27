@@ -1,0 +1,624 @@
+# GlobalShop Nachrichtenkonfigurationsdatei
+# Diese Datei enthält alle Textkonfigurationen für GUI-Schaltflächen und Hinweismeldungen
+
+# Gegenstandsnamen-Farbcode
+item-name-color: "§f"
+
+# Hinweis zum Einstellungsmenü-Befehl
+sell_menu:
+  command_tips:
+    header: "§7Halte den zum Verkauf stehenden Gegenstand in der Hand und gib ein:"
+    usage: "§7/auction sell <Startpreis> [Sofortkaufpreis] [Währungstyp]"
+    currency_types: "§7Währungstypen: §f1=Goldmünzen, 2=Punkte"
+
+gui:
+  titles:
+    # Titel der verschiedenen Oberflächen
+    sell_menu: "Gegenstand einstellen"
+    search_menu: "Gegenstände suchen"
+    search_result_prefix: "Suchergebnisse:"
+    search_history_menu: "Suchverlauf"
+    confirm_buy_menu: "Kauf bestätigen"
+    bid_menu: "Gebotskauf"
+    my_auctions_menu: "Meine Auktionen"
+    my_sold_auctions_menu: "Meine verkauften Auktionen"
+    mailbox_menu: "§8Gegenstands-Mailbox"
+    my_mailbox_menu_prefix: "§eMeine Gegenstands-Mailbox"
+    expired_auctions_menu: "Meine abgelaufenen Auktionen (keine Gebote)"
+
+  buttons:
+    # Allgemeine Schaltflächen
+    return_main_menu: "&cZurück zum Hauptmenü"
+    return_main_menu_desc: "§7Klicken, um zum Hauptmenü zurückzukehren"
+    return: "§eZurück"
+    cancel: "§cAbbrechen"
+    confirm: "§aBestätigen"
+    next_page: "&eNächste Seite"
+    next_page_desc: "§7Klicken, um die nächste Seite anzuzeigen"
+    previous_page: "&eVorherige Seite"
+    previous_page_desc: "§7Klicken, um die vorherige Seite anzuzeigen"
+
+    # Hauptmenü-Schaltflächen
+    search_items: "§aGegenstände suchen"
+    sell_item: "§aGegenstand einstellen"
+    my_auctions: "§aMeine Auktionen"
+
+    # Suchmenü-Schaltflächen
+    search_history: "§aSuchverlauf"
+    clear_search_history: "§aSuchverlauf löschen"
+    enter_item_name: "§aGegenstandsnamen eingeben"
+    enter_item_name_description: "§eHier klicken, um Suchbegriffe einzugeben"
+    search_prefix: "Suche: "
+    search_history_item_description: "Klicken, um mit diesem Schlüsselwort zu suchen"
+    clear_search_history_description: "Klicken, um den gesamten Suchverlauf zu löschen"
+    new_search: "§aNeue Suche"
+    new_search_desc: "§7Klicken, um eine neue Suche durchzuführen"
+    cancel_search: "Abbrechen"
+    search_history_return: "§7Klicken, um zur Suchoberfläche zurückzukehren"
+    seller_search: "§aVerkäufer suchen"
+    seller_search_desc: "§7Klicken, um Gegenstände von einem bestimmten Verkäufer zu suchen"
+
+    # Kaufbestätigungsmenü-Schaltflächen
+    confirm_buy: "§aKauf bestätigen"
+    cancel_buy: "§cAbbrechen"
+
+    # Text für die Kaufbestätigungsoberfläche
+    confirm_buy_item: "§eGegenstandsname: §f%item_name%"
+    confirm_buy_price: "§eKaufpreis: §f%price% (Sofortkauf)"
+    confirm_buy_tip: "§eKlicken, um den Kauf dieses Gegenstands zu bestätigen"
+    cancel_buy_tip: "§eKlicken, um den Kauf abzubrechen"
+
+    # Einstellungsmenü-Schaltflächen
+    confirm_sell: "§aEinstellung bestätigen"
+    confirm_sell_description: "Klicken, um die Einstellung des Gegenstands zu bestätigen"
+    confirm_sell_description_color: "§7"
+
+    # Gebotsmenü-Schaltflächen
+    current_bid_amount: "§eAktueller Gebotsbetrag"
+    increase_bid: "§aGebot erhöhen +%rate%%"
+    confirm_bid: "§2Gebot bestätigen"
+    cancel_bid: "§cGebot abbrechen"
+
+    # Text für die Gebotsoberfläche
+    current_bid_item: "§7Gegenstand: §f%item_name%"
+    current_bid_original_price: "§7Originalpreis: §f%price%"
+    current_bid_current_price: "§7Aktuelles Gebot: §f%price%"
+    current_bid_pre_amount: "§7Vorgebotener Betrag: §f%price%"
+    current_bid_rate: "§7Gebotserhöhung: §f+%rate%%"
+    increase_bid_tip: "§7Klicken, um Ihren Gebotsbetrag zu erhöhen"
+    increase_bid_min: "§7Mindestgebots-Erhöhung: §f%price%"
+    confirm_bid_tip: "§7Klicken, um den aktuellen Gebotsbetrag zu bestätigen"
+    confirm_bid_pre_amount: "§7Vorgebotener Betrag: §f%price%"
+    confirm_bid_notice1: "§7Bitte klicken Sie zuerst auf die Schaltfläche 'Vorgebot'"
+    confirm_bid_notice2: "§7Bestätigen Sie anschließend Ihr Gebot"
+    cancel_bid_tip: "§7Klicken, um das Gebot abzubrechen"
+    cancel_bid_return: "§7und zum Hauptmenü zurückzukehren"
+
+    # Auktionsmenü-Schaltflächen
+    sold_items: "§6Verkauft"
+    purchased_items: "§bGekauft"
+    mailbox: "§eGegenstands-Mailbox"
+    place_item_here: "Bitte legen Sie den Gegenstand hier ab"
+
+    # Text für die Oberfläche der verkauften Auktionen
+    my_sold_auctions_title: "§6Meine verkauften Auktionen"
+    my_purchased_auctions_title: "§bMeine gekauften Auktionen"
+    page_info_prefix: "§eAktuelle Seite: §f"
+    sold_items_count_prefix: "§eVerkauft: §f"
+    purchased_items_count_prefix: "§eGekauft: §f"
+    total_sold_items_count_prefix: "§eGesamtanzahl verkaufter Gegenstände: §f"
+    total_purchased_items_count_prefix: "§eGesamtanzahl gekaufter Gegenstände: §f"
+    total_coins_earned_prefix: "§eGesamt verdiente Goldmünzen: §f"
+    total_coins_spent_prefix: "§eGesamt ausgegebene Goldmünzen: §f"
+    total_points_earned_prefix: "§eGesamt verdiente Punkte: §f"
+    total_points_spent_prefix: "§eGesamt ausgegebene Punkte: §f"
+    mailbox_description_line1: "§7Sehen Sie sich Ihre Gegenstands-Mailbox an"
+    mailbox_description_line2: "§7Enthält abgelaufene, ersteigerte und bei vollem Inventar gekaufte Gegenstände"
+
+    # Text für die Mailbox-Oberfläche
+    mailbox_page_info: "§eAktuelle Seite: §f"
+    mailbox_items_count: "§eGegenstandsanzahl: §f"
+    mailbox_storage_header: "§7Hier gespeichert:"
+    mailbox_storage_expired: "§7- Abgelaufene, unverkaufte Gegenstände"
+    mailbox_storage_won: "§7- Erfolgreich ersteigerte Gegenstände"
+    mailbox_storage_full: "§7- Gekaufte Gegenstände, wenn das Inventar voll war"
+    mailbox_item_status_pending: "§eStatus: §fGegenstand zur Abholung"
+    mailbox_item_status_expired: "§eStatus: §fAbgelaufen, unverkauft"
+    mailbox_item_status_other: "§eStatus: §f"
+    mailbox_item_add_time: "§eHinzugefügt am: §f"
+    mailbox_item_expire_time: "§eAblaufzeit: §f"
+    mailbox_item_collect_tip: "§7Rechtsklick, um Gegenstand abzuholen"
+
+# Nachrichten-Textkonfiguration
+messages:
+  cancel_bid: "Gebot abgebrochen"
+  cancel_search: "§aSuche abgebrochen"
+  enter_search_keyword: "§aBitte geben Sie den zu suchenden Gegenstandsnamen im Chat ein oder geben Sie §eAbbrechen §aein, um die Suche abzubrechen"
+  enter_seller_search: "§aBitte geben Sie den zu suchenden Verkäufernamen im Chat ein oder geben Sie §eAbbrechen §aein, um die Suche abzubrechen"
+  search_history_cleared: "§aSuchverlauf gelöscht"
+  seller_search_prefix: "Verkäufer:"
+
+  # Befehlsbezogene Nachrichten
+  command:
+    info:
+      usage: "§cNutzung: /gs info <Spielername>"
+
+  # Nachrichten zur Gegenstandseinstellung
+  place_item_first: "§cBitte legen Sie zuerst den einzustellenden Gegenstand ab!"
+  drag_item_to_center: "§cBitte ziehen Sie den Gegenstand direkt in das zentrale Feld, verwenden Sie nicht Shift+Klick"
+  cant_drag_to_inventory: "§cGegenstände können nicht in die abgelaufene Gegenstandsübersicht gezogen werden!"
+  listing_failed_no_price: "§cEinstellung fehlgeschlagen: Preisinformationen fehlen"
+  listing_failed_incomplete_price: "§cEinstellung fehlgeschlagen: Preisinformationen unvollständig"
+  listing_failed_price_format: "§cEinstellung fehlgeschlagen: Preisformatfehler"
+  price_exceeds_max_limit: "§cEinstellung fehlgeschlagen: Preis überschreitet die maximale Grenze (%max_digits% Stellen)!"
+  start_price_greater_than_zero: "§cStartpreis muss größer als 0 sein!"
+  buy_now_greater_than_start: "§cSofortkaufpreis darf nicht kleiner als der Startpreis sein!"
+  not_enough_money_for_fee: "§cSie haben nicht genug %currency% um die Gebühr zu bezahlen!"
+  item_listed_success: "§aGegenstand erfolgreich eingestellt!"
+  item_listed_success_with_fee: "§aGegenstand erfolgreich eingestellt! §eGebühr erhoben: §f%fee%"
+  item_listed_fail: "§cGegenstandseinstellung fehlgeschlagen!"
+  listing_error: "§cFehler während des Einstellungsprozesses"
+
+  # Nachrichten zur Gegenstandsrückgabe
+  item_returned: "§eGegenstand wurde in Ihr Inventar zurückgelegt"
+  inventory_full_drop_item: "§eInventar voll, Gegenstand wurde zu Ihren Füßen fallen gelassen"
+
+  # Nachrichten zu Einstellungslimits
+  max_listings_reached: "§cSie haben das maximale Einstellungslimit (%max_listings% Gegenstände) erreicht!"
+  wait_for_items_to_sell: "§cBitte warten Sie, bis eingestellte Gegenstände verkauft oder abgelaufen sind, bevor Sie neue Gegenstände einstellen."
+
+  # Nachrichten zur Gebotsabgabe
+  cancel_bid_operation: "§cGebotsvorgang abgebrochen"
+  bid_info_expired: "§cGebotsinformationen abgelaufen, bitte wählen Sie den Gegenstand erneut aus"
+  bid_invalid_amount: "§cUngültiger Betrag, bitte geben Sie eine Zahl ein."
+
+  # Nachrichten zu Gebotsbefehlen
+  bid_usage: "§cNutzung: /bid <Gegenstands-ID>"
+  bid_id_must_be_number: "§cGegenstands-ID muss eine Zahl sein!"
+  bid_invalid_item: "§cKein gültiger Auktionsgegenstand gefunden, ID: "
+  bid_no_permission: "§cSie haben keine Berechtigung, an Geboten teilzunehmen!"
+  bid_own_item: "§cSie können nicht auf Ihren eigenen Gegenstand bieten!"
+  bid_already_highest: "§cSie sind bereits der Höchstbietende!"
+  bid_opening_menu: "§aÖffne Gebots-Oberfläche..."
+  bid_error: "§cFehler während des Gebotsvorgangs: "
+  bid_below_current_price: "§cPreis aktualisiert, Ihr Gebot ist niedriger als der aktuelle Preis, bitte bieten Sie erneut!"
+
+  # Nachrichten zum Sofortkauf
+  buy_now_not_available: "§cDieser Gegenstand unterstützt keinen Sofortkauf!"
+  buy_now_points_unavailable: "§cPunkte-Zahlungsfunktion nicht verfügbar!"
+  buy_now_not_enough_money: "§cSie haben nicht genug %currency% um diesen Gegenstand zu kaufen! Benötigt: %amount%"
+  buy_now_inventory_full: "§cIhr Inventar ist voll, Gegenstand kann nicht gekauft werden!"
+  buy_now_success: "§aErfolgreich gekauft!"
+  buy_now_item: "§eGegenstand: %item%"
+  buy_now_price: "§ePreis: %price%"
+  buy_now_balance: "§eGuthaben: %amount% %currency%"
+  buy_now_inventory_full_mailbox: "§aIhr Inventar ist voll, Gegenstand wurde in die Mailbox gelegt!"
+  buy_now_mailbox_instructions: "§eVerwenden Sie /auction my, um das Auktionssystem zu betreten, und klicken Sie auf \"Gegenstands-Mailbox\", um abzuholen"
+  buy_now_seller_notification: "§aIhr Gegenstand wurde per Sofortkauf erworben!"
+  buy_now_seller_income: "§eEinnahmen: %amount%"
+  buy_now_seller_balance: "§eGuthaben: %amount% %currency%"
+  buy_now_buyer: "§eKäufer: %player%"
+
+# Broadcast-System-Nachrichtenkonfiguration
+broadcast:
+  # Interaktiver Komponenten-Text
+  details_button: " §6[§eDetails§6]"
+  no_details_available: "§cKeine Details verfügbar"
+
+  # Broadcast-Nachricht zur Gegenstandseinstellung
+  item_listed:
+#    chat: "§6[Auktionshaus] §e%player% §fhat §a%item_name% §fmit einem Startpreis von §e%start_price% §fund einem Sofortkaufpreis von §e%buy_now_price% eingestellt"
+    chat: "§a[§6Auktionshaus§a] §e%player% §fhat §b[§d%item_name%§b]§f*§6%amount%§r eingestellt"
+    bossbar: "§e%player% §fhat §a%item_name% §fmit einem Startpreis von §e%start_price% §fund einem Sofortkaufpreis von §e%buy_now_price% eingestellt"
+    title: "§6Gegenstand eingestellt"
+    subtitle: "§e%player% §fhat §a%item_name% eingestellt"
+    actionbar: "§e%player% §fhat §a%item_name% §fzu einem Preis von §e%start_price% eingestellt"
+
+  # Broadcast-Nachricht für erfolgreiche Auktion
+  auction_won:
+    chat: "§6[Auktionshaus] §e%buyer% §fhat §a%item_name% §fvon §e%seller% §ffür §a%price% ersteigert"
+    bossbar: "§e%buyer% §fhat §a%item_name% §fvon §e%seller% §ffür §a%price% ersteigert"
+    title: "§6Auktion erfolgreich"
+    subtitle: "§e%buyer% §fhat §a%item_name% ersteigert"
+    actionbar: "§e%buyer% §fhat §a%item_name% §ffür §a%price% ersteigert"
+
+  # Broadcast-Nachricht für Sofortkauf
+  buy_now:
+    chat: "§6[Auktionshaus] §e%buyer% §fhat §a%item_name% §fvon §e%seller% §fper Sofortkauf für §a%price% gekauft"
+    bossbar: "§e%buyer% §fhat §a%item_name% §fvon §e%seller% §fper Sofortkauf erworben"
+    title: "§6Gegenstand verkauft"
+    subtitle: "§e%buyer% §fhat §a%item_name% gekauft"
+    actionbar: "§e%buyer% §fhat §a%item_name% §ffür §a%price% gekauft"
+
+  # Broadcast-Nachricht zur Gebotsbestätigung
+  bid_confirmed:
+    chat: "§6[Auktionshaus] §e%bidder% §fhat §a%item_name% §ffür §a%price% geboten und ist nun der Höchstbietende"
+    bossbar: "§e%bidder% §fhat §a%item_name% §ffür §a%price% geboten und ist nun der Höchstbietende"
+    title: "§6Gebots-Update"
+    subtitle: "§e%bidder% §fist jetzt der Höchstbietende"
+    actionbar: "§e%bidder% §fhat §a%item_name% §ffür §a%price% geboten"
+
+# Auktionsgegenstands-Beschreibung
+auction_item:
+  divider: "§8§m--------------------"
+  info_header: "§6§lAuktionsinformationen:"
+  item_id: "§eGegenstands-ID: §f%id%"
+  currency_type: "§eWährungstyp: §f%currency%"
+  start_price: "§eStartpreis: §f%price%"
+  current_price: "§eAktueller Preis: §f%price%"
+  deal_price: "§eVerkaufspreis: §f%price%"
+  buy_now_price: "§eSofortkaufpreis: §f%price%"
+  list_time: "§eEinstellzeit: §f%time%"
+  remaining_time: "§eVerbleibende Zeit: §f%time%"
+  seller: "§eVerkäufer: §f%seller%"
+  current_bidder: "§eAktueller Bieter: §f%bidder%"
+
+  # Gegenstands-Bedienungshinweise
+  owner_tips:
+    header: "§7Dies ist Ihr Auktionsgegenstand"
+    cancel: "§7Shift+Rechtsklick: §fSchnelles Entfernen aus der Auktion"
+
+  buyer_tips:
+    bid: "§7Linksklick: §fAn Gebot teilnehmen"
+    buy: "§7Rechtsklick: §fSchnellkauf"
+
+  admin_tips:
+    header: "§c§lAdmin-Operationen:"
+    force_cancel: "§cShift+Linksklick: §fGegenstand zwangsweise entfernen"
+
+  # Meine Auktionsgegenstandsdetails
+  my_auction_start_price: "§eStartpreis: §f%price%"
+  my_auction_current_price: "§eAktueller Preis: §f%price%"
+  my_auction_buy_now_price: "§eSofortkaufpreis: §f%price%"
+  my_auction_remaining_time: "§eVerbleibende Zeit: §f%time%"
+  my_auction_current_bidder: "§eAktueller Bieter: §f%bidder%"
+  my_auction_has_bidder_warning1: "§c⚠ Es gibt bereits Gebote, Auktion kann nicht abgebrochen werden ⚠"
+  my_auction_has_bidder_warning2: "§cBitte warten Sie, bis die Auktion beendet ist"
+  my_auction_cancel_tip: "§eRechtsklick zum Abbrechen der Auktion"
+
+  # Details zu verkauften Gegenständen
+  sold_item_deal_price: "§eVerkaufspreis: §f%price%"
+  sold_item_buyer: "§eKäufer: §f%buyer%"
+  sold_item_seller: "§eVerkäufer: §f%seller%"
+  sold_item_sold_time: "§eVerkaufszeit: §f%time%"
+  sold_item_notice1: "§cDieser Gegenstand wurde verkauft und dient nur zur Ansicht"
+  sold_item_notice2: "§cKann nicht zurückgeholt oder erneut verkauft werden"
+
+# Hinweise zum Einstellungsmenü
+sell_menu:
+  command_tips:
+    header: "§7Halte den zum Verkauf stehenden Gegenstand in der Hand und gib ein:"
+    usage: "§7/auction sell <Startpreis> [Sofortkaufpreis] [Währungstyp]"
+    currency_types: "§7Währungstypen: §f1=Goldmünzen, 2=Punkte"
+
+  # Schaltfläche für benutzerdefinierte Einstellzeit
+  duration_button:
+    title: "§aBenutzerdefinierte Einstellzeit"
+    current_setting: "§7Aktuelle Einstellung: §f%hours% Stunden %minutes% Minuten"
+    divider: "§8§m--------------------"
+    left_click: "§7Linksklick: §f+1 Minute"
+    right_click: "§7Rechtsklick: §f+1 Stunde"
+    shift_left_click: "§7Shift+Linksklick: §f+10 Minuten"
+    shift_right_click: "§7Shift+Rechtsklick: §f+10 Stunden"
+    middle_click: "§7Maus§b-Mitteltaste§7 oder§bQ§7-Taste: §fAuf Mindestzeit zurücksetzen"
+    min_time: "§7Kürzeste Zeit: §f%hours% Stunden"
+    max_time: "§7Längste Zeit: §f%hours% Stunden"
+    note1: "§eHinweis: §fDie Zeiteinstellung wird erst nach Bestätigung der Einstellung wirksam"
+    note2: "§e       §fUngültig bei Verwendung von Befehlen zur Einstellung"
+
+# Titel-Suffix und Trennzeichen
+format:
+  page_separator: " §7- Seite %page%"
+
+# Gebotsschaltfläche
+bid_increase: "§bVorgebot"
+
+# Informationen zur Oberfläche 'Meine Auktionen'
+my_auction:
+  page_info: "§eAktuelle Seite: §f%page%/%total_pages%"
+  sold_count: "§eVerkauft: §f%count%"
+  expired_count: "§eAbgelaufen: §f%count%"
+  listings_count: "§eAnzahl der Einstellungen: §f%current%/%max%"
+  limit_warning: "§c⚠ Ihr Einstellungslimit wird bald erreicht!"
+
+mailbox:
+  # Mailbox-Gegenstandsfilter
+  mailbox_filter_tags:
+    - "✉"
+    - "§8-----------------"
+    - "Verkaufspreis"
+    - "Erhaltszeitpunkt"
+    - "Entfernungszeitpunkt"
+    - "Kaufzeitpunkt"
+    - "Erfolgreich ersteigerte Gegenstände"
+    - "Aktueller Preis"
+
+  # Mailbox abgelaufene Gegenstandsmarkierungen
+  expired_auction_tags:
+    - "Abgelaufen, unverkauft"
+    - "AUCTION_EXPIRED"
+
+error_messages:
+  item_not_exists: "§cGegenstand existiert nicht oder wurde bereits gekauft!"
+
+# GuiListener-Nachrichten
+gui_listener:
+  # Gegenstandsabholung
+  collect_success: "§aGegenstand erfolgreich abgeholt und in Ihr Inventar gelegt."
+  collect_fail_inventory_full: "§eInventar voll, Gegenstand kann nicht abgeholt werden. Bitte leeren Sie Ihr Inventar und versuchen Sie es erneut."
+
+  # Auktionsabbruch
+  cancel_auction_has_bid: "§cDieser Gegenstand hat bereits Gebote erhalten und kann nicht abgebrochen werden!"
+  cancel_auction_success: "§aAuktion erfolgreich abgebrochen, Gegenstand wurde in Ihr Inventar zurückgelegt."
+  cancel_auction_success_inventory_full: "§eAuktion erfolgreich abgebrochen, aber Ihr Inventar ist voll. Gegenstand wurde in die Abholliste verschoben, verwenden Sie /auction collect zum Abholen."
+  cancel_auction_fail: "§cAuktionsabbruch fehlgeschlagen, bitte versuchen Sie es später erneut."
+
+  # Zeiteinstellungen
+  reset_duration: "§eEinstellzeit wurde auf den Mindestwert zurückgesetzt!"
+  max_duration_limit: "§cMaximale Einstellzeit erreicht!"
+  update_duration: "§aEinstellzeit aktualisiert auf: §f%hours% Stunden %minutes% Minuten"
+  custom_duration_below_min: "§eBenutzerdefinierte Zeit ist unter dem Minimum, wurde automatisch auf den Mindestwert angepasst."
+  custom_duration_above_max: "§eBenutzerdefinierte Zeit überschreitet das Maximum, wurde automatisch auf den Maximalwert angepasst."
+  custom_duration_set: "§aGegenstand wurde eingestellt, Einstellzeit gesetzt auf: §f%hours% Stunden %minutes% Minuten"
+
+  # Gegenstandseinstellung
+  points_unavailable: "§ePunktesystem nicht verfügbar, wurde automatisch auf Goldmünzen für die Einstellung umgestellt."
+  max_listings_reached_1: "§cSie haben das maximale Einstellungslimit (%max_listings% Gegenstände) erreicht!"
+  max_listings_reached_2: "§cBitte warten Sie, bis eingestellte Gegenstände verkauft oder abgelaufen sind, bevor Sie neue Gegenstände einstellen."
+
+  # Gegenstandsstatus
+  expired_item: "§cDieser Gegenstand ist abgelaufen!"
+  invalid_item: "§cGegenstand existiert nicht oder wurde bereits gekauft!"
+
+  # Berechtigungen und Operationsbeschränkungen
+  no_permission: "§cSie haben keine Berechtigung für diese Aktion!"
+  owner_bid: "§cSie können nicht auf Ihren eigenen Gegenstand bieten!"
+  owner_buy: "§cSie können Ihren eigenen Gegenstand nicht kaufen!"
+  already_highest_bidder: "§eSie sind bereits der Höchstbietende, Sie können Ihr Gebot weiter erhöhen!"
+
+  # Kaufbezogene Nachrichten
+  no_buy_now_price: "§cDieser Gegenstand hat keinen Sofortkaufpreis und kann nicht direkt gekauft werden!"
+  not_enough_money: "§cSie haben nicht genug %currency% für diese Aktion!"
+  inventory_full: "§cIhr Inventar ist voll, bitte leeren Sie es, bevor Sie Gegenstände kaufen!"
+  failed_transaction: "§cTransaktion fehlgeschlagen, bitte versuchen Sie es erneut!"
+  partial_item_saved: "§eIhr Inventar ist voll, ein Teil der Gegenstände wurde in die Abholliste gespeichert, verwenden Sie /ah collect zum Abholen"
+
+  # Benachrichtigung über erfolgreichen Kauf
+  purchase_success: "§aKauf erfolgreich!"
+  purchase_item: "§eGegenstand: §f%item%"
+  purchase_price: "§ePreis: §f%price%"
+  mailbox_full: "§aKauf erfolgreich! §eAber Ihr Inventar ist voll, Gegenstand wurde in die Gegenstands-Mailbox gelegt, bitte verwenden Sie /ah my zur Ansicht."
+  cancel_purchase: "§cKauf abgebrochen"
+
+  # Verkaufsbenachrichtigung
+  sold_notification: "§aIhr Gegenstand wurde gekauft!"
+  seller_fee: "§eGebühr: §f%fee%"
+  seller_income: "§eTatsächlicher Erlös: §f%income%"
+  buyer: "§eKäufer: §f%buyer%"
+
+  # Gebotsbezogene Nachrichten
+  expired_bid_info: "§cGebotsinformationen abgelaufen, bitte wählen Sie den Gegenstand erneut aus"
+  expired_bid: "§cDieser Gegenstand ist abgelaufen, kann nicht mehr geboten werden!"
+  bid_sold: "§eGegenstands-ID: %id% wurde per Sofortkauf erworben\n§eIhr Gebot von %price% wurde zurückerstattet"
+  bid_outbid: "§eIhr Gebot wurde überboten! Gegenstands-ID: %id%"
+  previous_bid: "§eIhr Gebot von %amount% wurde zurückerstattet"
+  new_bid: "§eNeues Gebot: %amount%"
+  incomplete_bid_info: "§cGebotsinformationen unvollständig, bitte bieten Sie erneut."
+  bid_below_minimum: "§cGebot muss mindestens %min_bid% höher als der aktuelle Preis sein!"
+  pre_bid: "§aVorgebot abgegeben! §eKlicken Sie auf 'Gebot bestätigen', um das Gebot abzuschließen, oder auf 'Gebot abbrechen', um abzubrechen."
+  bid_amount: "§eVoraussichtlicher Gebotsbetrag: §f%amount%"
+  bid_accepted: "§aAktueller Gebotsbetrag bestätigt: §f%amount%"
+  bid_success: "§aGebot erfolgreich!"
+  bid_item: "§eGegenstands-ID: §f%id%"
+  bid_price: "§eIhr Gebot: §f%price%"
+
+  # Guthabeninformationen
+  balance: "§aIhr %currency%-Guthaben: §f%balance%"
+
+  # Admin-Operationen
+  refund: "§eIhr Gebot auf einen Gegenstand wurde zurückerstattet, da dieser Gegenstand vom Administrator zwangsweise entfernt wurde.\n§eErstattet: §f%amount%"
+  removed_item: "§aGegenstand #%id% (Verkäufer: %seller%) wurde zwangsweise entfernt"
+
+# Befehlsbezogene Nachrichten hinzugefügt
+auction_commands:
+  # Allgemeine Nachrichten
+  player_only: "§cDieser Befehl kann nur von Spielern verwendet werden!"
+  unknown_command: "§cUngültiger Befehl! Verwenden Sie /auction help für Hilfe"
+  no_permission: "§cSie haben keine Berechtigung, diesen Befehl zu verwenden!"
+
+  # Autovervollständigungs-Hinweise
+  tab_completion:
+    sell_price: "<Startpreis>"
+    sell_buynow: "<Sofortkaufpreis>"
+    sell_currency: "<Währungstyp: 1=Goldmünzen, 2=Punkte>"
+    search_keyword: "<Schlüsselwort>"
+
+  # Hilfeinformationen
+  help:
+    header: "§6===== Auktionshaus Hilfe ====="
+    help: "§e/auction help - Zeigt diese Hilfeinformation an"
+    open: "§e/auction open - Öffnet das Auktionshaus"
+    sell: "§e/auction sell <Startpreis> [Sofortkaufpreis] [Währungstyp] - Gegenstand einstellen (1=Goldmünzen, 2=Punkte)"
+    search: "§e/auction search <Schlüsselwort> - Sucht nach Gegenständen"
+    my: "§e/auction my - Zeigt meine Auktionen und Gegenstands-Mailbox an"
+    collect: "§e/auction collect - Holt Gegenstände zur Abholung ab"
+    web: "§eAuktionshaus Webdienst: §fBesuchen Sie §bhttp://Server-IP:%port% §f, um Auktionsgegenstände anzusehen"
+    admin_header: "§c===== Admin-Befehle ====="
+    reload: "§e/auction reload - Lädt Konfigurationsdateien und Webdienste neu"
+    close: "§e/auction close - §c[TEST] §eSchließt alle Auktionsgegenstände zwangsweise und markiert sie als abgelaufen"
+    checkexpired: "§e/auction checkexpired - Überprüft alle abgelaufenen, aber noch nicht bearbeiteten Gegenstände"
+    info: "§e/auction info <Spielername> - Zeigt Auktionshausinformationen des Spielers an"
+
+  # Nachrichten zum Abholbefehl
+  collect:
+    success: "§aGegenstands-Mailbox geöffnet, Sie können hier alle Gegenstände zur Abholung abholen."
+
+  # Nachrichten zum Einstellbefehl
+  sell:
+    usage: "§cNutzung: /auction sell <Startpreis> <Sofortkaufpreis> [Währungstyp]"
+    currency_types: "§cWährungstypen: 1 = Goldmünzen, 2 = Punkte (Standard: Goldmünzen)"
+    points_unavailable: "§cPunktesystem nicht verfügbar, PlayerPoints-Plugin nicht auf dem Server installiert."
+    points_unavailable_solution: "§cBitte verwenden Sie Goldmünzen zum Einstellen von Gegenständen oder kontaktieren Sie den Serveradministrator für Hilfe."
+    invalid_currency: "§cUngültiger Währungstyp! Verwenden Sie: 1 = Goldmünzen, 2 = Punkte"
+    max_listings_reached: "§cSie haben das maximale Einstellungslimit (%max_listings% Gegenstände) erreicht!"
+    wait_for_items_sold: "§cBitte warten Sie, bis eingestellte Gegenstände verkauft oder abgelaufen sind, bevor Sie neue Gegenstände einstellen."
+    start_price_zero: "§cStartpreis muss größer als 0 sein!"
+    buy_now_less_than_start: "§cSofortkaufpreis muss größer als der Startpreis sein!"
+    invalid_price: "§cBitte geben Sie einen gültigen Preis ein!"
+
+  # Nachrichten zum Suchbefehl
+  search:
+    usage: "§cNutzung: /auction search <Schlüsselwort>"
+    min_length: "§cSuchbegriff muss mindestens 2 Zeichen lang sein!"
+    searching: "§aSuche nach: §e%keyword%"
+
+  # Nachrichten zum Befehl 'Alle Auktionen schließen'
+  close:
+    starting: "§eSchließe alle Auktionsgegenstände zwangsweise..."
+    async_notice: "§eDieser Vorgang wird asynchron im Hintergrund ausgeführt, um Server-Lags zu vermeiden, bitte haben Sie Geduld."
+    force_close: "§cAuktionshaus wurde vom Administrator zwangsweise geschlossen!"
+    success: "§aDie Auktionshäuser aller Spieler wurden zwangsweise geschlossen!"
+
+  # Nachrichten zum Befehl 'Abgelaufene Gegenstände prüfen'
+  checkexpired:
+    player_only: "§cNur Spieler können diesen Befehl ausführen!"
+    checking: "§aÜberprüfe alle Auktionsgegenstände auf abgelaufene, aber noch nicht bearbeitete Gegenstände..."
+    success: "§aErfolgreich %count% abgelaufene Gegenstände bearbeitet!"
+    none: "§aKeine abgelaufenen, aber noch nicht bearbeiteten Gegenstände gefunden."
+
+  # Nachrichten zum Befehl 'Konfiguration neu laden'
+  reload:
+    success: "§a GlobalShop-Konfiguration neu geladen!"
+    debug_info: "§eDebug-Information: Überprüfungsintervall auf %interval% Sekunden gesetzt"
+
+# Neue Nachrichten für Mailbox und Details hinzugefügt
+mailbox_details:
+  # Nachrichten zur Mailbox-Gegenstandsverarbeitung
+  collect_success: "§aGegenstand erfolgreich abgeholt und in Ihr Inventar gelegt."
+  inventory_full: "§eInventar voll, Gegenstand kann nicht abgeholt werden. Bitte leeren Sie Ihr Inventar und versuchen Sie es erneut."
+
+  # Nachrichten zum Auktionsabbruch
+  auction_has_bidder: "§cDieser Gegenstand hat bereits Gebote erhalten und kann nicht abgebrochen werden!"
+
+  # Mailbox-Gegenstandsfilter-Schlüsselwörter
+  filter_keywords:
+    - "Startpreis"
+    - "Zeit"
+    - "Während der Auktion"
+    - "Vom System automatisch entfernt"
+    - "✉"
+    - "§8-----------------"
+    - "Erfolgreich ersteigerte Gegenstände"
+    - "Aktueller Preis"
+
+# Gegenstandsdetails anzeigen
+item_details:
+  header: "§6===== Auktionsgegenstandsdetails ====="
+  item_name: "§eGegenstand: §f%item%"
+  start_price: "§eStartpreis: §f%price%"
+  current_price: "§eAktueller Preis: §f%price%"
+  buy_now_price: "§eSofortkaufpreis: §f%price%"
+  current_bidder: "§eAktueller Bieter: §f%bidder%"
+  remaining_time: "§eVerbleibende Zeit: §f%time%"
+
+# Gebotsmenü-Konfiguration
+bid_menu:
+  item_text: "§7Gegenstand: §f%item_name%"
+  original_price_text: "§7Originalpreis: §f%price%"
+  current_price_text: "§7Aktuelles Gebot: §f%price%"
+  pre_amount_text: "§7Vorgebotener Betrag: §f%price%"
+  rate_text: "§7Gebotserhöhung: §f+%rate%%"
+  increase_tip: "§7Klicken, um Ihren Gebotsbetrag zu erhöhen"
+  min_increase_text: "§7Mindestgebots-Erhöhung: §f%price%"
+  confirm_tip: "§7Klicken, um den aktuellen Gebotsbetrag zu bestätigen"
+  confirm_pre_amount_text: "§7Vorgebotener Betrag: §f%price%"
+
+# AuctionTask-Konfiguration
+auction_task:
+  # Erfolgreiche Auktionsnachricht - Käuferbenachrichtigung
+  buyer_win:
+    success: "§aDer von Ihnen ersteigerte Gegenstand wurde an die Gegenstands-Mailbox geliefert!"
+    item: "§eGegenstand: %item_name%"
+    price: "§ePreis: %price%"
+    collect_guide: "§eVerwenden Sie /auction my, um das Auktionssystem zu betreten, und klicken Sie auf \"Gegenstands-Mailbox\", um abzuholen"
+
+  # Erfolgreiche Auktionsnachricht - Verkäuferbenachrichtigung
+  seller_win:
+    success: "§aIhr Gegenstand wurde erfolgreich versteigert!"
+    item: "§eGegenstand: %item_name%"
+    price: "§ePreis: %price%"
+    income: "§eEinnahmen: %amount%"
+    buyer: "§eKäufer: %buyer%"
+    unknown_buyer: "Unbekannt"
+
+  # Auktionsfehlernachricht - Verkäuferbenachrichtigung
+  seller_expired:
+    notice: "§aIhr Auktionsgegenstand ist abgelaufen, der Gegenstand wurde in die Gegenstands-Mailbox gelegt!"
+    item: "§eGegenstand: %item_name%"
+    collect_guide: "§eVerwenden Sie /auction my, um das Auktionssystem zu betreten, und klicken Sie auf \"Gegenstands-Mailbox\", um abzuholen"
+
+# --- Neue Admin-Abfragefunktion-Nachrichten --- START ---
+admin_info_gui:
+  title: "Spielerinformationen: %player_name%"
+  item_name: "§eSpieler: §f%player_name%"
+  sold_count: "§eGesamtanzahl verkaufter Gegenstände: §f%count%"
+  purchased_count: "§eGesamtanzahl gekaufter Gegenstände: §f%count%"
+  earnings_header: "§6Gesamteinnahmen:"
+  earnings_vault: "§7 - Goldmünzen: §f%amount%"
+  earnings_points: "§7 - Punkte: §f%amount%"
+  spending_header: "§cGesamtausgaben:"
+  spending_vault: "§7 - Goldmünzen: §f%amount%"
+  spending_points: "§7 - Punkte: §f%amount%"
+  sales_history_button: "§6Verkaufsverlauf anzeigen"
+  purchase_history_button: "§bKaufverlauf anzeigen"
+  sales_history_title: "§6Verkaufsverlauf: %player_name% - Seite %page%"
+  purchase_history_title: "§bKaufverlauf: %player_name% - Seite %page%"
+  back_button_to_player_info: "§eZurück zu Spielerinformationen"
+  active_auctions: "§eAktive Auktionen: §f%count%"
+
+history_item:
+  info_header: "§6§lTransaktionsverlauf:"
+  sold_time: "§eVerkaufszeit: §f%time%"
+  buyer: "§eKäufer: §f%buyer%"
+# --- Neue Admin-Abfragefunktion-Nachrichten --- END ---
+
+# Nachrichten-Textkonfiguration
+messages:
+# ... existing code ...
+  # --- Neue Admin-Befehlsnachrichten --- START ---
+  command:
+    info:
+      usage: "§cNutzung: /gs info <Spielername>"
+    player_not_found: "§cSpieler nicht gefunden: %player_name%"
+  # --- Neue Admin-Befehlsnachrichten --- END ---
+
+# Nachrichten zur Gegenstandseinstellung
+place_item_first: "§cBitte legen Sie zuerst den einzustellenden Gegenstand ab!"
+# ... existing code ...
+
+# Webdienst-Nachrichten
+web:
+  server:
+    started: "§aAuktionshaus Webdienst gestartet, Port: %port%"
+    stopped: "§aAuktionshaus Webdienst gestoppt"
+    error: "§cAuktionshaus Webdienst Start fehlgeschlagen: %error%"
+    already_running: "§eAuktionshaus Webdienst läuft bereits, Port: %port%"
+  page:
+    title: "Globales Auktionshaus - Gegenstandsanzeige"
+    header: "Auktionshaus Gegenstandsanzeige"
+    no_items: "Aktuell sind keine Gegenstände in der Auktion"
+    refresh_time: "Datenaktualisierungszeit: %time%"
+    next_refresh: "Nächste Aktualisierung: %time%"
+    footer: "Bereitgestellt vom GlobalShop Plugin"
+
+# AuctionItem-Konfiguration
+auction_item_format:
+  time:
+    expired: "Abgelaufen"
+    day: "Tag"
+    hour: "Stunde"
+    minute: "Minute"
+    second: "Sekunde"
+    not_sold: "Nicht verkauft"
+  display:
+    unknown_item: "Unbekannter Gegenstand"
