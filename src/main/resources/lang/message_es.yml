@@ -65,6 +65,7 @@ gui:
     search_history_return: "§7Haz clic para volver a la interfaz de búsqueda"
     seller_search: "§aBúsqueda por Vendedor"
     seller_search_desc: "§7Haz clic para buscar objetos de un vendedor específico"
+    seller_items_suffix: "§e's Items"
 
     # Confirm purchase menu buttons
     # Botones del menú de confirmar compra

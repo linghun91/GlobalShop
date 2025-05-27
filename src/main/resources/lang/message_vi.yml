@@ -57,6 +57,7 @@ gui:
     search_history_return: "§7Nhấn để quay lại giao diện tìm kiếm"
     seller_search: "§aTìm kiếm Người bán"
     seller_search_desc: "§7Nhấn để tìm kiếm vật phẩm từ một người bán cụ thể"
+    seller_items_suffix: "§e's Items"
 
     # Các nút menu xác nhận mua hàng
     confirm_buy: "§aXác nhận Mua hàng"

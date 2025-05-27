@@ -57,6 +57,7 @@ gui:
     search_history_return: "§7Click to return to the search interface"
     seller_search: "§aSeller Search"
     seller_search_desc: "§7Click to search for items from a specific seller"
+    seller_items_suffix: "§e's Items"
 
     # Confirm purchase menu buttons
     confirm_buy: "§aConfirm Purchase"

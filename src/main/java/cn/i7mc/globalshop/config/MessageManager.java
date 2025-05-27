@@ -745,6 +745,14 @@ public class MessageManager {
     }
 
     /**
+     * 获取卖家物品后缀文本
+     * @return 卖家物品后缀文本
+     */
+    public String getSellerItemsSuffixText() {
+        return messages.getString("gui.buttons.seller_items_suffix", "的物品");
+    }
+
+    /**
      * 获取我的已售出拍卖标题
      * @return 我的已售出拍卖标题
      */

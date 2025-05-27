@@ -1,0 +1,624 @@
+# Fichier de configuration des messages de GlobalShop
+# Ce fichier contient la configuration textuelle de tous les boutons GUI et des messages d'information
+
+# Code couleur du nom de l'objet
+item-name-color: "§f"
+
+# Astuces de commande du menu de mise en vente
+sell_menu:
+  command_tips:
+    header: "§7Tenez l'objet à mettre en vente et tapez:"
+    usage: "§7/auction sell <prix_départ> [prix_achat_immédiat] [type_monnaie]"
+    currency_types: "§7Types de monnaie: §f1=Pièces d'or, 2=Points"
+
+gui:
+  titles:
+    # Titres des différentes interfaces
+    sell_menu: "Mettre un objet en vente"
+    search_menu: "Rechercher un objet"
+    search_result_prefix: "Résultats de la recherche:"
+    search_history_menu: "Historique des recherches"
+    confirm_buy_menu: "Confirmer l'achat"
+    bid_menu: "Enchérir sur un objet"
+    my_auctions_menu: "Mes enchères"
+    my_sold_auctions_menu: "Mes enchères vendues"
+    mailbox_menu: "§8Boîte aux lettres d'objets"
+    my_mailbox_menu_prefix: "§eMa boîte aux lettres d'objets"
+    expired_auctions_menu: "Mes enchères expirées (aucune offre)"
+
+  buttons:
+    # Boutons génériques
+    return_main_menu: "&cRetour au menu principal"
+    return_main_menu_desc: "§7Cliquez pour retourner au menu principal"
+    return: "§eRetour"
+    cancel: "§cAnnuler"
+    confirm: "§aConfirmer"
+    next_page: "&ePage suivante"
+    next_page_desc: "§7Cliquez pour voir la page suivante"
+    previous_page: "&ePage précédente"
+    previous_page_desc: "§7Cliquez pour voir la page précédente"
+
+    # Boutons du menu principal
+    search_items: "§aRechercher des objets"
+    sell_item: "§aMettre un objet en vente"
+    my_auctions: "§aMes enchères"
+
+    # Boutons du menu de recherche
+    search_history: "§aHistorique des recherches"
+    clear_search_history: "§aEffacer l'historique"
+    enter_item_name: "§aSaisir le nom de l'objet"
+    enter_item_name_description: "§eCliquez ici pour saisir les mots-clés de recherche"
+    search_prefix: "Recherche: "
+    search_history_item_description: "Cliquez pour rechercher avec ce mot-clé"
+    clear_search_history_description: "Cliquez pour effacer tout l'historique des recherches"
+    new_search: "§aNouvelle recherche"
+    new_search_desc: "§7Cliquez pour effectuer une nouvelle recherche"
+    cancel_search: "Annuler"
+    search_history_return: "§7Cliquez pour retourner à l'interface de recherche"
+    seller_search: "§aRechercher un vendeur"
+    seller_search_desc: "§7Cliquez pour rechercher les objets d'un vendeur spécifique"
+    seller_items_suffix: "§e's Items"
+
+    # Boutons du menu de confirmation d'achat
+    confirm_buy: "§aConfirmer l'achat"
+    cancel_buy: "§cAnnuler"
+
+    # Texte de l'interface de confirmation d'achat
+    confirm_buy_item: "§eNom de l'objet: §f%item_name%"
+    confirm_buy_price: "§ePrix d'achat: §f%price% (achat immédiat)"
+    confirm_buy_tip: "§eCliquez pour confirmer l'achat de cet objet"
+    cancel_buy_tip: "§eCliquez pour annuler l'achat"
+
+    # Boutons du menu de mise en vente
+    confirm_sell: "§aConfirmer la mise en vente"
+    confirm_sell_description: "Cliquez pour confirmer la mise en vente de l'objet"
+    confirm_sell_description_color: "§7"
+
+    # Boutons du menu d'enchères
+    current_bid_amount: "§eMontant de l'enchère actuelle"
+    increase_bid: "§aAugmenter l'enchère +%rate%%"
+    confirm_bid: "§2Confirmer l'enchère"
+    cancel_bid: "§cAnnuler l'enchère"
+
+    # Texte de l'interface d'enchères
+    current_bid_item: "§7Objet: §f%item_name%"
+    current_bid_original_price: "§7Prix original: §f%price%"
+    current_bid_current_price: "§7Enchère actuelle: §f%price%"
+    current_bid_pre_amount: "§7Montant de la pré-enchère: §f%price%"
+    current_bid_rate: "§7Taux d'augmentation: §f+%rate%%"
+    increase_bid_tip: "§7Cliquez pour augmenter le montant de votre enchère"
+    increase_bid_min: "§7Augmentation minimale: §f%price%"
+    confirm_bid_tip: "§7Cliquez pour confirmer le montant actuel de l'enchère"
+    confirm_bid_pre_amount: "§7Montant de la pré-enchère: §f%price%"
+    confirm_bid_notice1: "§7Veuillez d'abord cliquer sur le bouton de pré-augmentation"
+    confirm_bid_notice2: "§7Puis confirmez l'enchère"
+    cancel_bid_tip: "§7Cliquez pour annuler l'enchère"
+    cancel_bid_return: "§7Et retourner au menu principal"
+
+    # Boutons du menu des enchères
+    sold_items: "§6Objets vendus"
+    purchased_items: "§bObjets achetés"
+    mailbox: "§eBoîte aux lettres d'objets"
+    place_item_here: "Veuillez placer l'objet ici"
+
+    # Texte de l'interface des enchères vendues
+    my_sold_auctions_title: "§6Mes enchères vendues"
+    my_purchased_auctions_title: "§bMes enchères achetées"
+    page_info_prefix: "§ePage actuelle: §f"
+    sold_items_count_prefix: "§eVendus: §f"
+    purchased_items_count_prefix: "§eAchetés: §f"
+    total_sold_items_count_prefix: "§eTotal des objets vendus: §f"
+    total_purchased_items_count_prefix: "§eTotal des objets achetés: §f"
+    total_coins_earned_prefix: "§eTotal des pièces d'or gagnées: §f"
+    total_coins_spent_prefix: "§eTotal des pièces d'or dépensées: §f"
+    total_points_earned_prefix: "§eTotal des points gagnés: §f"
+    total_points_spent_prefix: "§eTotal des points dépensés: §f"
+    mailbox_description_line1: "§7Consultez votre boîte aux lettres d'objets"
+    mailbox_description_line2: "§7Contient les objets expirés, gagnés aux enchères et ceux dont l'inventaire était plein"
+
+    # Texte de l'interface de la boîte aux lettres
+    mailbox_page_info: "§ePage actuelle: §f"
+    mailbox_items_count: "§eNombre d'objets: §f"
+    mailbox_storage_header: "§7Ici sont stockés:"
+    mailbox_storage_expired: "§7- Objets expirés non vendus"
+    mailbox_storage_won: "§7- Objets gagnés aux enchères"
+    mailbox_storage_full: "§7- Objets achetés lorsque l'inventaire était plein"
+    mailbox_item_status_pending: "§eStatut: §fObjet en attente de récupération"
+    mailbox_item_status_expired: "§eStatut: §fExpiré non vendu"
+    mailbox_item_status_other: "§eStatut: §f"
+    mailbox_item_add_time: "§eAjouté le: §f"
+    mailbox_item_expire_time: "§eExpire le: §f"
+    mailbox_item_collect_tip: "§7Clic droit pour récupérer l'objet"
+
+# Configuration des messages textuels
+messages:
+  cancel_bid: "Enchère annulée"
+  cancel_search: "§aRecherche annulée"
+  enter_search_keyword: "§aVeuillez saisir le nom de l'objet à rechercher dans le chat, ou tapez §eannuler §apour annuler la recherche"
+  enter_seller_search: "§aVeuillez saisir le nom du vendeur à rechercher dans le chat, ou tapez §eannuler §apour annuler la recherche"
+  search_history_cleared: "§aHistorique des recherches effacé"
+  seller_search_prefix: "Vendeur:"
+
+  # Messages relatifs aux commandes
+  command:
+    info:
+      usage: "§cUsage: /gs info <nom_joueur>"
+    # --- NOUVEAUX MESSAGES DE COMMANDE ADMIN --- DÉBUT ---
+    player_not_found: "§cJoueur non trouvé: %player_name%"
+  # --- NOUVEAUX MESSAGES DE COMMANDE ADMIN --- FIN ---
+
+  # Messages relatifs à la mise en vente
+  place_item_first: "§cVeuillez d'abord placer l'objet à mettre en vente!"
+  drag_item_to_center: "§cVeuillez glisser directement l'objet dans la case centrale, n'utilisez pas Maj+Clic"
+  cant_drag_to_inventory: "§cImpossible de glisser des objets vers l'interface des objets expirés !"
+  listing_failed_no_price: "§cÉchec de la mise en vente : informations de prix manquantes"
+  listing_failed_incomplete_price: "§cÉchec de la mise en vente : informations de prix incomplètes"
+  listing_failed_price_format: "§cÉchec de la mise en vente : format de prix incorrect"
+  price_exceeds_max_limit: "§cÉchec de la mise en vente : le prix dépasse la limite maximale (%max_digits% chiffres)!"
+  start_price_greater_than_zero: "§cLe prix de départ doit être supérieur à 0!"
+  buy_now_greater_than_start: "§cLe prix d'achat immédiat ne peut pas être inférieur au prix de départ!"
+  not_enough_money_for_fee: "§cVous n'avez pas assez de %currency% pour payer les frais!"
+  item_listed_success: "§aObjet mis en vente avec succès!"
+  item_listed_success_with_fee: "§aObjet mis en vente avec succès! §eFrais prélevés: §f%fee%"
+  item_listed_fail: "§cÉchec de la mise en vente de l'objet!"
+  listing_error: "§cUne erreur s'est produite lors de la mise en vente"
+
+  # Messages relatifs au retour d'objets
+  item_returned: "§eL'objet a été retourné dans votre inventaire"
+  inventory_full_drop_item: "§eInventaire plein, l'objet a été déposé à vos pieds"
+
+  # Messages relatifs aux limites de mise en vente
+  max_listings_reached: "§cVous avez atteint la limite maximale de mises en vente (%max_listings% objets)!"
+  wait_for_items_to_sell: "§cVeuillez attendre que les objets mis en vente soient vendus ou expirent avant de tenter de mettre en vente de nouveaux objets."
+
+  # Messages relatifs aux enchères
+  cancel_bid_operation: "§cOpération d'enchère annulée"
+  bid_info_expired: "§cLes informations de l'enchère ont expiré, veuillez resélectionner l'objet"
+  bid_invalid_amount: "§cMontant invalide, veuillez saisir un nombre."
+
+  # Messages relatifs aux commandes d'enchères
+  bid_usage: "§cUsage: /bid <ID_objet>"
+  bid_id_must_be_number: "§cL'ID de l'objet doit être un nombre!"
+  bid_invalid_item: "§cImpossible de trouver un objet d'enchère valide, ID: "
+  bid_no_permission: "§cVous n'avez pas la permission de participer aux enchères!"
+  bid_own_item: "§cVous ne pouvez pas enchérir sur vos propres objets!"
+  bid_already_highest: "§cVous êtes déjà le meilleur enchérisseur actuel!"
+  bid_opening_menu: "§aOuverture de l'interface d'enchères..."
+  bid_error: "§cUne erreur s'est produite lors de l'enchère: "
+  bid_below_current_price: "§cLe prix a été mis à jour, votre enchère est inférieure au nouveau prix actuel, veuillez réenchérir!"
+
+  # Messages relatifs à l'achat immédiat
+  buy_now_not_available: "§cCet objet ne prend pas en charge l'achat immédiat!"
+  buy_now_points_unavailable: "§cLa fonction de paiement par points n'est pas disponible!"
+  buy_now_not_enough_money: "§cVous n'avez pas assez de %currency% pour acheter cet objet! Requis: %amount%"
+  buy_now_inventory_full: "§cVotre inventaire est plein, impossible d'acheter l'objet!"
+  buy_now_success: "§aAchat réussi!"
+  buy_now_item: "§eObjet: %item%"
+  buy_now_price: "§ePrix: %price%"
+  buy_now_balance: "§eSolde: %amount% %currency%"
+  buy_now_inventory_full_mailbox: "§aVotre inventaire est plein, l'objet a été placé dans la boîte aux lettres!"
+  buy_now_mailbox_instructions: "§eUtilisez /auction my pour entrer dans le système d'enchères, cliquez sur \"Boîte aux lettres d'objets\" pour récupérer"
+  buy_now_seller_notification: "§aVotre objet a été acheté par achat immédiat!"
+  buy_now_seller_income: "§eRevenu: %amount%"
+  buy_now_seller_balance: "§eSolde: %amount% %currency%"
+  buy_now_buyer: "§eAcheteur: %player%"
+
+# Configuration des messages du système de diffusion
+broadcast:
+  # Texte des composants interactifs
+  details_button: " §6[§eDétails§6]"
+  no_details_available: "§cAucun détail disponible"
+
+  # Message de diffusion de mise en vente d'objet
+  item_listed:
+#    chat: "§6[Hôtel des Ventes] §e%player% §fa mis en vente §a%item_name% §fprix de départ §e%start_price% §fprix d'achat immédiat §e%buy_now_price%"
+    chat: "§a[§6Hôtel des Ventes§a] §e%player% §fa mis en vente §b[§d%item_name%§b]§f*§6%amount%§r"
+    bossbar: "§e%player% §fa mis en vente §a%item_name% §fprix de départ §e%start_price% §fprix d'achat immédiat §e%buy_now_price%"
+    title: "§6Objet mis en vente"
+    subtitle: "§e%player% §fa mis en vente §a%item_name%"
+    actionbar: "§e%player% §fa mis en vente §a%item_name% §fprix §e%start_price%"
+
+  # Message de diffusion de succès d'enchère
+  auction_won:
+    chat: "§6[Hôtel des Ventes] §e%buyer% §fa remporté l'enchère de §e%seller% §fpour §a%item_name% §fau prix de §a%price%"
+    bossbar: "§e%buyer% §fa remporté l'enchère de §e%seller% §fpour §a%item_name% §fau prix de §a%price%"
+    title: "§6Enchère remportée"
+    subtitle: "§e%buyer% §fa remporté l'enchère pour §a%item_name%"
+    actionbar: "§e%buyer% §fa remporté l'enchère pour §a%item_name% §fau prix de §a%price%"
+
+  # Message de diffusion d'achat immédiat
+  buy_now:
+    chat: "§6[Hôtel des Ventes] §e%buyer% §fa acheté §a%item_name% §fde §e%seller% §fau prix d'achat immédiat de §a%price%"
+    bossbar: "§e%buyer% §fa acheté par achat immédiat §a%item_name% §fde §e%seller%"
+    title: "§6Objet vendu"
+    subtitle: "§e%buyer% §fa acheté §a%item_name%"
+    actionbar: "§e%buyer% §fa acheté §a%item_name% §fau prix de §a%price%"
+
+  # Message de diffusion de confirmation d'enchère
+  bid_confirmed:
+    chat: "§6[Hôtel des Ventes] §e%bidder% §fa enchéri §a%price% §fpour §a%item_name%§f, devenant le meilleur enchérisseur actuel"
+    bossbar: "§e%bidder% §fa enchéri §a%price% §fpour §a%item_name%§f, devenant le meilleur enchérisseur actuel"
+    title: "§6Mise à jour de l'enchère"
+    subtitle: "§e%bidder% §fdevient le meilleur enchérisseur"
+    actionbar: "§e%bidder% §fa enchéri §a%price% §fpour §a%item_name%"
+
+# Description de l'objet d'enchère
+auction_item:
+  divider: "§8§m--------------------"
+  info_header: "§6§lInformations sur l'enchère:"
+  item_id: "§eID de l'objet: §f%id%"
+  currency_type: "§eType de monnaie: §f%currency%"
+  start_price: "§ePrix de départ: §f%price%"
+  current_price: "§ePrix actuel: §f%price%"
+  deal_price: "§ePrix de transaction: §f%price%"
+  buy_now_price: "§eAchat immédiat: §f%price%"
+  list_time: "§eMis en vente le: §f%time%"
+  remaining_time: "§eTemps restant: §f%time%"
+  seller: "§eVendeur: §f%seller%"
+  current_bidder: "§eEnchérisseur actuel: §f%bidder%"
+
+  # Astuces d'opération sur l'objet
+  owner_tips:
+    header: "§7C'est votre objet d'enchère"
+    cancel: "§7Maj+Clic droit: §fRetrait rapide"
+
+  buyer_tips:
+    bid: "§7Clic gauche: §fParticiper à l'enchère"
+    buy: "§7Clic droit: §fAchat rapide"
+
+  admin_tips:
+    header: "§c§lOpérations administrateur:"
+    force_cancel: "§cMaj+Clic gauche: §fForcer le retrait de cet objet"
+
+  # Détails de mes objets d'enchère
+  my_auction_start_price: "§ePrix de départ: §f%price%"
+  my_auction_current_price: "§ePrix actuel: §f%price%"
+  my_auction_buy_now_price: "§eAchat immédiat: §f%price%"
+  my_auction_remaining_time: "§eTemps restant: §f%time%"
+  my_auction_current_bidder: "§eEnchérisseur actuel: §f%bidder%"
+  my_auction_has_bidder_warning1: "§c⚠ Quelqu'un a déjà enchéri, impossible d'annuler l'enchère ⚠"
+  my_auction_has_bidder_warning2: "§cVeuillez attendre la fin de l'enchère"
+  my_auction_cancel_tip: "§eClic droit pour annuler l'enchère"
+
+  # Détails des objets vendus
+  sold_item_deal_price: "§ePrix de transaction: §f%price%"
+  sold_item_buyer: "§eAcheteur: §f%buyer%"
+  sold_item_seller: "§eVendeur: §f%seller%"
+  sold_item_sold_time: "§eVendu le: §f%time%"
+  sold_item_notice1: "§cCet objet a été vendu, consultation uniquement"
+  sold_item_notice2: "§cImpossible de récupérer ou de revendre"
+
+# Astuces du menu de mise en vente (Note: This section 'sell_menu' is duplicated from the top, translating it again for consistency)
+sell_menu:
+  command_tips:
+    header: "§7Tenez l'objet à mettre en vente et tapez:"
+    usage: "§7/auction sell <prix_départ> [prix_achat_immédiat] [type_monnaie]"
+    currency_types: "§7Types de monnaie: §f1=Pièces d'or, 2=Points"
+
+  # Bouton de durée de mise en vente personnalisée
+  duration_button:
+    title: "§aPersonnaliser la durée de mise en vente"
+    current_setting: "§7Paramètre actuel: §f%hours%heure(s) %minutes%minute(s)"
+    divider: "§8§m--------------------"
+    left_click: "§7Clic gauche: §f+1 minute"
+    right_click: "§7Clic droit: §f+1 heure"
+    shift_left_click: "§7Maj+Clic gauche: §f+10 minutes"
+    shift_right_click: "§7Maj+Clic droit: §f+10 heures"
+    middle_click: "§7Clic §bmilieu§7 ou touche §bQ§7: §fRéinitialiser à la durée minimale"
+    min_time: "§7Durée minimale: §f%hours%heure(s)"
+    max_time: "§7Durée maximale: §f%hours%heure(s)"
+    note1: "§eNote: §fLe réglage de la durée ne prend effet qu'après confirmation de la mise en vente"
+    note2: "§e       §fNon valide lors de la mise en vente par commande"
+
+# Suffixe de titre et séparateur
+format:
+  page_separator: " §7- Page %page%"
+
+# Bouton d'enchère
+bid_increase: "§bPré-augmenter l'enchère"
+
+# Informations de l'interface de mes enchères
+my_auction:
+  page_info: "§ePage actuelle: §f%page%/%total_pages%"
+  sold_count: "§eVendus: §f%count%"
+  expired_count: "§eExpirés: §f%count%"
+  listings_count: "§eNombre de mises en vente: §f%current%/%max%"
+  limit_warning: "§c⚠ Votre nombre de mises en vente approche de la limite!"
+
+mailbox:
+  # Filtre d'objets de la boîte aux lettres
+  mailbox_filter_tags:
+    - "✉"
+    - "§8-----------------"
+    - "Prix de transaction"
+    - "Date d'obtention"
+    - "Date de retrait"
+    - "Date d'achat"
+    - "Objets gagnés aux enchères"
+    - "Prix actuel"
+
+  # Marqueurs d'objets expirés de la boîte aux lettres
+  expired_auction_tags:
+    - "Expiré non vendu"
+    - "AUCTION_EXPIRED"
+
+error_messages:
+  item_not_exists: "§cL'objet n'existe pas ou a déjà été acheté!"
+
+# Messages GuiListener
+gui_listener:
+  # Relatif à la récupération d'objets
+  collect_success: "§aObjet récupéré avec succès, il a été placé dans votre inventaire."
+  collect_fail_inventory_full: "§eInventaire plein, impossible de récupérer l'objet. Veuillez vider votre inventaire et réessayer."
+
+  # Relatif à l'annulation d'enchères
+  cancel_auction_has_bid: "§cQuelqu'un a déjà enchéri sur cet objet, impossible d'annuler l'enchère !"
+  cancel_auction_success: "§aEnchère annulée avec succès, l'objet a été retourné dans votre inventaire."
+  cancel_auction_success_inventory_full: "§eEnchère annulée avec succès, mais votre inventaire est plein. L'objet a été placé dans la liste d'attente de récupération, utilisez /auction collect pour récupérer."
+  cancel_auction_fail: "§cÉchec de l'annulation de l'enchère, veuillez réessayer plus tard."
+
+  # Relatif au réglage de la durée
+  reset_duration: "§eDurée de mise en vente réinitialisée au minimum !"
+  max_duration_limit: "§cLimite maximale de durée de mise en vente atteinte !"
+  update_duration: "§aDurée de mise en vente mise à jour à: §f%hours%heure(s) %minutes%minute(s)"
+  custom_duration_below_min: "§eLa durée personnalisée est inférieure à la limite minimale, ajustée automatiquement à la valeur minimale."
+  custom_duration_above_max: "§eLa durée personnalisée dépasse la limite maximale, ajustée automatiquement à la valeur maximale."
+  custom_duration_set: "§aObjet mis en vente, durée définie à: §f%hours%heure(s) %minutes%minute(s)"
+
+  # Relatif à la mise en vente d'objets
+  points_unavailable: "§eLe système de points n'est pas disponible, passage automatique à la mise en vente avec des pièces d'or."
+  max_listings_reached_1: "§cVous avez atteint la limite maximale de mises en vente (%max_listings% objets)!"
+  max_listings_reached_2: "§cVeuillez attendre que les objets mis en vente soient vendus ou expirent avant de tenter de mettre en vente de nouveaux objets."
+
+  # Relatif à l'état des objets
+  expired_item: "§cL'enchère pour cet objet est terminée!"
+  invalid_item: "§cL'objet n'existe pas ou a déjà été acheté!"
+
+  # Permissions et restrictions d'opérations
+  no_permission: "§cVous n'avez pas la permission d'effectuer cette action!"
+  owner_bid: "§cVous ne pouvez pas enchérir sur vos propres objets!"
+  owner_buy: "§cVous ne pouvez pas acheter vos propres objets!"
+  already_highest_bidder: "§eVous êtes déjà le meilleur enchérisseur actuel, vous pouvez continuer à augmenter l'enchère!"
+
+  # Relatif à l'achat
+  no_buy_now_price: "§cCet objet n'a pas de prix d'achat immédiat, impossible de l'acheter directement!"
+  not_enough_money: "§cVous n'avez pas assez de %currency% pour effectuer cette opération!"
+  inventory_full: "§cVotre inventaire est plein, veuillez d'abord le vider avant d'acheter l'objet!"
+  failed_transaction: "§cÉchec du prélèvement, veuillez réessayer!"
+  partial_item_saved: "§eVotre inventaire est plein, certains objets ont été sauvegardés dans la liste d'attente de récupération, utilisez /ah collect pour récupérer"
+
+  # Notification de succès d'achat
+  purchase_success: "§aAchat réussi!"
+  purchase_item: "§eObjet: §f%item%"
+  purchase_price: "§ePrix: §f%price%"
+  mailbox_full: "§aAchat réussi! §eMais votre inventaire est plein, l'objet a été placé dans votre boîte aux lettres d'objets, veuillez utiliser /ah my pour consulter."
+  cancel_purchase: "§cAchat annulé"
+
+  # Notification de vente
+  sold_notification: "§aVotre objet a été acheté!"
+  seller_fee: "§eFrais: §f%fee%"
+  seller_income: "§eRevenu réel: §f%income%"
+  buyer: "§eAcheteur: §f%buyer%"
+
+  # Relatif aux enchères
+  expired_bid_info: "§cLes informations de l'enchère ont expiré, veuillez resélectionner l'objet"
+  expired_bid: "§cCet objet a expiré, impossible d'enchérir!"
+  bid_sold: "§eObjet ID: %id% a été acheté par achat immédiat\n§eVotre enchère de %price% a été remboursée"
+  bid_outbid: "§eVotre enchère a été dépassée! Objet ID: %id%"
+  previous_bid: "§eVotre enchère de %amount% a été remboursée"
+  new_bid: "§eNouvelle enchère: %amount%"
+  incomplete_bid_info: "§cInformations d'enchère incomplètes, veuillez réenchérir."
+  bid_below_minimum: "§cL'enchère doit être au moins %min_bid% supérieure au prix actuel!"
+  pre_bid: "§aPré-enchère effectuée! §eCliquez sur 'Confirmer l'enchère' pour finaliser, ou 'Annuler l'enchère' pour annuler."
+  bid_amount: "§eMontant estimé de l'enchère: §f%amount%"
+  bid_accepted: "§aMontant actuel de l'enchère confirmé: §f%amount%"
+  bid_success: "§aEnchère réussie!"
+  bid_item: "§eObjet ID: §f%id%"
+  bid_price: "§eVotre enchère: §f%price%"
+
+  # Informations de solde
+  balance: "§aVotre solde de %currency%: §f%balance%"
+
+  # Opérations administrateur
+  refund: "§eVotre enchère sur un objet a été remboursée car l'objet a été retiré de force par un administrateur.\n§eRemboursé: §f%amount%"
+  removed_item: "§aObjet #%id% retiré de force (vendeur: %seller%)"
+
+# Ajouter des messages relatifs aux commandes
+auction_commands:
+  # Messages généraux
+  player_only: "§cCette commande ne peut être utilisée que par un joueur!"
+  unknown_command: "§cCommande inconnue! Utilisez /auction help pour voir l'aide"
+  no_permission: "§cVous n'avez pas la permission d'utiliser cette commande!"
+
+  # Informations de complétion par tabulation
+  tab_completion:
+    sell_price: "<prix_départ>"
+    sell_buynow: "<prix_achat_immédiat>"
+    sell_currency: "<type_monnaie: 1=Pièces d'or, 2=Points>"
+    search_keyword: "<mot-clé>"
+
+  # Informations d'aide
+  help:
+    header: "§6===== Aide de l'Hôtel des Ventes ====="
+    help: "§e/auction help - Affiche ce message d'aide"
+    open: "§e/auction open - Ouvre l'Hôtel des Ventes"
+    sell: "§e/auction sell <prix_départ> [prix_achat_immédiat] [type_monnaie] - Met un objet en vente (1=Pièces d'or, 2=Points)"
+    search: "§e/auction search <mot-clé> - Recherche un objet"
+    my: "§e/auction my - Voir mes enchères et ma boîte aux lettres d'objets"
+    collect: "§e/auction collect - Récupérer les objets en attente"
+    web: "§eService Web de l'Hôtel des Ventes: §fVisitez §bhttp://IP_du_serveur:%port% §fpour voir les objets aux enchères"
+    admin_header: "§c===== Commandes Administrateur ====="
+    reload: "§e/auction reload - Recharge la configuration et le service Web"
+    close: "§e/auction close - §c[Test] §eForce la fermeture de toutes les enchères et les marque comme expirées"
+    checkexpired: "§e/auction checkexpired - Vérifie tous les objets expirés mais non traités"
+    info: "§e/auction info <nom_joueur> - Consulter les informations de l'Hôtel des Ventes d'un joueur"
+
+  # Relatif à la commande de collecte
+  collect:
+    success: "§aBoîte aux lettres d'objets ouverte, vous pouvez y récupérer tous les objets en attente."
+
+  # Relatif à la commande de mise en vente
+  sell:
+    usage: "§cUsage: /auction sell <prix_départ> <prix_achat_immédiat> [type_monnaie]"
+    currency_types: "§cType de monnaie: 1 = Pièces d'or, 2 = Points (par défaut Pièces d'or)"
+    points_unavailable: "§cLe système de points n'est pas disponible, le plugin PlayerPoints n'est pas installé sur le serveur."
+    points_unavailable_solution: "§cVeuillez mettre l'objet en vente avec des pièces d'or, ou contactez un administrateur du serveur pour obtenir de l'aide."
+    invalid_currency: "§cType de monnaie invalide! Utilisez: 1 = Pièces d'or, 2 = Points"
+    max_listings_reached: "§cVous avez atteint la limite maximale de mises en vente (%max_listings% objets)!"
+    wait_for_items_sold: "§cVeuillez attendre que les objets mis en vente soient vendus ou expirent avant de tenter de mettre en vente de nouveaux objets."
+    start_price_zero: "§cLe prix de départ doit être supérieur à 0!"
+    buy_now_less_than_start: "§cLe prix d'achat immédiat doit être supérieur au prix de départ!"
+    invalid_price: "§cVeuillez saisir un prix valide!"
+
+  # Relatif à la commande de recherche
+  search:
+    usage: "§cUsage: /auction search <mot-clé>"
+    min_length: "§cLe mot-clé de recherche doit comporter au moins 2 caractères!"
+    searching: "§aRecherche en cours: §e%keyword%"
+
+  # Relatif à la commande de fermeture de toutes les enchères
+  close:
+    starting: "§eFermeture forcée de toutes les enchères en cours..."
+    async_notice: "§eCette opération sera exécutée en arrière-plan de manière asynchrone pour éviter de faire lagger le serveur, veuillez patienter."
+    force_close: "§cL'Hôtel des Ventes a été fermé de force par un administrateur!"
+    success: "§aToutes les enchères des joueurs ont été fermées de force!"
+
+  # Relatif à la commande de vérification des objets expirés
+  checkexpired:
+    player_only: "§cSeuls les joueurs peuvent exécuter cette commande !"
+    checking: "§aVérification de tous les objets d'enchères, recherche des objets expirés mais non traités..."
+    success: "§a%count% objets expirés traités avec succès!"
+    none: "§aAucun objet expiré mais non traité trouvé."
+
+  # Relatif à la commande de rechargement de configuration
+  reload:
+    success: "§aConfiguration de GlobalShop rechargée!"
+    debug_info: "§eInformation de débogage: Intervalle de vérification défini à %interval% secondes"
+
+# Nouveaux messages relatifs à la boîte aux lettres et aux détails
+mailbox_details:
+  # Messages relatifs au traitement des objets de la boîte aux lettres
+  collect_success: "§aObjet récupéré avec succès, il a été placé dans votre inventaire."
+  inventory_full: "§eInventaire plein, impossible de récupérer l'objet. Veuillez vider votre inventaire et réessayer."
+
+  # Messages relatifs à l'annulation d'enchères
+  auction_has_bidder: "§cQuelqu'un a déjà enchéri sur cet objet, impossible d'annuler l'enchère !"
+
+  # Mots-clés de filtre pour les objets de la boîte aux lettres
+  filter_keywords:
+    - "Prix de départ"
+    - "Temps"
+    - "Durée de l'enchère"
+    - "Retrait automatique par le système"
+    - "✉"
+    - "§8-----------------"
+    - "Objets gagnés aux enchères"
+    - "Prix actuel"
+
+# Consultation des détails de l'objet
+item_details:
+  header: "§6===== Détails de l'objet d'enchère ====="
+  item_name: "§eObjet: §f%item%"
+  start_price: "§ePrix de départ: §f%price%"
+  current_price: "§ePrix actuel: §f%price%"
+  buy_now_price: "§eAchat immédiat: §f%price%"
+  current_bidder: "§eEnchérisseur actuel: §f%bidder%"
+  remaining_time: "§eTemps restant: §f%time%"
+
+# Configuration relative au menu d'enchères
+bid_menu:
+  item_text: "§7Objet: §f%item_name%"
+  original_price_text: "§7Prix original: §f%price%"
+  current_price_text: "§7Enchère actuelle: §f%price%"
+  pre_amount_text: "§7Montant de la pré-enchère: §f%price%"
+  rate_text: "§7Taux d'augmentation: §f+%rate%%"
+  increase_tip: "§7Cliquez pour augmenter le montant de votre enchère"
+  min_increase_text: "§7Augmentation minimale: §f%price%"
+  confirm_tip: "§7Cliquez pour confirmer le montant actuel de l'enchère"
+  confirm_pre_amount_text: "§7Montant de la pré-enchère: §f%price%"
+
+# Configuration relative à AuctionTask
+auction_task:
+  # Message de succès d'enchère - Notification à l'acheteur
+  buyer_win:
+    success: "§aL'objet sur lequel vous avez enchéri a été livré dans votre boîte aux lettres d'objets !"
+    item: "§eObjet: %item_name%"
+    price: "§ePrix: %price%"
+    collect_guide: "§eUtilisez /auction my pour entrer dans le système d'enchères, cliquez sur \"Boîte aux lettres d'objets\" pour récupérer"
+
+  # Message de succès d'enchère - Notification au vendeur
+  seller_win:
+    success: "§aVotre objet a été vendu aux enchères avec succès !"
+    item: "§eObjet: %item_name%"
+    price: "§ePrix: %price%"
+    income: "§eRevenu: %amount%"
+    buyer: "§eAcheteur: %buyer%"
+    unknown_buyer: "Inconnu"
+
+  # Message d'échec d'enchère - Notification au vendeur
+  seller_expired:
+    notice: "§aVotre objet d'enchère a expiré, l'objet a été placé dans la boîte aux lettres d'objets !"
+    item: "§eObjet: %item_name%"
+    collect_guide: "§eUtilisez /auction my pour entrer dans le système d'enchères, cliquez sur \"Boîte aux lettres d'objets\" pour récupérer"
+
+# --- NOUVEAUX MESSAGES DE LA FONCTION DE REQUÊTE ADMIN --- DÉBUT ---
+admin_info_gui:
+  title: "Informations du joueur: %player_name%"
+  item_name: "§eJoueur: §f%player_name%"
+  sold_count: "§eTotal des objets vendus: §f%count%"
+  purchased_count: "§eTotal des objets achetés: §f%count%"
+  earnings_header: "§6Total des revenus:"
+  earnings_vault: "§7 - Pièces d'or: §f%amount%"
+  earnings_points: "§7 - Points: §f%amount%"
+  spending_header: "§cTotal des dépenses:"
+  spending_vault: "§7 - Pièces d'or: §f%amount%"
+  spending_points: "§7 - Points: §f%amount%"
+  sales_history_button: "§6Voir l'historique des ventes"
+  purchase_history_button: "§bVoir l'historique des achats"
+  sales_history_title: "§6Historique des ventes: %player_name% - Page %page%"
+  purchase_history_title: "§bHistorique des achats: %player_name% - Page %page%"
+  back_button_to_player_info: "§eRetour aux informations du joueur"
+  active_auctions: "§eObjets actuellement aux enchères: §f%count%"
+
+history_item:
+  info_header: "§6§lHistorique des transactions:"
+  sold_time: "§eDate de transaction: §f%time%"
+  buyer: "§eAcheteur: §f%buyer%"
+# --- NOUVEAUX MESSAGES DE LA FONCTION DE REQUÊTE ADMIN --- FIN ---
+
+# Configuration des messages textuels (Redundant 'messages:' key, merging content for clarity)
+# ... existing code from the first 'messages:' section ...
+# (The content under the first 'messages:' key, such as 'cancel_bid', 'cancel_search', etc.,
+#  and the new 'command.player_not_found' is already handled above.
+#  The next specific entry 'place_item_first' is also handled.)
+
+# Messages relatifs à la mise en vente (already under the first 'messages:' key)
+place_item_first: "§cVeuillez d'abord placer l'objet à mettre en vente!"
+# ... existing code ...
+
+# Messages relatifs au service Web
+web:
+  server:
+    started: "§aService Web de l'Hôtel des Ventes démarré, port: %port%"
+    stopped: "§aService Web de l'Hôtel des Ventes arrêté"
+    error: "§cÉchec du démarrage du service Web de l'Hôtel des Ventes: %error%"
+    already_running: "§eLe service Web de l'Hôtel des Ventes est déjà en cours d'exécution, port: %port%"
+  page:
+    title: "Hôtel des Ventes Mondial - Vitrine des objets"
+    header: "Vitrine des objets de l'Hôtel des Ventes"
+    no_items: "Aucun objet n'est actuellement aux enchères"
+    refresh_time: "Heure d'actualisation des données: %time%"
+    next_refresh: "Prochaine actualisation: %time%"
+    footer: "Fourni par le plugin GlobalShop"
+
+# Configuration relative à AuctionItem
+auction_item_format:
+  time:
+    expired: "Expiré"
+    day: "jour(s)"
+    hour: "heure(s)"
+    minute: "minute(s)"
+    second: "seconde(s)"
+    not_sold: "Non vendu"
+  display:
+    unknown_item: "Objet inconnu"

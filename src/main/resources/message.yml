@@ -57,6 +57,7 @@ gui:
     search_history_return: "§7点击返回搜索界面"
     seller_search: "§a搜索卖家"
     seller_search_desc: "§7点击搜索特定卖家的物品"
+    seller_items_suffix: "的物品"
 
     # 确认购买菜单按钮
     confirm_buy: "§a确认购买"

@@ -1,0 +1,625 @@
+# GlobalShop メッセージ設定ファイル
+# このファイルには、すべてのGUIボタンとヒントメッセージのテキスト設定が含まれています
+
+# アイテム名の色コード
+item-name-color: "§f"
+
+# 出品メニューコマンドヒント
+sell_menu:
+  command_tips:
+    header: "§7出品したいアイテムを持って入力してください:"
+    usage: "§7/auction sell <開始価格> [即決価格] [通貨タイプ]"
+    currency_types: "§7通貨タイプ: §f1=コイン, 2=ポイント"
+
+gui:
+  titles:
+    # 各インターフェースのタイトル
+    sell_menu: "アイテム出品"
+    search_menu: "アイテム検索"
+    search_result_prefix: "検索結果:"
+    search_history_menu: "検索履歴"
+    confirm_buy_menu: "購入確認"
+    bid_menu: "入札購入"
+    my_auctions_menu: "マイオークション"
+    my_sold_auctions_menu: "マイ売却済みオークション"
+    mailbox_menu: "§8アイテムメールボックス"
+    my_mailbox_menu_prefix: "§eマイアイテムメールボックス"
+    expired_auctions_menu: "マイ期限切れオークション（入札なし）"
+
+  buttons:
+    # 共通ボタン
+    return_main_menu: "&cメインメニューに戻る"
+    return_main_menu_desc: "§7クリックしてメインメニューに戻る"
+    return: "§e戻る"
+    cancel: "§cキャンセル"
+    confirm: "§a確認"
+    next_page: "&e次ページ"
+    next_page_desc: "§7クリックして次ページを表示"
+    previous_page: "&e前ページ"
+    previous_page_desc: "§7クリックして前ページを表示"
+
+    # メインメニューボタン
+    search_items: "§aアイテム検索"
+    sell_item: "§aアイテム出品"
+    my_auctions: "§aマイオークション"
+
+    # 検索メニューボタン
+    search_history: "§a検索履歴"
+    clear_search_history: "§a検索履歴をクリア"
+    enter_item_name: "§aアイテム名を入力"
+    enter_item_name_description: "§eここに検索キーワードを入力するにはクリック"
+    search_prefix: "検索: "
+    search_history_item_description: "このキーワードで検索するにはクリック"
+    clear_search_history_description: "すべての検索履歴をクリアするにはクリック"
+    new_search: "§a新規検索"
+    new_search_desc: "§7新規検索を実行するにはクリック"
+    cancel_search: "キャンセル"
+    search_history_return: "§7クリックして検索画面に戻る"
+    seller_search: "§a出品者検索"
+    seller_search_desc: "§7特定の出品者のアイテムを検索するにはクリック"
+    seller_items_suffix: "§eのアイテム"
+
+    # 購入確認メニューボタン
+    confirm_buy: "§a購入確認"
+    cancel_buy: "§cキャンセル"
+
+    # 購入確認画面テキスト
+    confirm_buy_item: "§eアイテム名: §f%item_name%"
+    confirm_buy_price: "§e購入価格: §f%price% (即決価格)"
+    confirm_buy_tip: "§eこのアイテムの購入を確認するにはクリック"
+    cancel_buy_tip: "§e購入をキャンセルするにはクリック"
+
+    # 出品メニューボタン
+    confirm_sell: "§a出品確認"
+    confirm_sell_description: "アイテム出品を確認するにはクリック"
+    confirm_sell_description_color: "§7"
+
+    # 入札メニューボタン
+    current_bid_amount: "§e現在の入札額"
+    increase_bid: "§a増額 +%rate%%"
+    confirm_bid: "§2入札を確認"
+    cancel_bid: "§c入札をキャンセル"
+
+    # 入札画面テキスト
+    current_bid_item: "§7アイテム: §f%item_name%"
+    current_bid_original_price: "§7開始価格: §f%price%"
+    current_bid_current_price: "§7現在の入札: §f%price%"
+    current_bid_pre_amount: "§7仮増額金額: §f%price%"
+    current_bid_rate: "§7増額幅: §f+%rate%%"
+    increase_bid_tip: "§7入札額を増額するにはクリック"
+    increase_bid_min: "§7最小増額: §f%price%"
+    confirm_bid_tip: "§7現在の入札額を確認するにはクリック"
+    confirm_bid_pre_amount: "§7仮増額金額: §f%price%"
+    confirm_bid_notice1: "§7まず仮増額ボタンをクリックしてください"
+    confirm_bid_notice2: "§7その後で入札を確認してください"
+    cancel_bid_tip: "§7入札をキャンセルするにはクリック"
+    cancel_bid_return: "§7メインメニューに戻る"
+
+    # オークションメニューボタン
+    sold_items: "§6売却済み"
+    purchased_items: "§b購入済み"
+    mailbox: "§eアイテムメールボックス"
+    place_item_here: "アイテムをここに置いてください"
+
+    # 売却済みオークション画面テキスト
+    my_sold_auctions_title: "§6マイ売却済みオークション"
+    my_purchased_auctions_title: "§bマイ購入済みオークション"
+    page_info_prefix: "§e現在のページ: §f"
+    sold_items_count_prefix: "§e売却済み: §f"
+    purchased_items_count_prefix: "§e購入済み: §f"
+    total_sold_items_count_prefix: "§e総売却アイテム数: §f"
+    total_purchased_items_count_prefix: "§e総購入アイテム数: §f"
+    total_coins_earned_prefix: "§e獲得コイン総額: §f"
+    total_coins_spent_prefix: "§e使用コイン総額: §f"
+    total_points_earned_prefix: "§e獲得ポイント総額: §f"
+    total_points_spent_prefix: "§e使用ポイント総額: §f"
+    mailbox_description_line1: "§7アイテムメールボックスを表示"
+    mailbox_description_line2: "§7期限切れ、落札、インベントリ満杯のアイテムが含まれています"
+
+    # メールボックス画面テキスト
+    mailbox_page_info: "§e現在のページ: §f"
+    mailbox_items_count: "§eアイテム数: §f"
+    mailbox_storage_header: "§7ここに保存されるもの:"
+    mailbox_storage_expired: "§7- 期限切れで売れ残ったアイテム"
+    mailbox_storage_won: "§7- 落札に成功したアイテム"
+    mailbox_storage_full: "§7- インベントリがいっぱいの時に購入したアイテム"
+    mailbox_item_status_pending: "§eステータス: §f受け取り待ちアイテム"
+    mailbox_item_status_expired: "§eステータス: §f期限切れ未売却"
+    mailbox_item_status_other: "§eステータス: §f"
+    mailbox_item_add_time: "§e追加時間: §f"
+    mailbox_item_expire_time: "§e期限切れ時間: §f"
+    mailbox_item_collect_tip: "§7右クリックでアイテムを受け取る"
+
+# メッセージテキスト設定
+messages:
+  cancel_bid: "入札をキャンセルしました"
+  cancel_search: "§a検索をキャンセルしました"
+  enter_search_keyword: "§aチャット欄に検索したいアイテム名を入力するか、§eキャンセル §aと入力して検索をキャンセルしてください"
+  enter_seller_search: "§aチャット欄に検索したい出品者名を入力するか、§eキャンセル §aと入力して検索をキャンセルしてください"
+  search_history_cleared: "§a検索履歴をクリアしました"
+  seller_search_prefix: "出品者:"
+
+  # コマンド関連メッセージ
+  command:
+    info:
+      usage: "§c使用法: /gs info <プレイヤー名>"
+
+  # 出品関連メッセージ
+  place_item_first: "§cまず出品したいアイテムを入れてください！"
+  drag_item_to_center: "§cアイテムを中央のスロットに直接ドラッグしてください。Shift+クリックは使用しないでください"
+  cant_drag_to_inventory: "§c期限切れアイテム画面にアイテムをドラッグできません！"
+  listing_failed_no_price: "§c出品失敗：価格情報がありません"
+  listing_failed_incomplete_price: "§c出品失敗：価格情報が不完全です"
+  listing_failed_price_format: "§c出品失敗：価格形式が間違っています"
+  price_exceeds_max_limit: "§c出品失敗：価格が最大制限(%max_digits%桁)を超えています！"
+  start_price_greater_than_zero: "§c開始価格は0より大きくなければなりません！"
+  buy_now_greater_than_start: "§c即決価格は開始価格より小さくてはなりません！"
+  not_enough_money_for_fee: "§c手数料を支払うのに十分な%currency%がありません！"
+  item_listed_success: "§aアイテム出品成功！"
+  item_listed_success_with_fee: "§aアイテム出品成功！ §e手数料: §f%fee%"
+  item_listed_fail: "§cアイテム出品失敗！"
+  listing_error: "§c出品中にエラーが発生しました"
+
+  # アイテム返還関連メッセージ
+  item_returned: "§eアイテムがインベントリに返還されました"
+  inventory_full_drop_item: "§eインベントリがいっぱいです。アイテムは足元にドロップされました"
+
+  # 出品制限関連メッセージ
+  max_listings_reached: "§c最大出品数制限(%max_listings%個)に達しました！"
+  wait_for_items_to_sell: "§c新しいアイテムを出品する前に、出品中のアイテムが売れるか期限切れになるのを待ってください。"
+
+  # 入札関連メッセージ
+  cancel_bid_operation: "§c入札操作をキャンセルしました"
+  bid_info_expired: "§c入札情報が期限切れです。アイテムを再選択してください"
+  bid_invalid_amount: "§c無効な金額です。数字を入力してください。"
+
+  # 入札コマンド関連メッセージ
+  bid_usage: "§c使用法: /bid <アイテムID>"
+  bid_id_must_be_number: "§cアイテムIDは数字でなければなりません！"
+  bid_invalid_item: "§c有効なオークションアイテムが見つかりません。ID: "
+  bid_no_permission: "§c入札に参加する権限がありません！"
+  bid_own_item: "§c自分のアイテムに入札することはできません！"
+  bid_already_highest: "§cあなたは既に現在の最高入札者です！"
+  bid_opening_menu: "§a入札画面を開いています..."
+  bid_error: "§c入札中にエラーが発生しました: "
+  bid_below_current_price: "§c価格が更新されました。あなたの入札は現在の最新価格より低いです。再度入札してください！"
+
+  # 即決購入関連メッセージ
+  buy_now_not_available: "§cこのアイテムは即決購入に対応していません！"
+  buy_now_points_unavailable: "§cポイント支払い機能は利用できません！"
+  buy_now_not_enough_money: "§cこのアイテムを購入するのに十分な%currency%がありません！ 必要: %amount%"
+  buy_now_inventory_full: "§cインベントリがいっぱいです。アイテムを購入できません！"
+  buy_now_success: "§a購入成功！"
+  buy_now_item: "§eアイテム: %item%"
+  buy_now_price: "§e価格: %price%"
+  buy_now_balance: "§e残高: %amount% %currency%"
+  buy_now_inventory_full_mailbox: "§aインベントリがいっぱいです。アイテムはメールボックスに入れられました！"
+  buy_now_mailbox_instructions: "§e/auction my でオークションシステムに入り、\"アイテムメールボックス\"をクリックして受け取ってください"
+  buy_now_seller_notification: "§aあなたのアイテムが即決購入されました！"
+  buy_now_seller_income: "§e収入: %amount%"
+  buy_now_seller_balance: "§e残高: %amount% %currency%"
+  buy_now_buyer: "§e購入者: %player%"
+
+# ブロードキャストシステムメッセージ設定
+broadcast:
+  # インタラクティブコンポーネントテキスト
+  details_button: " §6[§e詳細情報§6]"
+  no_details_available: "§c詳細情報なし"
+
+  # アイテム出品ブロードキャストメッセージ
+  item_listed:
+#    chat: "§6[オークション] §e%player% §fが §a%item_name% §fを開始価格 §e%start_price% §f即決価格 §e%buy_now_price%で出品しました"
+    chat: "§a[§6オークション§a] §e%player% §fが §b[§d%item_name%§b]§f*§6%amount%§rを出品しました"
+    bossbar: "§e%player% §fが §a%item_name% §fを開始価格 §e%start_price% §f即決価格 §e%buy_now_price%で出品しました"
+    title: "§6アイテム出品"
+    subtitle: "§e%player% §fが §a%item_name%を出品しました"
+    actionbar: "§e%player% §fが §a%item_name% §fを価格 §e%start_price%で出品しました"
+
+  # 落札成功ブロードキャストメッセージ
+  auction_won:
+    chat: "§6[オークション] §e%buyer% §fが §e%seller% §fの §a%item_name% §fを §a%price% §fで落札しました"
+    bossbar: "§e%buyer% §fが §e%seller% §fの §a%item_name% §fを §a%price% §fで落札しました"
+    title: "§6落札成功"
+    subtitle: "§e%buyer% §fが §a%item_name%を落札しました"
+    actionbar: "§e%buyer% §fが §a%item_name% §fを §a%price%で落札しました"
+
+  # 即決購入ブロードキャストメッセージ
+  buy_now:
+    chat: "§6[オークション] §e%buyer% §fが §e%seller% §fの §a%item_name% §fを §a%price% §fの即決価格で購入しました"
+    bossbar: "§e%buyer% §fが §e%seller% §fの §a%item_name%を即決価格で購入しました"
+    title: "§6アイテム売却"
+    subtitle: "§e%buyer% §fが §a%item_name%を購入しました"
+    actionbar: "§e%buyer% §fが §a%item_name% §fを §a%price%で購入しました"
+
+  # 入札確認ブロードキャストメッセージ
+  bid_confirmed:
+    chat: "§6[オークション] §e%bidder% §fが §a%item_name% §fに §a%price%§fで入札し、現在の最高入札者になりました"
+    bossbar: "§e%bidder% §fが §a%item_name% §fに §a%price%§fで入札し、現在の最高入札者になりました"
+    title: "§6入札更新"
+    subtitle: "§e%bidder% §fが最高入札者になりました"
+    actionbar: "§e%bidder% §fが §a%item_name% §fに §a%price%で入札しました"
+
+# オークションアイテム説明
+auction_item:
+  divider: "§8§m--------------------"
+  info_header: "§6§lオークション情報:"
+  item_id: "§eアイテムID: §f%id%"
+  currency_type: "§e通貨タイプ: §f%currency%"
+  start_price: "§e開始価格: §f%price%"
+  current_price: "§e現在価格: §f%price%"
+  deal_price: "§e落札価格: §f%price%"
+  buy_now_price: "§e即決価格: §f%price%"
+  list_time: "§e出品時間: §f%time%"
+  remaining_time: "§e残り時間: §f%time%"
+  seller: "§e出品者: §f%seller%"
+  current_bidder: "§e現在の入札者: §f%bidder%"
+
+  # アイテム操作ヒント
+  owner_tips:
+    header: "§7これはあなたのオークションアイテムです"
+    cancel: "§7Shift+右クリック: §f迅速に回収"
+
+  buyer_tips:
+    bid: "§7左クリック: §f入札に参加"
+    buy: "§7右クリック: §f迅速に購入"
+
+  admin_tips:
+    header: "§c§l管理者操作:"
+    force_cancel: "§cShift+左クリック: §fこのアイテムを強制回収"
+
+  # マイオークションアイテム詳細
+  my_auction_start_price: "§e開始価格: §f%price%"
+  my_auction_current_price: "§e現在価格: §f%price%"
+  my_auction_buy_now_price: "§e即決価格: §f%price%"
+  my_auction_remaining_time: "§e残り時間: §f%time%"
+  my_auction_current_bidder: "§e現在の入札者: §f%bidder%"
+  my_auction_has_bidder_warning1: "§c⚠ 既に入札者があるため、オークションをキャンセルできません ⚠"
+  my_auction_has_bidder_warning2: "§cオークション終了をお待ちください"
+  my_auction_cancel_tip: "§e右クリックでオークションをキャンセル"
+
+  # 売却済みアイテム詳細
+  sold_item_deal_price: "§e落札価格: §f%price%"
+  sold_item_buyer: "§e購入者: §f%buyer%"
+  sold_item_seller: "§e出品者: §f%seller%"
+  sold_item_sold_time: "§e売却時間: §f%time%"
+  sold_item_notice1: "§cこのアイテムは売却済みです。閲覧のみ可能"
+  sold_item_notice2: "§c回収または再出品できません"
+
+# 出品メニューヒント
+sell_menu:
+  command_tips:
+    header: "§7出品したいアイテムを持って入力してください:"
+    usage: "§7/auction sell <開始価格> [即決価格] [通貨タイプ]"
+    currency_types: "§7通貨タイプ: §f1=コイン, 2=ポイント"
+
+  # カスタム出品期間ボタン
+  duration_button:
+    title: "§aカスタム出品期間"
+    current_setting: "§7現在の設定: §f%hours%時間 %minutes%分"
+    divider: "§8§m--------------------"
+    left_click: "§7左クリック: §f+1分"
+    right_click: "§7右クリック: §f+1時間"
+    shift_left_click: "§7Shift+左クリック: §f+10分"
+    shift_right_click: "§7Shift+右クリック: §f+10時間"
+    middle_click: "§7マウス§b中央ボタン§7または§bQ§7キー: §f最小時間にリセット"
+    min_time: "§7最短時間: §f%hours%時間"
+    max_time: "§7最長時間: §f%hours%時間"
+    note1: "§e注意: §f時間設定は出品確認後にのみ適用されます"
+    note2: "§e       §fコマンド出品時には無効です"
+
+# タイトルサフィックスと区切り文字
+format:
+  page_separator: " §7- %page%ページ目"
+
+# 入札ボタン
+bid_increase: "§b仮増額"
+
+# マイオークション画面情報
+my_auction:
+  page_info: "§e現在のページ: §f%page%/%total_pages%"
+  sold_count: "§e売却済み: §f%count%"
+  expired_count: "§e期限切れ: §f%count%"
+  listings_count: "§e出品数: §f%current%/%max%"
+  limit_warning: "§c⚠ あなたの出品数は上限に近づいています！"
+
+mailbox:
+  # メールボックスアイテムフィルタ
+  mailbox_filter_tags:
+    - "✉"
+    - "§8-----------------"
+    - "落札価格"
+    - "獲得時間"
+    - "出品終了時間"
+    - "購入時間"
+    - "落札に成功したアイテム"
+    - "現在価格"
+
+  # メールボックス期限切れアイテムマーク
+  expired_auction_tags:
+    - "期限切れ未売却"
+    - "AUCTION_EXPIRED"
+
+error_messages:
+  item_not_exists: "§cアイテムが存在しないか、既に購入されています！"
+
+# GuiListenerメッセージ
+gui_listener:
+  # アイテム受け取り関連
+  collect_success: "§aアイテムを正常に受け取りました。インベントリに入れられました。"
+  collect_fail_inventory_full: "§eインベントリがいっぱいです。アイテムを受け取れません。インベントリを整理してから再試行してください。"
+
+  # オークションキャンセル関連
+  cancel_auction_has_bid: "§cこのアイテムには既に入札者があるため、オークションをキャンセルできません！"
+  cancel_auction_success: "§aオークションを正常にキャンセルしました。アイテムはインベントリに返還されました。"
+  cancel_auction_success_inventory_full: "§eオークションを正常にキャンセルしましたが、インベントリがいっぱいです。アイテムは受け取り待ちリストに保存されました。/auction collect で受け取ってください。"
+  cancel_auction_fail: "§cオークションのキャンセルに失敗しました。後でもう一度お試しください。"
+
+  # 時間設定関連
+  reset_duration: "§e出品期間を最小値にリセットしました！"
+  max_duration_limit: "§c最大出品期間制限に達しました！"
+  update_duration: "§a出品期間を更新しました: §f%hours%時間 %minutes%分"
+  custom_duration_below_min: "§eカスタム期間が最小制限を下回ったため、自動的に最小制限値に調整されました。"
+  custom_duration_above_max: "§eカスタム期間が最大制限を超過したため、自動的に最大制限値に調整されました。"
+  custom_duration_set: "§aアイテムを出品しました。出品期間: §f%hours%時間 %minutes%分"
+
+  # アイテム出品関連
+  points_unavailable: "§eポイントシステムが利用できません。自動的にコインでの出品に切り替えられました。"
+  max_listings_reached_1: "§c最大出品数制限(%max_listings%個)に達しました！"
+  max_listings_reached_2: "§c新しいアイテムを出品する前に、出品中のアイテムが売れるか期限切れになるのを待ってください。"
+
+  # アイテムステータス関連
+  expired_item: "§cこのアイテムはオークション終了済みです！"
+  invalid_item: "§cアイテムが存在しないか、既に購入されています！"
+
+  # 権限と操作制限
+  no_permission: "§cこの操作を実行する権限がありません！"
+  owner_bid: "§c自分のアイテムに入札することはできません！"
+  owner_buy: "§c自分のアイテムを購入することはできません！"
+  already_highest_bidder: "§eあなたは既に現在の最高入札者です。引き続き増額できます！"
+
+  # 購入関連
+  no_buy_now_price: "§cこのアイテムには即決価格が設定されていないため、直接購入できません！"
+  not_enough_money: "§cこの操作を行うのに十分な%currency%がありません！"
+  inventory_full: "§cインベントリがいっぱいです。アイテムを購入する前にインベントリを整理してください！"
+  failed_transaction: "§c取引失敗。再試行してください！"
+  partial_item_saved: "§eインベントリがいっぱいのため、一部のアイテムは受け取り待ちリストに保存されました。/ah collect で受け取ってください"
+
+  # 購入成功通知
+  purchase_success: "§a購入成功！"
+  purchase_item: "§eアイテム: §f%item%"
+  purchase_price: "§e価格: §f%price%"
+  mailbox_full: "§a購入成功！ §eしかしインベントリがいっぱいです。アイテムはアイテムメールボックスに保存されました。/ah my で確認してください。"
+  cancel_purchase: "§c購入をキャンセルしました"
+
+  # 売却通知
+  sold_notification: "§aあなたのアイテムが購入されました！"
+  seller_fee: "§e手数料: §f%fee%"
+  seller_income: "§e実際の獲得: §f%income%"
+  buyer: "§e購入者: §f%buyer%"
+
+  # 入札関連
+  expired_bid_info: "§c入札情報が期限切れです。アイテムを再選択してください"
+  expired_bid: "§cこのアイテムは期限切れです。入札できません！"
+  bid_sold: "§eアイテムID: %id% は即決購入されました\n§eあなたの入札額 %price% は返金されました"
+  bid_outbid: "§eあなたの入札額は上回られました！ アイテムID: %id%"
+  previous_bid: "§eあなたの入札額 %amount% は返金されました"
+  new_bid: "§e新しい入札額: %amount%"
+  incomplete_bid_info: "§c入札情報が不完全です。再度入札してください。"
+  bid_below_minimum: "§c入札額は現在の価格より少なくとも %min_bid% 高くなければなりません！"
+  pre_bid: "§a仮増額済み！ §e'入札を確認'ボタンをクリックして入札を完了するか、'入札をキャンセル'でキャンセルしてください。"
+  bid_amount: "§e予想入札金額: §f%amount%"
+  bid_accepted: "§a現在の入札金額を確認しました: §f%amount%"
+  bid_success: "§a入札成功！"
+  bid_item: "§eアイテムID: §f%id%"
+  bid_price: "§eあなたの入札: §f%price%"
+
+  # 残高情報
+  balance: "§aあなたの%currency%残高: §f%balance%"
+
+  # 管理者操作
+  refund: "§eあなたの入札は、そのアイテムが管理者によって強制回収されたため返金されました。\n§e返金額: §f%amount%"
+  removed_item: "§aアイテム #%id% (出品者: %seller%) を強制回収しました"
+
+# コマンド関連メッセージを追加
+auction_commands:
+  # 一般メッセージ
+  player_only: "§cこのコマンドはプレイヤーのみ使用できます！"
+  unknown_command: "§c不明なコマンド！ /auction help でヘルプを表示"
+  no_permission: "§cこのコマンドを使用する権限がありません！"
+
+  # 補完ヒント情報
+  tab_completion:
+    sell_price: "<開始価格>"
+    sell_buynow: "<即決価格>"
+    sell_currency: "<通貨タイプ: 1=コイン, 2=ポイント>"
+    search_keyword: "<キーワード>"
+
+  # ヘルプ情報
+  help:
+    header: "§6===== オークションヘルプ ====="
+    help: "§e/auction help - このヘルプ情報を表示"
+    open: "§e/auction open - オークションを開く"
+    sell: "§e/auction sell <開始価格> [即決価格] [通貨タイプ] - アイテム出品 (1=コイン, 2=ポイント)"
+    search: "§e/auction search <キーワード> - アイテムを検索"
+    my: "§e/auction my - マイオークションとアイテムメールボックスを表示"
+    collect: "§e/auction collect - 受け取り待ちアイテムを受け取る"
+    web: "§eオークションWebサービス: §f §bhttp://サーバーIP:%port% §fにアクセスしてオークションアイテムを表示"
+    admin_header: "§c===== 管理者コマンド ====="
+    reload: "§e/auction reload - 設定ファイルとWebサービスを再読み込み"
+    close: "§e/auction close - §c[テスト] §eすべてのオークションアイテムを強制終了し、期限切れとしてマーク"
+    checkexpired: "§e/auction checkexpired - 期限切れだが未処理のすべてのアイテムをチェック"
+    info: "§e/auction info <プレイヤー名> - プレイヤーのオークション情報を照会"
+
+  # 回収コマンド関連
+  collect:
+    success: "§aアイテムメールボックスを開きました。ここで受け取り待ちのすべてのアイテムを受け取ることができます。"
+
+  # 出品コマンド関連
+  sell:
+    usage: "§c使用法: /auction sell <開始価格> <即決価格> [通貨タイプ]"
+    currency_types: "§c通貨タイプ: 1 = コイン, 2 = ポイント (デフォルトはコイン)"
+    points_unavailable: "§cポイントシステムは利用できません。サーバーにPlayerPointsプラグインがインストールされていません。"
+    points_unavailable_solution: "§cコインでアイテムを出品するか、サーバー管理者にお問い合わせください。"
+    invalid_currency: "§c無効な通貨タイプ！ 使用: 1 = コイン, 2 = ポイント"
+    max_listings_reached: "§c最大出品数制限(%max_listings%個)に達しました！"
+    wait_for_items_sold: "§c新しいアイテムを出品する前に、出品中のアイテムが売れるか期限切れになるのを待ってください。"
+    start_price_zero: "§c開始価格は0より大きくなければなりません！"
+    buy_now_less_than_start: "§c即決価格は開始価格より大きくなければなりません！"
+    invalid_price: "§c有効な価格を入力してください！"
+
+  # 検索コマンド関連
+  search:
+    usage: "§c使用法: /auction search <キーワード>"
+    min_length: "§c検索キーワードは少なくとも2文字必要です！"
+    searching: "§a検索中: §e%keyword%"
+
+  # すべてのオークション終了コマンド関連
+  close:
+    starting: "§eすべてのオークションアイテムを強制終了しています..."
+    async_notice: "§eこの操作はサーバーのラグを防ぐため、バックグラウンドで非同期に実行されます。しばらくお待ちください。"
+    force_close: "§cオークションは管理者によって強制終了されました！"
+    success: "§aすべてのプレイヤーのオークションが強制終了されました！"
+
+  # 期限切れアイテムチェックコマンド関連
+  checkexpired:
+    player_only: "§cこのコマンドはプレイヤーのみ実行できます！"
+    checking: "§aすべてのオークションアイテムをチェックし、期限切れだが未処理のアイテムを探しています..."
+    success: "§a%count% 個の期限切れアイテムを正常に処理しました！"
+    none: "§a期限切れだが未処理のアイテムは見つかりませんでした。"
+
+  # 設定リロードコマンド関連
+  reload:
+    success: "§a GlobalShop設定を再読み込みしました！"
+    debug_info: "§eデバッグ情報: チェック間隔は %interval% 秒に設定されました"
+
+# 新規メールボックスと詳細関連メッセージ
+mailbox_details:
+  # メールボックスアイテム処理関連メッセージ
+  collect_success: "§aアイテムを正常に受け取りました。インベントリに入れられました。"
+  inventory_full: "§eインベントリがいっぱいです。アイテムを受け取れません。インベントリを整理してから再試行してください。"
+
+  # オークションキャンセル関連メッセージ
+  auction_has_bidder: "§cこのアイテムには既に入札者があるため、オークションをキャンセルできません！"
+
+  # メールボックスアイテムフィルタキーワード
+  filter_keywords:
+    - "開始価格"
+    - "時間"
+    - "オークション期間"
+    - "システム自動回収"
+    - "✉"
+    - "§8-----------------"
+    - "落札に成功したアイテム"
+    - "現在価格"
+
+# アイテム詳細表示
+item_details:
+  header: "§6===== オークションアイテム詳細 ====="
+  item_name: "§eアイテム: §f%item%"
+  start_price: "§e開始価格: §f%price%"
+  current_price: "§e現在価格: §f%price%"
+  buy_now_price: "§e即決価格: §f%price%"
+  current_bidder: "§e現在の入札者: §f%bidder%"
+  remaining_time: "§e残り時間: §f%time%"
+
+# 入札メニュー関連設定
+bid_menu:
+  item_text: "§7アイテム: §f%item_name%"
+  original_price_text: "§7開始価格: §f%price%"
+  current_price_text: "§7現在の入札: §f%price%"
+  pre_amount_text: "§7仮増額金額: §f%price%"
+  rate_text: "§7増額幅: §f+%rate%%"
+  increase_tip: "§7入札額を増額するにはクリック"
+  min_increase_text: "§7最小増額: §f%price%"
+  confirm_tip: "§7現在の入札金額を確認するにはクリック"
+  confirm_pre_amount_text: "§7仮増額金額: §f%price%"
+
+# AuctionTask関連設定
+auction_task:
+  # 落札成功メッセージ - 購入者通知
+  buyer_win:
+    success: "§aあなたが落札したアイテムはアイテムメールボックスに届きました！"
+    item: "§eアイテム: %item_name%"
+    price: "§e価格: %price%"
+    collect_guide: "§e/auction my でオークションシステムに入り、\"アイテムメールボックス\"をクリックして受け取ってください"
+
+  # 落札成功メッセージ - 出品者通知
+  seller_win:
+    success: "§aあなたのアイテムがオークションで落札されました！"
+    item: "§eアイテム: %item_name%"
+    price: "§e価格: %price%"
+    income: "§e収入: %amount%"
+    buyer: "§e購入者: %buyer%"
+    unknown_buyer: "不明"
+
+  # オークション失敗メッセージ - 出品者通知
+  seller_expired:
+    notice: "§aあなたのオークションアイテムは期限切れになり、アイテムメールボックスに入れられました！"
+    item: "§eアイテム: %item_name%"
+    collect_guide: "§e/auction my でオークションシステムに入り、\"アイテムメールボックス\"をクリックして受け取ってください"
+
+# --- 管理者照会機能の新しいメッセージ --- START ---
+admin_info_gui:
+  title: "プレイヤー情報: %player_name%"
+  item_name: "§eプレイヤー: §f%player_name%"
+  sold_count: "§e総売却アイテム数: §f%count%"
+  purchased_count: "§e総購入アイテム数: §f%count%"
+  earnings_header: "§6総収入:"
+  earnings_vault: "§7 - コイン: §f%amount%"
+  earnings_points: "§7 - ポイント: §f%amount%"
+  spending_header: "§c総支出:"
+  spending_vault: "§7 - コイン: §f%amount%"
+  spending_points: "§7 - ポイント: §f%amount%"
+  sales_history_button: "§6販売履歴を表示"
+  purchase_history_button: "§b購入履歴を表示"
+  sales_history_title: "§6販売履歴: %player_name% - %page%ページ"
+  purchase_history_title: "§b購入履歴: %player_name% - %page%ページ"
+  back_button_to_player_info: "§eプレイヤー情報に戻る"
+  active_auctions: "§e出品中のアイテム: §f%count%"
+
+history_item:
+  info_header: "§6§l取引履歴:"
+  sold_time: "§e取引時間: §f%time%"
+  buyer: "§e購入者: §f%buyer%"
+# --- 管理者照会機能の新しいメッセージ --- END ---
+
+# メッセージテキスト設定
+messages:
+# ... existing code ...
+  # --- 管理者コマンドの新しいメッセージ --- START ---
+  command:
+    info:
+      usage: "§c使用法: /gs info <プレイヤー名>"
+    player_not_found: "§cプレイヤーが見つかりません: %player_name%"
+  # --- 管理者コマンドの新しいメッセージ --- END ---
+
+# 出品関連メッセージ
+place_item_first: "§cまず出品したいアイテムを入れてください！"
+# ... existing code ...
+
+# Webサービス関連メッセージ
+web:
+  server:
+    started: "§aオークションWebサービスが起動しました。ポート: %port%"
+    stopped: "§aオークションWebサービスが停止しました"
+    error: "§cオークションWebサービスの起動に失敗しました: %error%"
+    already_running: "§eオークションWebサービスは既に実行中です。ポート: %port%"
+  page:
+    title: "グローバルオークション - アイテム展示"
+    header: "オークションアイテム展示"
+    no_items: "現在、オークション中のアイテムはありません"
+    refresh_time: "データ更新時間: %time%"
+    next_refresh: "次回の更新: %time%"
+    footer: "GlobalShopプラグイン提供"
+
+# AuctionItem関連設定
+auction_item_format:
+  time:
+    expired: "期限切れ"
+    day: "日"
+    hour: "時間"
+    minute: "分"
+    second: "秒"
+    not_sold: "未売却"
+  display:
+    unknown_item: "不明なアイテム"

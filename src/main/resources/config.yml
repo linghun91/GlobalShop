@@ -1,29 +1,34 @@
 # GlobalShop 全局拍卖行插件配置文件
+# GlobalShop Global Auction House Plugin Configuration File
 # 本配置文件包含插件的所有设置选项，修改后需重启服务器或使用/ah reload命令生效
+# This configuration file contains all plugin settings, changes require server restart or /ah reload command to take effect
 
 # 语言设置
+# Language settings
 language:
   # 选择消息文件的语言版本，可选值：
+  # Select the language version for message files, available values:
   # zh_CN - 简体中文（默认）
   # vi - Tiếng Việt (Vietnamese)
   # en - English (English)
   # es - Español (Spanish)
   # de - Deutsch (German)
   # ru - Русский (Russian)
-  # pt - Português (Portuguese)
   # ja - 日本語 (Japanese)
-  # ar - العربية (Arabic)
-  # hi - हिन्दी (Hindi)
-  # it - Italiano (Italian)
+  # fr - French (French)
   locale: "zh_CN"
 
 # 数据库配置
+# Database configuration
 database:
   # 数据库类型，支持 sqlite 和 mysql
+  # Database type, supports sqlite and mysql
   type: sqlite
   # SQLite数据库文件名，存储在plugins/GlobalShop/目录下
+  # SQLite database file name, stored in plugins/GlobalShop/ directory
   file: data.db
   # MySQL数据库配置
+  # MySQL database configuration
   mysql:
     host: localhost
     port: 3306
@@ -33,95 +38,143 @@ database:
     useSSL: false
 
 # 经济系统配置
+# Economy system configuration
 economy:
   # 买家税率（购买物品时需支付的额外费用百分比）
+  # Buyer tax rate (percentage of extra cost paid when purchasing an item)
   # 范围: 0.0-1.0，0表示不收税，0.02表示收取2%的税
+  # Range: 0.0-1.0, 0 means no tax, 0.02 means 2% tax
   buyer_tax_rate: 0.02
 
   # 价格最大位数限制
+  # Maximum price digit limit
   # 例如: 9表示最大价格为999,999,999
+  # E.g.: 9 means the maximum price is 999,999,999
   max_price_digits: 9
 
   # Vault经济系统配置（金币）
+  # Vault economy system configuration (currency)
   vault:
     # 货币名称，显示在GUI界面和消息中
+    # Currency name, displayed in GUI and messages
     name: "金币"
     # 货币符号，显示在价格前面，支持颜色代码
+    # Currency symbol, displayed before the price, supports color codes
     symbol: "§6$"
     # 交易手续费比例，卖家出售物品时收取的费用百分比
+    # Transaction fee rate, percentage of fee charged when seller sells an item
     # 范围: 0.0-1.0，0.05表示收取5%的手续费
+    # Range: 0.0-1.0, 0.05 means 5% fee
     fee: 0.05
     # 最低手续费金额，即使按比例计算的手续费低于此值，也会收取此金额
+    # Minimum fee amount, even if the proportional fee is lower than this value, this amount will be charged
     min_fee: 1.0
     # 最低加价比例，竞价时最少需要加价的百分比
+    # Minimum bid increment rate, minimum percentage to increase bid by
     # 范围: 0.0-1.0，0.05表示至少加价5%
+    # Range: 0.0-1.0, 0.05 means at least 5% increase
     min_bid_rate: 0.05
     # 最低加价金额，竞价时最少需要加价的金额
+    # Minimum bid increment amount, minimum amount to increase bid by
     min_bid_amount: 1.0
 
   # PlayerPoints点券系统配置（点券）
+  # PlayerPoints system configuration (points)
   points:
     # 点券名称，显示在GUI界面和消息中
+    # Points name, displayed in GUI and messages
     name: "点券"
     # 点券符号，显示在价格前面，支持颜色代码
+    # Points symbol, displayed before the price, supports color codes
     symbol: "§b♦"
     # 点券交易手续费比例，卖家出售物品时收取的费用百分比
+    # Points transaction fee rate, percentage of fee charged when seller sells an item
     # 范围: 0.0-1.0，0.05表示收取5%的手续费
+    # Range: 0.0-1.0, 0.05 means 5% fee
     fee: 0.05
     # 点券最低手续费金额，即使按比例计算的手续费低于此值，也会收取此金额
+    # Minimum points fee amount, even if the proportional fee is lower than this value, this amount will be charged
     min_fee: 1.0
     # 点券最低加价比例，竞价时最少需要加价的百分比
+    # Minimum points bid increment rate, minimum percentage to increase bid by
     # 范围: 0.0-1.0，0.05表示至少加价5%
+    # Range: 0.0-1.0, 0.05 means at least 5% increase
     min_bid_rate: 0.05
     # 点券最低加价金额，竞价时最少需要加价的金额
+    # Minimum points bid increment amount, minimum amount to increase bid by
     min_bid_amount: 1.0
 
 # 拍卖配置
+# Auction configuration
 auction:
   # 默认拍卖持续时间（秒），上架物品的有效期
+  # Default auction duration (seconds), validity period for listed items
   # 86400秒 = 24小时
+  # 86400 seconds = 24 hours
   default_duration: 86400
   # 最短拍卖时间（秒），不能设置比这个更短的拍卖时间
+  # Minimum auction duration (seconds), cannot set shorter than this
   # 3600秒 = 1小时
+  # 3600 seconds = 1 hour
   min_duration: 3600
   # 最长拍卖时间（秒），不能设置比这个更长的拍卖时间
+  # Maximum auction duration (seconds), cannot set longer than this
   # 604800秒 = 7天
+  # 604800 seconds = 7 days
   max_duration: 604800
   # 每个玩家最大上架数量，超过此数量将无法继续上架物品
+  # Maximum listings per player, exceeding this quantity will prevent further item listings
   max_listings_per_player: 3
   # 检查过期拍卖的间隔时间（秒）
+  # Interval (seconds) for checking expired auctions
   # 30秒 = 每30秒检查一次过期拍卖
+  # 30 seconds = check expired auctions every 30 seconds
   check_interval: 30
 
 # GUI界面配置
+# GUI interface configuration
 gui:
   # 拍卖行GUI标题，支持颜色代码
+  # Auction House GUI title, supports color codes
   title: "§8[§6拍卖行§8]"
   # GUI大小，必须是9的倍数，最大值为54（6行*9列）
+  # GUI size, must be a multiple of 9, maximum value is 54 (6 rows * 9 columns)
   size: 54
 
 # 广播系统配置
+# Broadcast system configuration
 broadcast:
   # 广播系统总开关，设置为false将关闭所有广播
+  # Master switch for broadcast system, setting to false will disable all broadcasts
   enabled: true
 
   # 广播事件配置
+  # Broadcast event configuration
   events:
     # 物品上架广播
+    # Item listed broadcast
     item_listed:
       enabled: true
       # 广播位置配置
+      # Broadcast location configuration
       locations:
         chat: true           # 聊天框广播
+        # Chat broadcast
         bossbar: false       # Boss栏广播
+        # Boss bar broadcast
         title: false         # 屏幕标题广播
+        # Screen title broadcast
         actionbar: false     # 动作栏广播
+        # Action bar broadcast
         subtitle: false      # 副标题广播
+        # Subtitle broadcast
 
     # 竞拍成功广播
+    # Auction won broadcast
     auction_won:
       enabled: true
       # 广播位置配置
+      # Broadcast location configuration
       locations:
         chat: true
         bossbar: true
@@ -130,9 +183,11 @@ broadcast:
         subtitle: false
 
     # 一口价购买广播
+    # Buy now broadcast
     buy_now:
       enabled: true
       # 广播位置配置
+      # Broadcast location configuration
       locations:
         chat: true
         bossbar: false
@@ -141,9 +196,11 @@ broadcast:
         subtitle: false
 
     # 竞价确认广播（新增）
+    # Bid confirmed broadcast (new)
     bid_confirmed:
       enabled: true
       # 广播位置配置
+      # Broadcast location configuration
       locations:
         chat: true
         bossbar: false
@@ -152,35 +209,53 @@ broadcast:
         subtitle: false
 
   # 广播样式配置
+  # Broadcast style configuration
   styles:
     # Boss栏设置
+    # Boss bar settings
     bossbar:
       color: PURPLE         # 颜色: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+      # Color: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
       style: SOLID          # 样式: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      # Style: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
       duration: 5           # 持续时间（秒）
+      # Duration (seconds)
 
     # 标题设置
+    # Title settings
     title:
       fade_in: 10           # 淡入时间（tick）
+      # Fade-in time (ticks)
       stay: 40              # 停留时间（tick）
+      # Stay duration (ticks)
       fade_out: 10          # 淡出时间（tick）
+      # Fade-out time (ticks)
 
 # Web服务配置
+# Web service configuration
 web:
   # 是否启用Web服务
+  # Whether to enable Web service
   enabled: true
   # Web服务端口
+  # Web service port
   port: 20088
   # 数据刷新间隔（秒）
+  # Data refresh interval (seconds)
   refresh_interval: 30
   # 每页显示的物品数量
+  # Number of items displayed per page
   items_per_page: 20
   # 是否显示已过期物品
+  # Whether to show expired items
   show_expired: false
   # 是否显示已售出物品
+  # Whether to show sold items
   show_sold: true
   # 是否允许跨域请求（CORS）
+  # Whether to allow Cross-Origin Resource Sharing (CORS) requests
   allow_cors: false
 
 # 调试模式 - 设置为true时会在控制台输出调试信息
+# Debug mode - When set to true, debug information will be output to the console
 debug: false
