@@ -42,7 +42,9 @@ gui:
     search_items: "§aGegenstände suchen"
     sell_item: "§aGegenstand einstellen"
     my_auctions: "§aMeine Auktionen"
-
+    refresh_page: "§e刷新页面"
+    refresh_page_desc: "§7点击刷新当前页面数据"
+    
     # 排序按钮
     sort_button: "§e排序方式"
     sort_by_time_asc: "§7最近上架"

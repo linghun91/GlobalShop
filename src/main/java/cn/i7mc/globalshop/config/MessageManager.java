@@ -214,6 +214,22 @@ public class MessageManager {
     }
 
     /**
+     * 快捷方法获取刷新页面按钮文本
+     * @return 刷新页面按钮文本
+     */
+    public String getRefreshPageText() {
+        return getButtonText("refresh_page", "§e刷新页面");
+    }
+
+    /**
+     * 快捷方法获取刷新页面按钮描述文本
+     * @return 刷新页面按钮描述文本
+     */
+    public String getRefreshPageDescText() {
+        return getButtonText("refresh_page_desc", "§7点击刷新当前页面数据");
+    }
+
+    /**
      * 快捷方法获取确认购买按钮文本
      * @return 确认购买按钮文本
      */

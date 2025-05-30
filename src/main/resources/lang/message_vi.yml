@@ -42,6 +42,8 @@ gui:
     search_items: "§aTìm kiếm Vật phẩm"
     sell_item: "§aĐăng bán Vật phẩm"
     my_auctions: "§aĐấu giá của tôi"
+    refresh_page: "§e刷新页面"
+    refresh_page_desc: "§7点击刷新当前页面数据"
 
     # 排序按钮
     sort_button: "§e排序方式"

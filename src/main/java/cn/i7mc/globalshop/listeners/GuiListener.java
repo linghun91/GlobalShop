@@ -368,10 +368,28 @@ public class GuiListener implements Listener {
         } else if (slot == 48) {
             // 排序按钮
             handleSortButtonClick(player);
+        } else if (slot == 50) {
+            // 刷新按钮
+            handleRefreshButtonClick(player);
         } else if (slot == 51) {
             // 我的拍卖按钮
             plugin.getGuiManager().openMyAuctionsMenu(player, 1);
         }
+    }
+
+    /**
+     * 处理刷新按钮点击
+     * @param player 玩家
+     */
+    private void handleRefreshButtonClick(Player player) {
+        // 获取当前页码
+        int currentPage = 1;
+        if (player.hasMetadata("auction_page")) {
+            currentPage = player.getMetadata("auction_page").get(0).asInt();
+        }
+
+        // 重新打开主菜单，这会自动获取最新的数据
+        plugin.getGuiManager().openMainMenu(player, currentPage);
     }
 
     private void handleSearchMenuClick(InventoryClickEvent event, Player player) {

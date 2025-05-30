@@ -42,6 +42,8 @@ gui:
     search_items: "§a搜索物品"
     sell_item: "§a上架物品"
     my_auctions: "§a我的拍卖"
+    refresh_page: "§e刷新页面"
+    refresh_page_desc: "§7点击刷新当前页面数据"
 
     # 排序按钮
     sort_button: "§e排序方式"

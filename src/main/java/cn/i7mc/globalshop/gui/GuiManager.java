@@ -292,6 +292,20 @@ public class GuiManager {
         sellButton.setItemMeta(sellMeta);
         inv.setItem(49, sellButton);
 
+        // 设置刷新按钮
+        ItemStack refreshButton = new ItemStack(Material.CLOCK);
+        ItemMeta refreshMeta = refreshButton.getItemMeta();
+        refreshMeta.setDisplayName(messageManager.getRefreshPageText());
+        refreshMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+        // 添加刷新按钮描述
+        List<String> refreshLore = new ArrayList<>();
+        refreshLore.add(messageManager.getRefreshPageDescText());
+        refreshMeta.setLore(refreshLore);
+
+        refreshButton.setItemMeta(refreshMeta);
+        inv.setItem(50, refreshButton);
+
         // 设置我的拍卖按钮
         ItemStack myAuctionsButton = new ItemStack(Material.CHEST);
         ItemMeta myAuctionsMeta = myAuctionsButton.getItemMeta();

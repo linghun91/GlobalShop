@@ -57,6 +57,8 @@ gui:
     search_items: "§aBuscar Objetos"
     sell_item: "§aListar Objeto"
     my_auctions: "§aMis Subastas"
+    refresh_page: "§e刷新页面"
+    refresh_page_desc: "§7点击刷新当前页面数据"
 
     # Search menu buttons
     # Botones del menú de búsqueda

@@ -1,5 +1,5 @@
 name: GlobalShop
-version: '1.4.0.12'
+version: '1.4.0.24'
 main: cn.i7mc.globalshop.GlobalShop
 api-version: '1.20'
 depend: [Vault]
