@@ -2836,4 +2836,82 @@ public class MessageManager {
         return messages.getString("auction_item_format.display.unknown_item", "未知物品");
     }
 
+    // 排序相关方法
+
+    /**
+     * 获取排序按钮文本
+     * @return 排序按钮文本
+     */
+    public String getSortButtonText() {
+        return getButtonText("sort_button", "§e排序方式");
+    }
+
+    /**
+     * 获取按时间升序排序文本
+     * @return 按时间升序排序文本
+     */
+    public String getSortByTimeAscText() {
+        return getButtonText("sort_by_time_asc", "§7最近上架");
+    }
+
+    /**
+     * 获取按时间降序排序文本
+     * @return 按时间降序排序文本
+     */
+    public String getSortByTimeDescText() {
+        return getButtonText("sort_by_time_desc", "§7即将结束");
+    }
+
+    /**
+     * 获取按价格降序排序文本
+     * @return 按价格降序排序文本
+     */
+    public String getSortByPriceHighText() {
+        return getButtonText("sort_by_price_high", "§7最高价格");
+    }
+
+    /**
+     * 获取按价格升序排序文本
+     * @return 按价格升序排序文本
+     */
+    public String getSortByPriceLowText() {
+        return getButtonText("sort_by_price_low", "§7最低价格");
+    }
+
+    /**
+     * 获取按名称排序文本
+     * @return 按名称排序文本
+     */
+    public String getSortByNameText() {
+        return getButtonText("sort_by_name", "§7物品名称");
+    }
+
+    /**
+     * 获取当前排序文本
+     * @param sortType 排序类型
+     * @return 当前排序文本
+     */
+    public String getCurrentSortText(String sortType) {
+        return messages.getString("sort.current_sort", "§e当前排序: §f%sort_type%")
+                .replace("%sort_type%", sortType);
+    }
+
+    /**
+     * 获取点击切换排序提示文本
+     * @return 点击切换排序提示文本
+     */
+    public String getClickToChangeSortText() {
+        return messages.getString("sort.click_to_change", "§7点击切换排序方式");
+    }
+
+    /**
+     * 获取排序已切换消息
+     * @param sortType 排序类型
+     * @return 排序已切换消息
+     */
+    public String getSortChangedMessage(String sortType) {
+        return messages.getString("sort.sort_changed", "§a排序方式已切换为: §f%sort_type%")
+                .replace("%sort_type%", sortType);
+    }
+
 } // 确保类有正确的结束括号

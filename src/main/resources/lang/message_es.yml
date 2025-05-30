@@ -44,6 +44,14 @@ gui:
     previous_page: "&ePágina Anterior"
     previous_page_desc: "§7Haz clic para ver la página anterior"
 
+    # 排序按钮
+    sort_button: "§e排序方式"
+    sort_by_time_asc: "§7最近上架"
+    sort_by_time_desc: "§7即将结束"
+    sort_by_price_high: "§7最高价格"
+    sort_by_price_low: "§7最低价格"
+    sort_by_name: "§7物品名称"
+
     # Main menu buttons
     # Botones del menú principal
     search_items: "§aBuscar Objetos"
@@ -356,6 +364,12 @@ auction_item:
 # Sufijo y Separador de Título
 format:
   page_separator: " §7- Página %page%"
+
+# 排序相关消息
+sort:
+  current_sort: "§e当前排序: §f%sort_type%"
+  click_to_change: "§7点击切换排序方式"
+  sort_changed: "§a排序方式已切换为: §f%sort_type%"
 
 # Bid Button
 # Botón de Puja

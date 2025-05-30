@@ -5,6 +5,8 @@ import cn.i7mc.globalshop.models.AuctionItem;
 import cn.i7mc.globalshop.utils.ChatUtils;
 import cn.i7mc.globalshop.config.ConfigManager;
 import cn.i7mc.globalshop.config.MessageManager;
+import cn.i7mc.globalshop.enums.SortType;
+import cn.i7mc.globalshop.utils.SortManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -55,11 +57,18 @@ public class GuiManager {
 
     // 打开主界面(指定页码)
     public void openMainMenu(Player player, int page) {
-        Inventory inventory = Bukkit.createInventory(null, configManager.getGuiSize(),
-                configManager.getGuiTitle());
+        // 获取玩家当前的排序类型
+        SortType sortType = plugin.getSortManager().getPlayerSortType(player);
+        String orderBy = plugin.getSortManager().getSqlOrderBy(sortType);
 
-        // 获取当前页的拍卖物品 - 修改为45个物品而不是42个
-        List<AuctionItem> items = plugin.getDatabaseManager().getActiveAuctionItems(page, 45);
+        // 创建带排序信息的标题
+        String sortDisplayName = plugin.getSortManager().getSortDisplayName(sortType);
+        String title = configManager.getGuiTitle() + " §7- " + sortDisplayName;
+
+        Inventory inventory = Bukkit.createInventory(null, configManager.getGuiSize(), title);
+
+        // 获取当前页的拍卖物品 - 使用排序
+        List<AuctionItem> items = plugin.getDatabaseManager().getActiveAuctionItems(page, 45, orderBy);
 
         // 获取总物品数量用于分页
         int totalItems = plugin.getDatabaseManager().getTotalActiveItems();
@@ -73,7 +82,7 @@ public class GuiManager {
         }
 
         // 设置导航按钮和分页按钮
-        setNavigationButtons(inventory);
+        setNavigationButtons(inventory, player);
         setPaginationButtons(inventory, page, totalPages);
 
         // 保存当前页码到玩家元数据中
@@ -239,8 +248,9 @@ public class GuiManager {
     /**
      * 设置导航按钮
      * @param inv 物品栏
+     * @param player 玩家
      */
-    private void setNavigationButtons(Inventory inv) {
+    private void setNavigationButtons(Inventory inv, Player player) {
         // 设置功能按钮
         ItemStack searchButton = new ItemStack(Material.COMPASS);
         ItemMeta searchMeta = searchButton.getItemMeta();
@@ -248,6 +258,23 @@ public class GuiManager {
         searchMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         searchButton.setItemMeta(searchMeta);
         inv.setItem(47, searchButton);
+
+        // 设置排序按钮
+        ItemStack sortButton = new ItemStack(Material.HOPPER);
+        ItemMeta sortMeta = sortButton.getItemMeta();
+        sortMeta.setDisplayName(messageManager.getSortButtonText());
+        sortMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+        // 添加排序信息到LORE
+        List<String> sortLore = new ArrayList<>();
+        SortType currentSort = plugin.getSortManager().getPlayerSortType(player);
+        String currentSortName = plugin.getSortManager().getSortDisplayName(currentSort);
+        sortLore.add(messageManager.getCurrentSortText(currentSortName));
+        sortLore.add(messageManager.getClickToChangeSortText());
+        sortMeta.setLore(sortLore);
+
+        sortButton.setItemMeta(sortMeta);
+        inv.setItem(48, sortButton);
 
         // 设置上架按钮
         ItemStack sellButton = new ItemStack(Material.EMERALD);
@@ -587,6 +614,8 @@ public class GuiManager {
     public void clearPlayerData(Player player) {
         playerPages.remove(player);
         playerSearchQueries.remove(player);
+        // 清除排序数据
+        plugin.getSortManager().clearPlayerData(player);
     }
 
     /**

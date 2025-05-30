@@ -67,8 +67,8 @@ public class GuiListener implements Listener {
 
         String title = event.getView().getTitle();
 
-        // 处理主界面点击
-        if (title.equals(configManager.getGuiTitle())) {
+        // 处理主界面点击（包括带排序信息的标题）
+        if (title.equals(configManager.getGuiTitle()) || title.startsWith(configManager.getGuiTitle() + " §7- ")) {
             event.setCancelled(true);
             handleMainMenuClick(event, player);
             return;
@@ -365,6 +365,9 @@ public class GuiListener implements Listener {
         } else if (slot == 47) {
             // 搜索按钮
             plugin.getGuiManager().openSearchMenu(player);
+        } else if (slot == 48) {
+            // 排序按钮
+            handleSortButtonClick(player);
         } else if (slot == 51) {
             // 我的拍卖按钮
             plugin.getGuiManager().openMyAuctionsMenu(player, 1);
@@ -2383,6 +2386,27 @@ public class GuiListener implements Listener {
 
     private void handleMyPurchasedAuctionsClick(InventoryClickEvent event, Player player) {
         handleMyAuctionsMenuClick(event, player);
+    }
+
+    /**
+     * 处理排序按钮点击
+     * @param player 玩家
+     */
+    private void handleSortButtonClick(Player player) {
+        // 切换到下一个排序类型
+        cn.i7mc.globalshop.enums.SortType newSortType = plugin.getSortManager().togglePlayerSortType(player);
+
+        // 获取新排序类型的显示名称
+        String sortDisplayName = plugin.getSortManager().getSortDisplayName(newSortType);
+
+        // 发送切换消息
+        player.sendMessage(messageManager.getSortChangedMessage(sortDisplayName));
+
+        // 获取当前页码
+        int currentPage = plugin.getGuiManager().getPlayerPage(player);
+
+        // 重新打开主界面以应用新的排序
+        plugin.getGuiManager().openMainMenu(player, currentPage);
     }
 
     private void handleMailboxClick(InventoryClickEvent event, Player player) {

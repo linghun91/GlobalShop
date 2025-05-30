@@ -569,15 +569,20 @@ public class DatabaseManager {
 
     // 获取活跃的拍卖物品列表
     public List<AuctionItem> getActiveAuctionItems(int page, int size) {
+        return getActiveAuctionItems(page, size, "ORDER BY end_time ASC");
+    }
+
+    // 获取活跃的拍卖物品列表（支持自定义排序）
+    public List<AuctionItem> getActiveAuctionItems(int page, int size, String orderBy) {
         // 检查连接
         if (!checkConnection()) {
             return new ArrayList<>();
         }
-        
+
         List<AuctionItem> items = new ArrayList<>();
         String sql = "SELECT * FROM auction_items " +
             "WHERE status = 'ACTIVE' AND end_time > ? " +
-            "ORDER BY end_time ASC " +
+            orderBy + " " +
             "LIMIT ? OFFSET ?";
 
         try {
@@ -585,7 +590,7 @@ public class DatabaseManager {
             if (connection == null || connection.isClosed()) {
                 connect();
             }
-            
+
             PreparedStatement pstmt = connection.prepareStatement(sql);
             try {
                 pstmt.setLong(1, System.currentTimeMillis()); // 添加当前时间作为过滤条件

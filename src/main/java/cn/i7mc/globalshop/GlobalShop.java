@@ -18,6 +18,7 @@ import cn.i7mc.globalshop.tasks.AuctionTask;
 import cn.i7mc.globalshop.utils.MinecraftLanguageManager;
 import cn.i7mc.globalshop.utils.SearchHistoryManager;
 import cn.i7mc.globalshop.utils.BroadcastManager;
+import cn.i7mc.globalshop.utils.SortManager;
 import cn.i7mc.globalshop.config.MessageManager;
 import cn.i7mc.globalshop.config.DebugMessageManager;
 import cn.i7mc.globalshop.web.WebServer;
@@ -36,6 +37,7 @@ public class GlobalShop extends JavaPlugin {
     private EconomyManager economyManager;
     private GuiManager guiManager;
     private SearchHistoryManager searchHistoryManager;
+    private SortManager sortManager;
     private MinecraftLanguageManager languageManager;
     private Economy vaultEconomy;
     private PlayerPoints playerPoints;
@@ -99,6 +101,9 @@ public class GlobalShop extends JavaPlugin {
 
         // 初始化搜索历史管理器，最多保存10条历史记录
         this.searchHistoryManager = new SearchHistoryManager(10);
+
+        // 初始化排序管理器
+        this.sortManager = new SortManager(this);
 
         // 初始化GUI管理器
         this.guiManager = new GuiManager(this);
@@ -265,6 +270,10 @@ public class GlobalShop extends JavaPlugin {
 
     public SearchHistoryManager getSearchHistoryManager() {
         return searchHistoryManager;
+    }
+
+    public SortManager getSortManager() {
+        return sortManager;
     }
 
     public Economy getVaultEconomy() {

@@ -43,6 +43,14 @@ gui:
     sell_item: "§aMettre un objet en vente"
     my_auctions: "§aMes enchères"
 
+    # 排序按钮
+    sort_button: "§e排序方式"
+    sort_by_time_asc: "§7最近上架"
+    sort_by_time_desc: "§7即将结束"
+    sort_by_price_high: "§7最高价格"
+    sort_by_price_low: "§7最低价格"
+    sort_by_name: "§7物品名称"
+
     # Boutons du menu de recherche
     search_history: "§aHistorique des recherches"
     clear_search_history: "§aEffacer l'historique"
@@ -313,6 +321,12 @@ sell_menu:
 # Suffixe de titre et séparateur
 format:
   page_separator: " §7- Page %page%"
+
+# 排序相关消息
+sort:
+  current_sort: "§e当前排序: §f%sort_type%"
+  click_to_change: "§7点击切换排序方式"
+  sort_changed: "§a排序方式已切换为: §f%sort_type%"
 
 # Bouton d'enchère
 bid_increase: "§bPré-augmenter l'enchère"
