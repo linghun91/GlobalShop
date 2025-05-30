@@ -40,6 +40,7 @@ public class ConfigManager {
         config.addDefault("database.mysql.username", "root");
         config.addDefault("database.mysql.password", "password");
         config.addDefault("database.mysql.useSSL", false);
+        config.addDefault("database.mysql.table_prefix", "gs_");
         
         config.addDefault("economy.buyer_tax_rate", 0.02);
         config.addDefault("economy.vault.name", "金币");
@@ -108,6 +109,14 @@ public class ConfigManager {
     
     public boolean getMySQLUseSSL() {
         return config.getBoolean("database.mysql.useSSL", false);
+    }
+
+    /**
+     * 获取MySQL数据库表前缀
+     * @return 表前缀，默认为"gs_"
+     */
+    public String getMySQLTablePrefix() {
+        return config.getString("database.mysql.table_prefix", "gs_");
     }
 
     // Vault经济配置

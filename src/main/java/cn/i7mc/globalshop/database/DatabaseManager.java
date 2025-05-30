@@ -31,6 +31,19 @@ public class DatabaseManager {
         createTables();
     }
 
+    /**
+     * 获取带前缀的表名
+     * @param tableName 原始表名
+     * @return 带前缀的表名
+     */
+    private String getTableName(String tableName) {
+        // 只有MySQL才使用表前缀，SQLite不使用
+        if ("mysql".equalsIgnoreCase(plugin.getConfigManager().getDatabaseType())) {
+            return plugin.getConfigManager().getMySQLTablePrefix() + tableName;
+        }
+        return tableName;
+    }
+
     private void connect() {
         try {
             // 如果已经有连接并且连接有效，则不需要重新连接
@@ -143,7 +156,11 @@ public class DatabaseManager {
     }
 
     private void createTables() {
-        String sql = "CREATE TABLE IF NOT EXISTS auction_items (" +
+        // 获取表名
+        String auctionItemsTable = getTableName("auction_items");
+        String pendingItemsTable = getTableName("pending_items");
+
+        String sql = "CREATE TABLE IF NOT EXISTS " + auctionItemsTable + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "seller_uuid TEXT NOT NULL," +
             "seller_name TEXT NOT NULL," +
@@ -160,17 +177,17 @@ public class DatabaseManager {
             "sold_time INTEGER," +
             "status TEXT NOT NULL" +
             ")";
-        
-        String pendingItemsTable = "CREATE TABLE IF NOT EXISTS pending_items (" +
+
+        String pendingItemsSql = "CREATE TABLE IF NOT EXISTS " + pendingItemsTable + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "player_uuid TEXT NOT NULL," +
             "item_data TEXT NOT NULL," +
             "reason TEXT NOT NULL," +
             "created_time INTEGER NOT NULL" +
             ")";
-        
+
         // 为MySQL准备的SQL语句，主要区别是主键自增的语法不同
-        String mysqlSql = "CREATE TABLE IF NOT EXISTS auction_items (" +
+        String mysqlSql = "CREATE TABLE IF NOT EXISTS " + auctionItemsTable + " (" +
             "id INTEGER PRIMARY KEY AUTO_INCREMENT," +
             "seller_uuid VARCHAR(36) NOT NULL," +
             "seller_name VARCHAR(36) NOT NULL," +
@@ -187,8 +204,8 @@ public class DatabaseManager {
             "sold_time BIGINT," +
             "status VARCHAR(16) NOT NULL" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
-        
-        String mysqlPendingItemsTable = "CREATE TABLE IF NOT EXISTS pending_items (" +
+
+        String mysqlPendingItemsTable = "CREATE TABLE IF NOT EXISTS " + pendingItemsTable + " (" +
             "id INTEGER PRIMARY KEY AUTO_INCREMENT," +
             "player_uuid VARCHAR(36) NOT NULL," +
             "item_data LONGTEXT NOT NULL," +
@@ -203,7 +220,7 @@ public class DatabaseManager {
                 stmt.execute(mysqlPendingItemsTable);
             } else {
                 stmt.execute(sql);
-                stmt.execute(pendingItemsTable);
+                stmt.execute(pendingItemsSql);
             }
             // 检查并添加新字段
             checkAndAddColumns();
@@ -218,19 +235,21 @@ public class DatabaseManager {
     // 检查并添加新字段到现有表
     private void checkAndAddColumns() {
         try {
+            String auctionItemsTable = getTableName("auction_items");
+
             // 检查current_bidder_name字段
-            if (!columnExists("auction_items", "current_bidder_name")) {
-                executeUpdate("ALTER TABLE auction_items ADD COLUMN current_bidder_name TEXT");
+            if (!columnExists(auctionItemsTable, "current_bidder_name")) {
+                executeUpdate("ALTER TABLE " + auctionItemsTable + " ADD COLUMN current_bidder_name TEXT");
             }
-            
+
             // 检查list_time字段
-            if (!columnExists("auction_items", "list_time")) {
-                executeUpdate("ALTER TABLE auction_items ADD COLUMN list_time INTEGER DEFAULT " + System.currentTimeMillis());
+            if (!columnExists(auctionItemsTable, "list_time")) {
+                executeUpdate("ALTER TABLE " + auctionItemsTable + " ADD COLUMN list_time INTEGER DEFAULT " + System.currentTimeMillis());
             }
-            
+
             // 检查sold_time字段
-            if (!columnExists("auction_items", "sold_time")) {
-                executeUpdate("ALTER TABLE auction_items ADD COLUMN sold_time INTEGER");
+            if (!columnExists(auctionItemsTable, "sold_time")) {
+                executeUpdate("ALTER TABLE " + auctionItemsTable + " ADD COLUMN sold_time INTEGER");
             }
         } catch (SQLException e) {
             if (plugin.getConfigManager().isDebug()) {
@@ -351,8 +370,8 @@ public class DatabaseManager {
         if (!checkConnection()) {
             return -1;
         }
-        
-        String sql = "INSERT INTO auction_items (seller_uuid, seller_name, item_data, " +
+
+        String sql = "INSERT INTO " + getTableName("auction_items") + " (seller_uuid, seller_name, item_data, " +
                 "start_price, buy_now_price, current_price, current_bidder, current_bidder_name, currency_type, " +
                 "list_time, start_time, end_time, sold_time, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -405,8 +424,8 @@ public class DatabaseManager {
         if (!checkConnection()) {
             return null;
         }
-        
-        String sql = "SELECT * FROM auction_items WHERE id = ?";
+
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " WHERE id = ?";
         
         try {
             // 确保数据库连接没有关闭
@@ -497,7 +516,7 @@ public class DatabaseManager {
         if (!checkConnection()) {
             return false;
         }
-        String sql = "DELETE FROM auction_items WHERE id = ?";
+        String sql = "DELETE FROM " + getTableName("auction_items") + " WHERE id = ?";
         
         try {
             // 确保数据库连接没有关闭
@@ -533,7 +552,7 @@ public class DatabaseManager {
             return false;
         }
         
-        String sql = "UPDATE auction_items SET current_price = ?, current_bidder = ?, current_bidder_name = ?, status = ?, sold_time = ? WHERE id = ?";
+        String sql = "UPDATE " + getTableName("auction_items") + " SET current_price = ?, current_bidder = ?, current_bidder_name = ?, status = ?, sold_time = ? WHERE id = ?";
         try {
             // 确保数据库连接没有关闭
             if (connection == null || connection.isClosed()) {
@@ -580,7 +599,7 @@ public class DatabaseManager {
         }
 
         List<AuctionItem> items = new ArrayList<>();
-        String sql = "SELECT * FROM auction_items " +
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " " +
             "WHERE status = 'ACTIVE' AND end_time > ? " +
             orderBy + " " +
             "LIMIT ? OFFSET ?";
@@ -646,7 +665,7 @@ public class DatabaseManager {
     // 获取过期的拍卖物品
     public List<AuctionItem> getExpiredAuctionItems() {
         List<AuctionItem> items = new ArrayList<>();
-        String sql = "SELECT * FROM auction_items " +
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " " +
             "WHERE status = 'ACTIVE' AND end_time < ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -693,7 +712,7 @@ public class DatabaseManager {
         List<AuctionItem> allItems = new ArrayList<>();
         
         // 先获取所有活跃的物品
-        String sql = "SELECT * FROM auction_items " +
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " " +
             "WHERE status = 'ACTIVE' " +
             "ORDER BY end_time ASC";
 
@@ -808,7 +827,7 @@ public class DatabaseManager {
         List<AuctionItem> allItems = new ArrayList<>();
         
         // 先获取所有活跃的物品
-        String sql = "SELECT * FROM auction_items WHERE status = 'ACTIVE'";
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " WHERE status = 'ACTIVE'";
 
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -896,7 +915,7 @@ public class DatabaseManager {
 
     // 获取活跃拍卖物品总数
     public int getTotalActiveItems() {
-        String sql = "SELECT COUNT(*) FROM auction_items WHERE status = 'ACTIVE'";
+        String sql = "SELECT COUNT(*) FROM " + getTableName("auction_items") + " WHERE status = 'ACTIVE'";
         try (PreparedStatement pstmt = connection.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
@@ -911,7 +930,7 @@ public class DatabaseManager {
     public List<AuctionItem> searchItemsByName(String keyword, int page, int pageSize) {
         List<AuctionItem> items = new ArrayList<>();
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM auction_items WHERE status = 'ACTIVE' AND item_name LIKE ? ORDER BY created_time DESC LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " WHERE status = 'ACTIVE' AND item_name LIKE ? ORDER BY created_time DESC LIMIT ? OFFSET ?";
         
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, "%" + keyword + "%");
@@ -976,7 +995,7 @@ public class DatabaseManager {
         }
         
         List<AuctionItem> items = new ArrayList<>();
-        String sql = "SELECT * FROM auction_items WHERE status = 'ACTIVE'";
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " WHERE status = 'ACTIVE'";
 
         try {
             // 确保数据库连接没有关闭
@@ -1018,7 +1037,7 @@ public class DatabaseManager {
     // 统计玩家当前有效的拍卖物品数量
     public int countPlayerActiveAuctions(UUID playerUuid) {
         int count = 0;
-        String sql = "SELECT COUNT(*) FROM auction_items WHERE seller_uuid = ? AND status = 'ACTIVE'";
+        String sql = "SELECT COUNT(*) FROM " + getTableName("auction_items") + " WHERE seller_uuid = ? AND status = 'ACTIVE'";
         
         try {
             if (!checkConnection()) {
@@ -1104,7 +1123,7 @@ public class DatabaseManager {
     public List<AuctionItem> getPlayerSoldItems(UUID playerUuid, int page, int size) {
         List<AuctionItem> items = new ArrayList<>();
         if (!checkConnection()) return items;
-        String sql = "SELECT * FROM auction_items WHERE seller_uuid = ? AND status = 'SOLD' ORDER BY sold_time DESC LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " WHERE seller_uuid = ? AND status = 'SOLD' ORDER BY sold_time DESC LIMIT ? OFFSET ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             pstmt.setInt(2, size);
@@ -1125,7 +1144,7 @@ public class DatabaseManager {
     // 获取指定玩家已售出的物品总数
     public int countPlayerSoldItems(UUID playerUuid) {
         if (!checkConnection()) return 0;
-        String sql = "SELECT COUNT(*) FROM auction_items WHERE seller_uuid = ? AND status = 'SOLD'";
+        String sql = "SELECT COUNT(*) FROM " + getTableName("auction_items") + " WHERE seller_uuid = ? AND status = 'SOLD'";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             ResultSet rs = pstmt.executeQuery();
@@ -1142,7 +1161,7 @@ public class DatabaseManager {
     public List<AuctionItem> getPlayerPurchasedItems(UUID playerUuid, int page, int size) {
         List<AuctionItem> items = new ArrayList<>();
         if (!checkConnection()) return items;
-        String sql = "SELECT * FROM auction_items WHERE current_bidder = ? AND status = 'SOLD' ORDER BY sold_time DESC LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " WHERE current_bidder = ? AND status = 'SOLD' ORDER BY sold_time DESC LIMIT ? OFFSET ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             pstmt.setInt(2, size);
@@ -1163,7 +1182,7 @@ public class DatabaseManager {
     // 获取指定玩家已购买的物品总数
     public int countPlayerPurchasedItems(UUID playerUuid) {
         if (!checkConnection()) return 0;
-        String sql = "SELECT COUNT(*) FROM auction_items WHERE current_bidder = ? AND status = 'SOLD'";
+        String sql = "SELECT COUNT(*) FROM " + getTableName("auction_items") + " WHERE current_bidder = ? AND status = 'SOLD'";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             ResultSet rs = pstmt.executeQuery();
@@ -1180,7 +1199,7 @@ public class DatabaseManager {
     public Map<String, Double> getPlayerTotalEarnings(UUID playerUuid) {
         Map<String, Double> earnings = new HashMap<>();
         if (!checkConnection()) return earnings;
-        String sql = "SELECT currency_type, SUM(current_price) as total FROM auction_items WHERE seller_uuid = ? AND status = 'SOLD' GROUP BY currency_type";
+        String sql = "SELECT currency_type, SUM(current_price) as total FROM " + getTableName("auction_items") + " WHERE seller_uuid = ? AND status = 'SOLD' GROUP BY currency_type";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             ResultSet rs = pstmt.executeQuery();
@@ -1197,7 +1216,7 @@ public class DatabaseManager {
     public Map<String, Double> getPlayerTotalSpending(UUID playerUuid) {
         Map<String, Double> spending = new HashMap<>();
         if (!checkConnection()) return spending;
-        String sql = "SELECT currency_type, SUM(current_price) as total FROM auction_items WHERE current_bidder = ? AND status = 'SOLD' GROUP BY currency_type";
+        String sql = "SELECT currency_type, SUM(current_price) as total FROM " + getTableName("auction_items") + " WHERE current_bidder = ? AND status = 'SOLD' GROUP BY currency_type";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             ResultSet rs = pstmt.executeQuery();
@@ -1220,7 +1239,7 @@ public class DatabaseManager {
         }
         
         // 准备查询语句
-        String sql = "SELECT * FROM auction_items WHERE status = 'ACTIVE' AND seller_name LIKE ? ORDER BY end_time ASC LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " WHERE status = 'ACTIVE' AND seller_name LIKE ? ORDER BY end_time ASC LIMIT ? OFFSET ?";
         
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, "%" + sellerName + "%");
@@ -1248,7 +1267,7 @@ public class DatabaseManager {
             return 0;
         }
         
-        String sql = "SELECT COUNT(*) FROM auction_items WHERE status = 'ACTIVE' AND seller_name LIKE ?";
+        String sql = "SELECT COUNT(*) FROM " + getTableName("auction_items") + " WHERE status = 'ACTIVE' AND seller_name LIKE ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, "%" + sellerName + "%");
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -1266,7 +1285,7 @@ public class DatabaseManager {
     // 获取玩家的拍卖物品
     public List<AuctionItem> getPlayerAuctionItems(UUID playerUuid) {
         List<AuctionItem> items = new ArrayList<>();
-        String sql = "SELECT * FROM auction_items WHERE seller_uuid = ?";
+        String sql = "SELECT * FROM " + getTableName("auction_items") + " WHERE seller_uuid = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
@@ -1317,7 +1336,7 @@ public class DatabaseManager {
         // 检查物品是否已经存在于pending_items表中
         // 通过比较序列化后的物品数据来防止完全相同的物品被添加多次
         String serializedItem = serializeItem(item);
-        String checkSql = "SELECT COUNT(*) FROM pending_items WHERE player_uuid = ? AND item_data = ?";
+        String checkSql = "SELECT COUNT(*) FROM " + getTableName("pending_items") + " WHERE player_uuid = ? AND item_data = ?";
         try (PreparedStatement checkStmt = connection.prepareStatement(checkSql)) {
             checkStmt.setString(1, playerUuid.toString());
             checkStmt.setString(2, serializedItem);
@@ -1335,30 +1354,30 @@ public class DatabaseManager {
         }
         
         // 物品不存在，执行插入操作
-        String sql = "INSERT INTO pending_items (player_uuid, item_data, reason, created_time) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO " + getTableName("pending_items") + " (player_uuid, item_data, reason, created_time) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             pstmt.setString(2, serializedItem);
             pstmt.setString(3, reason);
             pstmt.setLong(4, System.currentTimeMillis());
-            
+
             int result = pstmt.executeUpdate();
             boolean success = result > 0;
-            
+
             // 只记录严重错误
             if (!success) {
             }
-            
+
             return success;
         } catch (SQLException e) {
         }
         return false;
     }
-    
+
     // 获取玩家的待领取物品
     public List<ItemStack> getPendingItems(UUID playerUuid) {
         List<ItemStack> items = new ArrayList<>();
-        String sql = "SELECT item_data FROM pending_items WHERE player_uuid = ?";
+        String sql = "SELECT item_data FROM " + getTableName("pending_items") + " WHERE player_uuid = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -1377,7 +1396,7 @@ public class DatabaseManager {
     // 获取玩家待领取物品的详细信息，并转换为AuctionItem格式方便统一处理
     public List<AuctionItem> getPendingItemsAsAuctionItems(UUID playerUuid) {
         List<AuctionItem> auctionItems = new ArrayList<>();
-        String sql = "SELECT id, player_uuid, item_data, reason, created_time FROM pending_items WHERE player_uuid = ?";
+        String sql = "SELECT id, player_uuid, item_data, reason, created_time FROM " + getTableName("pending_items") + " WHERE player_uuid = ?";
         
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
@@ -1402,8 +1421,10 @@ public class DatabaseManager {
                             0.0, // 一口价(不重要)
                             0.0, // 当前价格(不重要)
                             "MONEY", // 货币类型(不重要)
+                            createdTime, // listTime
                             createdTime, // 开始时间
                             createdTime + 86400000, // 结束时间，设为创建时间+1天
+                            0, // soldTime
                             "MAILBOX_PENDING" // 特殊状态标记为待领取物品
                         );
                         
@@ -1431,25 +1452,25 @@ public class DatabaseManager {
     
     // 根据ID删除待领取物品
     public boolean deletePendingItemById(int id) {
-        String sql = "DELETE FROM pending_items WHERE id = ?";
+        String sql = "DELETE FROM " + getTableName("pending_items") + " WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             int result = pstmt.executeUpdate();
             boolean success = result > 0;
-            
+
             if (success) {
             } else {
             }
-            
+
             return success;
         } catch (SQLException e) {
         }
         return false;
     }
-    
+
     // 删除玩家的所有待领取物品
     public boolean deletePendingItems(UUID playerUuid) {
-        String sql = "DELETE FROM pending_items WHERE player_uuid = ?";
+        String sql = "DELETE FROM " + getTableName("pending_items") + " WHERE player_uuid = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, playerUuid.toString());
             int result = pstmt.executeUpdate();

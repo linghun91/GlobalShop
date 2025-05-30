@@ -36,6 +36,9 @@ database:
     username: root
     password: password
     useSSL: false
+    # 数据库表前缀，用于避免与其他插件的表名冲突
+    # Database table prefix, used to avoid table name conflicts with other plugins
+    table_prefix: "gs_"
 
 # 经济系统配置
 # Economy system configuration
