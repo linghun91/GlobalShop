@@ -42,17 +42,17 @@ gui:
     search_items: "§aSearch Items"
     sell_item: "§aList Item"
     my_auctions: "§aMy Auctions"
-    refresh_page: "§e刷新页面"
-    refresh_page_desc: "§7点击刷新当前页面数据"
+    refresh_page: "§eRefresh Page"
+    refresh_page_desc: "§7Click to refresh current page data"
 
 
     # 排序按钮
-    sort_button: "§e排序方式"
-    sort_by_time_asc: "§7最近上架"
-    sort_by_time_desc: "§7即将结束"
-    sort_by_price_high: "§7最高价格"
-    sort_by_price_low: "§7最低价格"
-    sort_by_name: "§7物品名称"
+    sort_button: "§eSort by"
+    sort_by_time_asc: "§7Recently Listed"
+    sort_by_time_desc: "§7Ending Soon"
+    sort_by_price_high: "§7Highest Price"
+    sort_by_price_low: "§7Lowest Price"
+    sort_by_name: "§7Item Name"
 
     # Search menu buttons
     search_history: "§aSearch History"
@@ -327,9 +327,9 @@ format:
 
 # 排序相关消息
 sort:
-  current_sort: "§e当前排序: §f%sort_type%"
-  click_to_change: "§7点击切换排序方式"
-  sort_changed: "§a排序方式已切换为: §f%sort_type%"
+  current_sort: "§eCurrent Sort: §f%sort_type%"
+  click_to_change: "§7Click to change sort method"
+  sort_changed: "§aSort method changed to: §f%sort_type%"
 
 # Bid Button
 bid_increase: "§bPrepare Bid" # "Prepare Bid" or "Set Bid Amount" is more accurate than "Increase Bid" if it's for setting the bid before confirming.
