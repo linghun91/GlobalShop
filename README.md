@@ -190,83 +190,97 @@ GlobalShop是一个基于Bukkit 1.20.1 兼容 1.21.5 开发的Minecraft服务器
 
 ```
 src/
-└─main/
-    ├─java/
-    │  └─cn/
-    │      └─i7mc/
-    │          └─globalshop/                            # 插件主包
-    │              │  GlobalShop.java                   # 插件主类
-    │              │
-    │              ├─commands/                          # 命令处理模块
-    │              │      AuctionCommand.java           # 拍卖命令处理类
-    │              │
-    │              ├─config/                            # 配置管理模块
-    │              │      ConfigManager.java            # 配置管理器
-    │              │      DebugMessageManager.java      # 调试消息管理类
-    │              │      MessageManager.java           # 消息管理类
-    │              │
-    │              ├─database/                          # 数据库模块
-    │              │      DatabaseManager.java          # 数据库管理器
-    │              │
-    │              ├─economy/                           # 经济系统模块
-    │              │      EconomyManager.java           # 经济管理器
-    │              │
-    │              ├─gui/                               # 界面系统模块
-    │              │      GuiManager.java               # GUI管理器
-    │              │
-    │              ├─hologram/                          # 全息显示模块
-    │              │      AuctionHistoryManager.java    # 拍卖历史管理器
-    │              │      HologramCommandManager.java   # 全息命令管理器
-    │              │      HologramConfigManager.java    # 全息配置管理器
-    │              │      HologramDisplayManager.java   # 全息显示管理器
-    │              │      HologramUpdateTask.java       # 全息更新任务
-    │              │      ItemDisplayManager.java       # 物品显示管理器
-    │              │      TextDisplayManager.java       # 文本显示管理器
-    │              │
-    │              ├─listeners/                         # 事件监听模块
-    │              │      GuiListener.java              # GUI事件监听器
-    │              │
-    │              ├─metrics/                           # 统计模块
-    │              │      Metrics.java                  # 插件统计类
-    │              │
-    │              ├─models/                            # 数据模型模块
-    │              │      AuctionItem.java              # 拍卖物品模型类
-    │              │
-    │              ├─tasks/                             # 定时任务模块
-    │              │      AuctionTask.java              # 拍卖定时任务类
-    │              │      CheckAllAuctionsTask.java     # 检查所有拍卖任务类
-    │              │      CloseAllAuctionsTask.java     # 关闭所有拍卖任务类
-    │              │
-    │              ├─utils/                             # 工具类模块
-    │              │      BroadcastManager.java         # 广播管理器
-    │              │      ChatUtils.java                # 聊天和文本工具类
-    │              │      MinecraftLanguageManager.java # Minecraft语言管理类
-    │              │      SearchHistoryManager.java     # 搜索历史管理类
-    │              │
-    │              └─web/                               # Web界面模块
-    │                     WebConfig.java                # Web配置类
-    │                     WebController.java            # Web控制器
-    │                     WebDataProvider.java          # Web数据提供者
-    │                     WebServer.java                # Web服务器
-    │
-    └─resources/                                        # 资源文件目录
-        │  config.yml                                   # 插件配置文件
-        │  debugmessage.yml                             # 调试信息配置文件
-        │  hd_gui.yml                                   # 高清GUI配置文件
-        │  message.yml                                  # 中文界面文本和提示消息
-        │  minecraft_lang.yml                           # 中英文物品名称对照表
-        │  plugin.yml                                   # 插件描述文件
-        │
-        ├─lang/                                         # 多语言文件目录
-        │      message_en.yml                           # 英语语言文件
-        │      message_es.yml                           # 西班牙语语言文件
-        │      message_vi.yml                           # 越南语语言文件
-        │
-        └─web/                                          # Web界面资源目录
-               index.html                               # Web主页
-               script.js                                # JavaScript脚本
-               style.css                                # CSS样式表
+├── main/
+    ├── java/
+    │   └── cn/
+    │       └── i7mc/
+    │           └── globalshop/                          # 插件主包
+    │               ├── GlobalShop.java                  # 插件主类
+    │               ├── commands/                        # 命令处理模块
+    │               │   └── AuctionCommand.java          # 拍卖命令处理类
+    │               ├── config/                          # 配置管理模块
+    │               │   ├── ConfigManager.java           # 配置管理器
+    │               │   ├── DebugMessageManager.java     # 调试消息管理类
+    │               │   └── MessageManager.java          # 消息管理类
+    │               ├── database/                        # 数据库模块
+    │               │   └── DatabaseManager.java         # 数据库管理器
+    │               ├── economy/                         # 经济系统模块
+    │               │   └── EconomyManager.java          # 经济管理器
+    │               ├── enums/                           # 枚举类型模块
+    │               │   └── SortType.java                # 排序类型枚举
+    │               ├── gui/                             # 界面系统模块
+    │               │   └── GuiManager.java              # GUI管理器
+    │               ├── hologram/                        # 全息显示模块
+    │               │   ├── AuctionHistoryManager.java   # 拍卖历史管理器
+    │               │   ├── HologramCommandManager.java  # 全息命令管理器
+    │               │   ├── HologramConfigManager.java   # 全息配置管理器
+    │               │   ├── HologramDisplayManager.java  # 全息显示管理器
+    │               │   ├── HologramUpdateTask.java      # 全息更新任务
+    │               │   ├── ItemDisplayManager.java      # 物品显示管理器
+    │               │   └── TextDisplayManager.java      # 文本显示管理器
+    │               ├── listeners/                       # 事件监听模块
+    │               │   └── GuiListener.java             # GUI事件监听器
+    │               ├── metrics/                         # 统计模块
+    │               │   └── Metrics.java                 # 插件统计类
+    │               ├── models/                          # 数据模型模块
+    │               │   └── AuctionItem.java             # 拍卖物品模型类
+    │               ├── tasks/                           # 定时任务模块
+    │               │   ├── AuctionTask.java             # 拍卖定时任务类
+    │               │   ├── CheckAllAuctionsTask.java    # 检查所有拍卖任务类
+    │               │   └── CloseAllAuctionsTask.java    # 关闭所有拍卖任务类
+    │               ├── utils/                           # 工具类模块
+    │               │   ├── BroadcastManager.java        # 广播管理器
+    │               │   ├── ChatUtils.java               # 聊天和文本工具类
+    │               │   ├── MinecraftLanguageManager.java # Minecraft语言管理类
+    │               │   ├── SearchHistoryManager.java    # 搜索历史管理类
+    │               │   └── SortManager.java             # 排序管理器
+    │               └── web/                             # Web界面模块
+    │                   ├── WebConfig.java               # Web配置类
+    │                   ├── WebController.java           # Web控制器
+    │                   ├── WebDataProvider.java         # Web数据提供者
+    │                   └── WebServer.java               # Web服务器
+    └── resources/                                       # 资源文件目录
+        ├── config.yml                                   # 插件配置文件
+        ├── debugmessage.yml                             # 调试信息配置文件
+        ├── hd_gui.yml                                   # 高清GUI配置文件
+        ├── message.yml                                  # 中文界面文本和提示消息
+        ├── minecraft_lang.yml                           # 中英文物品名称对照表
+        ├── plugin.yml                                   # 插件描述文件
+        ├── lang/                                        # 多语言文件目录
+        │   ├── message_de.yml                           # 德语语言文件
+        │   ├── message_en.yml                           # 英语语言文件
+        │   ├── message_es.yml                           # 西班牙语语言文件
+        │   ├── message_fr.yml                           # 法语语言文件
+        │   ├── message_ja.yml                           # 日语语言文件
+        │   ├── message_ru.yml                           # 俄语语言文件
+        │   └── message_vi.yml                           # 越南语语言文件
+        └── web/                                         # Web界面资源目录
+            ├── index.html                               # Web主页
+            ├── script.js                                # JavaScript脚本
+            └── style.css                                # CSS样式表
 ```
+
+**项目统计信息：**
+- **Java类文件总数：** 26个
+- **配置文件总数：** 11个
+- **Web文件总数：** 3个
+- **项目文件总计：** 40个
+
+**模块分布：**
+- 核心类：1个 (GlobalShop.java)
+- 命令系统：1个
+- 配置管理：3个
+- 数据库：1个
+- 经济系统：1个
+- 枚举类型：1个
+- GUI界面：1个
+- 全息显示：7个
+- 事件监听：1个
+- 指标统计：1个
+- 数据模型：1个
+- 定时任务：3个
+- 工具类：5个
+- Web服务：4个
 
 ## 命令系统
 ```
