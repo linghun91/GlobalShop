@@ -26,10 +26,10 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.ArrayList;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.OfflinePlayer; // 确保导入
-import cn.i7mc.globalshop.gui.GuiManager.PlayerInfoHolder; // 导入新的 Holder
-import cn.i7mc.globalshop.gui.GuiManager.PlayerSalesHistoryHolder; // 导入新的 Holder
-import cn.i7mc.globalshop.gui.GuiManager.PlayerPurchaseHistoryHolder; // 导入新的 Holder
+import org.bukkit.OfflinePlayer;
+import cn.i7mc.globalshop.gui.GuiManager.PlayerInfoHolder;
+import cn.i7mc.globalshop.gui.GuiManager.PlayerSalesHistoryHolder;
+import cn.i7mc.globalshop.gui.GuiManager.PlayerPurchaseHistoryHolder;
 import net.md_5.bungee.api.ChatColor;
 
 public class GuiListener implements Listener {
